@@ -6,7 +6,7 @@ import {
   RiArrowRightUpLine,
 } from "react-icons/ri";
 import TitleAnimated from "@/components/animatedComponents/TitleAnimated";
-
+import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
 /**
  * @Responsabilidade: Apresentar a porta de entrada do portfólio (Hero Section), destacando identidade profissional, especialidades técnicas e canais diretos de contato.
  * @Fluxo: Renderiza como Server Component -> Monta badge de status ativo -> Invoca TitleAnimated para o título principal -> Renderiza snippet de especialidades e botões de ação rápida para WhatsApp e GitHub.
@@ -25,7 +25,7 @@ export default function Home() {
       aria-labelledby="hero-title"
       className="mx-auto flex min-h-screen w-full max-w-5xl flex-1 flex-col items-center justify-center px-4 py-12 text-center sm:px-6 md:py-20"
     >
-      {/* Badge de Disponibilidade Profissional */}
+      {/* Badge acima do titulo */}
       <div className="border-border bg-surface text-foreground-muted mb-6 inline-flex items-center gap-2.5 rounded-full border px-4 py-2 font-mono text-xs tracking-wide shadow-lg shadow-black/40 backdrop-blur-md">
         <span className="relative flex h-2 w-2" aria-hidden="true">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
@@ -34,7 +34,7 @@ export default function Home() {
         <span className="select-none">DISPONÍVEL PARA NOVOS PROJETOS</span>
       </div>
 
-      {/* Título Principal com Animação Isolada (Client Component Leaf) */}
+      {/* Título Principal com Animação Isolada (Client Component) */}
       <div className="mb-10">
         <TitleAnimated>
           <span className="text-foreground">Olá, eu sou </span>
@@ -45,17 +45,19 @@ export default function Home() {
       </div>
 
       {/* Subtítulo de Especialidade */}
-      <h2 className="text-foreground-muted max-w-2xl text-base leading-relaxed font-normal sm:text-lg md:text-xl">
-        <strong className="text-foreground font-semibold">
-          Desenvolvedor Next.js,
-        </strong>{" "}
-        focado na criação de aplicações web de alto desempenho, arquiteturas
-        modernas com <span className="text-primary font-medium">Next.js</span>,
-        ecossistema{" "}
-        <span className="text-accent-purple font-medium">React</span>,{" "}
-        <span className="text-accent-magenta font-medium">TypeScript</span> e
-        produtos SaaS escaláveis.
-      </h2>
+      <SubTitleAnimated>
+        <h2 className="text-foreground-muted max-w-2xl text-base leading-relaxed font-normal sm:text-lg md:text-xl">
+          <strong className="text-foreground font-semibold">
+            Desenvolvedor Next.js,
+          </strong>{" "}
+          focado na criação de aplicações web de alto desempenho, arquiteturas
+          modernas com <span className="text-primary font-medium">Next.js</span>
+          , ecossistema{" "}
+          <span className="text-accent-purple font-medium">React</span>,{" "}
+          <span className="text-accent-magenta font-medium">TypeScript</span> e
+          produtos SaaS escaláveis.
+        </h2>
+      </SubTitleAnimated>
 
       {/* Snippet Developer Touch (Estética Luxury Tech) */}
       <div className="mt-8 mb-10 w-full max-w-md">

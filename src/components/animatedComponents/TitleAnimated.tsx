@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "motion/react";
-import { zoom } from "@/components/animatedComponents/variants";
+import { fadeUp } from "@/components/animatedComponents/variants";
 
 type Props = {
   children: React.ReactNode;
@@ -11,7 +11,7 @@ export default function TitleAnimated({ children }: Props) {
 
   return (
     <motion.h1
-      variants={zoom}
+      variants={fadeUp}
       initial="hidden"
       whileInView={"visible"}
       className={estiloTitle}

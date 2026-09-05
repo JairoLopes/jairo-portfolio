@@ -18,6 +18,7 @@ import {
 } from "react-icons/si";
 import { TbApi } from "react-icons/tb";
 import { FaTools } from "react-icons/fa";
+import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
 
 /**
  * @Responsabilidade: Apresentar a trajetória acadêmica, especializações e competências técnicas do desenvolvedor de forma hierárquica e categorizada.
@@ -179,22 +180,29 @@ export default function SkillsPage() {
       aria-labelledby="skills-heading"
       className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-12 sm:px-6 md:py-16"
     >
-      {/* Cabeçalho da Seção com Título Animado */}
+      {/* Cabeçalho da Seção com Título e subtitulo Animado */}
       <header className="mb-12 text-center md:mb-16">
+        {/* Badge acima do titulo */}
         <div className="border-border bg-surface text-primary mb-3 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 font-mono text-xs backdrop-blur-md">
           <RiBookOpenLine className="h-3.5 w-3.5" />
           <span>PERFIL ACADÊMICO & EXPERTISE</span>
         </div>
+
+        {/* Titulo animado */}
         <TitleAnimated>
           <span className="text-foreground">Formação & </span>
           <span className="from-primary via-primary-glow to-accent-purple bg-linear-to-r bg-clip-text text-transparent">
             Habilidades Técnicas
           </span>
         </TitleAnimated>
-        <p className="text-foreground-muted mx-auto mt-4 max-w-2xl text-sm leading-relaxed sm:text-base">
-          Base educacional que fundamenta meus conhecimentos e as tecnologias
-          que uso para programar.
-        </p>
+
+        {/* Subtitulo animado */}
+        <SubTitleAnimated>
+          <p className="text-foreground-muted mx-auto mt-4 max-w-2xl text-sm leading-relaxed sm:text-base">
+            Base educacional que fundamenta meus conhecimentos e as tecnologias
+            que uso para programar.
+          </p>
+        </SubTitleAnimated>
       </header>
 
       {/* ====================================================================

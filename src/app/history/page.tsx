@@ -1,4 +1,5 @@
 import TitleAnimated from "@/components/animatedComponents/TitleAnimated";
+import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
 import {
   RiBuilding4Line,
   RiMapPinLine,
@@ -101,23 +102,30 @@ export default function HistoryPage() {
       aria-labelledby="history-heading"
       className="mx-auto flex w-full max-w-4xl flex-1 flex-col px-4 py-12 sm:px-6 md:py-16"
     >
-      {/* Cabeçalho da Seção com Título Animado */}
+      {/* Cabeçalho da Seção com Título e subtitulo Animado */}
       <header className="mb-12 text-center md:mb-16">
+        {/* Badge acima do titulo */}
         <div className="border-border bg-surface text-primary mb-3 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 font-mono text-xs backdrop-blur-md">
           <RiTimeLine className="h-3.5 w-3.5" />
           <span>TRAJETÓRIA & EXPERIÊNCIA PROFISSIONAL</span>
         </div>
+
+        {/* Titulo animado */}
         <TitleAnimated>
           <span className="text-foreground">Histórico & </span>
           <span className="from-primary via-primary-glow to-accent-purple bg-linear-to-r bg-clip-text text-transparent">
             Evolução de Carreira
           </span>
         </TitleAnimated>
-        <p className="text-foreground-muted mx-auto mt-4 max-w-2xl text-sm leading-relaxed sm:text-base">
-          Um resumo da minha trajetória e das experiências que construí ao longo
-          da minha jornada{" "}
-          <span className="text-accent-magenta">na área de tecnologia</span>
-        </p>
+
+        {/* Subtitulo animado */}
+        <SubTitleAnimated>
+          <p className="text-foreground-muted mx-auto mt-4 max-w-2xl text-sm leading-relaxed sm:text-base">
+            Um resumo da minha trajetória e das experiências que construí ao
+            longo da minha jornada{" "}
+            <span className="text-accent-magenta">na área de tecnologia</span>
+          </p>
+        </SubTitleAnimated>
       </header>
 
       {/* Timeline Linear com Conexão Visual Vertical */}

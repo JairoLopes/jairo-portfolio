@@ -25,39 +25,24 @@ interface NavItem {
 }
 
 const NAV_ITEMS: readonly NavItem[] = [
-  {
-    label: "Início",
-    path: "/",
-    icon: FiHome,
-  },
-  {
-    label: "Conhecimentos",
-    path: "/skills",
-    icon: FiCode,
-  },
-  {
-    label: "Projetos",
-    path: "/projects",
-    icon: FiFolder,
-  },
-  {
-    label: "Histórico",
-    path: "/history",
-    icon: FiClock,
-  },
+  { label: "Início", path: "/", icon: FiHome },
+  { label: "Conhecimentos", path: "/skills", icon: FiCode },
+  { label: "Projetos", path: "/projects", icon: FiFolder },
+  { label: "Histórico", path: "/history", icon: FiClock },
 ] as const;
 
 export default function BottomSheetNav() {
   const pathname = usePathname();
 
   return (
-    <header
-      role="banner"
-      aria-label="Navegação Principal"
+    // Removido o <header role="banner"> para melhorar a semântica
+    // Adicionado estilo in-line para respeitar a safe-area do iOS
+    <div
       className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 px-3 md:bottom-6"
+      style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       <nav
-        aria-label="Menu Inferior"
+        aria-label="Navegação Principal Inferior"
         className="glass-panel no-scrollbar relative flex max-w-[calc(100vw-2rem)] items-center gap-1 overflow-x-auto rounded-full p-1.5 shadow-2xl shadow-black/80 sm:gap-2 sm:p-2"
       >
         {NAV_ITEMS.map((item) => {
@@ -69,33 +54,33 @@ export default function BottomSheetNav() {
               key={item.path}
               href={item.path}
               aria-current={isActive ? "page" : undefined}
-              className={`relative flex min-h-11 items-center gap-2 rounded-full px-3.5 py-2 text-xs font-medium tracking-wide transition-colors duration-200 sm:px-4 sm:text-sm ${
+              // Adicionado 'active:scale-95' para feedback de clique tátil
+              className={`relative flex min-h-11 items-center gap-2 rounded-full px-3.5 py-2 text-xs font-medium tracking-wide transition-all duration-200 active:scale-95 sm:px-4 sm:text-sm ${
                 isActive
                   ? "text-primary font-semibold"
                   : "text-foreground-muted hover:text-foreground hover:bg-white/5"
               }`}
             >
-              {/* Pill Animado de Fundo para Rota Ativa */}
               {isActive && (
                 <motion.span
                   layoutId="activeNavPill"
+                  // Ajuste sutil na física da mola para parecer menos "elástica" e mais premium
                   transition={{
                     type: "spring",
-                    stiffness: 400,
-                    damping: 32,
+                    stiffness: 500,
+                    damping: 35,
+                    mass: 0.8,
                   }}
                   className="bg-surface-active border-border-glow shadow-primary/20 absolute inset-0 -z-10 rounded-full border shadow-[0_0_15px_rgba(56,189,248,0.25)] backdrop-blur-md"
                 />
               )}
 
-              {/* Ícone Semântico */}
               <Icon
                 className={`h-4 w-4 shrink-0 transition-transform duration-200 ${
                   isActive ? "text-primary scale-110" : ""
                 }`}
               />
 
-              {/* Rótulo de Texto */}
               <span className="whitespace-nowrap select-none">
                 {item.label}
               </span>
@@ -103,6 +88,6 @@ export default function BottomSheetNav() {
           );
         })}
       </nav>
-    </header>
+    </div>
   );
 }
