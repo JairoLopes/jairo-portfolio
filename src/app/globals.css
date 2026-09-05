@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  /* Mapeamento de cores nativas no Tailwind CSS v4 */
+  --color-background: #08090d;
+  --color-surface: rgba(17, 19, 28, 0.8);
+  --color-surface-hover: rgba(26, 30, 44, 0.9);
+  --color-surface-active: rgba(35, 41, 62, 0.95);
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border-glow: rgba(56, 189, 248, 0.4);
+
+  --color-primary: #38bdf8;
+  --color-primary-glow: #60a5fa;
+  --color-accent-purple: #818cf8;
+  --color-accent-magenta: #d784f3;
+
+  --color-foreground: #f8fafc;
+  --color-foreground-muted: #94a3b8;
+  --color-foreground-subtle: #64748b;
+}
+
+:root {
+  /* Variáveis CSS nativas para consumo em classes utilitárias e inline */
+  --background: #08090d;
+  --surface: rgba(17, 19, 28, 0.8);
+  --surface-hover: rgba(26, 30, 44, 0.9);
+  --surface-active: rgba(35, 41, 62, 0.95);
+  --border: rgba(255, 255, 255, 0.1);
+  --border-glow: rgba(56, 189, 248, 0.4);
+
+  --primary: #38bdf8;
+  --primary-glow: #60a5fa;
+  --accent-purple: #818cf8;
+  --accent-magenta: #cb84f3;
+
+  --foreground: #f8fafc;
+  --foreground-muted: #94a3b8;
+  --foreground-subtle: #64748b;
+}
+
+/* Força o tema escuro mesmo que o SO ou navegador estejam configurados para Light Mode */
+html,
+body {
+  background-color: #08090d !important;
+  color: #f8fafc !important;
+  color-scheme: dark;
+}
+
+/* Painel de Glassmorphism com contraste reforçado no Dark Mode */
+.glass-panel {
+  background-color: var(--surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+}
+
+/* Scrollbar invisível mas com scroll funcional para mobile/desktop */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Última alteração: Correção da sintaxe :root no CSS global, injeção de valores diretos no @theme e imposição de color-scheme: dark no html/body - Resolução definitiva do tema claro indesejado. */
