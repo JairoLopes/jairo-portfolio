@@ -207,7 +207,7 @@ export default function HistoryPage() {
                   {item.technologies.map((tech) => (
                     <span
                       key={tech}
-                      className="text-foreground-subtle hover:text-primary hover:border-primary/30 inline-flex items-center rounded-md border border-white/5 bg-white/5 px-2.5 py-0.5 font-mono text-[11px] transition-colors"
+                      className="text-accent-purple hover:text-primary hover:border-primary/30 inline-flex items-center rounded-md border border-white/5 bg-white/5 px-2.5 py-0.5 font-mono text-[11px] transition-colors"
                     >
                       {tech}
                     </span>

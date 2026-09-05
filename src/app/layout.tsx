@@ -26,9 +26,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Jairo | Engenheiro de Software & Desenvolvedor Full Stack",
+  title: "Jairo | Desenvolvedor Next.js",
   description:
-    "Portfólio de desenvolvimento de software moderno focado em alta performance, Next.js, React, TypeScript, Tailwind CSS e arquitetura SaaS Premium.",
+    "Portfólio de desenvolvimento de software moderno focado em alta performance, Next.js, React, TypeScript, Tailwind CSS e arquitetura SaaS.",
 };
 
 export default function RootLayout({

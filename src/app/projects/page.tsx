@@ -121,7 +121,7 @@ export default function ProjectsPage() {
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-foreground-muted hover:text-foreground hover:border-primary/40 inline-flex items-center rounded-md border border-white/10 bg-white/5 px-2.5 py-1 font-mono text-[11px] transition-colors duration-150"
+                    className="text-accent-purple hover:text-foreground hover:border-primary/40 inline-flex items-center rounded-md border border-white/10 bg-white/5 px-2.5 py-1 font-mono text-[11px] transition-colors duration-150"
                   >
                     {tag}
                   </span>
