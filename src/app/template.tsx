@@ -19,6 +19,7 @@ import { motion } from "motion/react";
 // Mapeamento linear de pesos de rota para computação vetorial
 const ROUTE_INDEX_MAP: Record<string, number> = {
   "/": 0,
+  "/job": 1,
   "/skills": 1,
   "/projects": 2,
   "/history": 3,
