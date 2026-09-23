@@ -39,94 +39,63 @@
 }
 
 /* Força o tema escuro mesmo que o SO ou navegador estejam configurados para Light Mode */
-@keyframes heated-accretion {
+html {
+  background-color: var(--background, #08090d);
+  overflow-x: hidden;
+}
+body {
+  position: relative;
+  min-height: 100vh;
+  background: transparent;
+  overflow: hidden;
+}
+
+html::before {
+  content: "";
+  position: fixed;
+  inset: -50vmax;
+  z-index: -2;
+  pointer-events: none;
+  will-change: transform;
+  background-image: radial-gradient(
+    circle at 20% 50%,
+    rgba(13, 148, 136, 0.7) 0%,
+    transparent 35%
+  );
+  animation: orbit2_A 12s linear infinite;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: -50vmax;
+  z-index: -1;
+  pointer-events: none;
+  will-change: transform;
+  background-image: radial-gradient(
+    circle at 80% 50%,
+    rgba(76, 29, 149, 0.8) 0%,
+    transparent 35%
+  );
+  animation: orbit2_B 9s linear infinite reverse;
+}
+
+@keyframes orbit2_A {
   0% {
-    background-position: 0% 50%;
-    filter: hue-rotate(0deg);
-  }
-  50% {
-    background-position: 100% 50%;
-    filter: hue-rotate(30deg) brightness(1.1);
+    transform: rotate(0deg) scale(1.5);
   }
   100% {
-    background-position: 0% 50%;
-    filter: hue-rotate(0deg);
+    transform: rotate(360deg) scale(1.5);
   }
 }
 
-html,
-body {
-  background-color: #020205 !important;
-  background-image:
-    radial-gradient(
-      circle at 50% 50%,
-      #020205 38%,
-      rgba(217, 70, 239, 0.18) 55%,
-      rgba(129, 140, 248, 0.12) 75%,
-      transparent 90%
-    ),
-    repeating-radial-gradient(
-      circle at 50% 50%,
-      transparent 0,
-      transparent 18px,
-      rgba(244, 63, 94, 0.04) 18px,
-      rgba(244, 63, 94, 0.04) 20px
-    );
-  background-size:
-    160% 160%,
-    100% 100%;
-  animation: heated-accretion 14s ease-in-out infinite;
-  background-attachment: fixed;
-  color: #e0f2fe !important;
-  color-scheme: dark;
-}
-
-@keyframes high-freq-waves-down {
+@keyframes orbit2_B {
   0% {
-    background-position:
-      50% -20%,
-      50% -20%;
-    filter: brightness(0.95);
-  }
-  50% {
-    background-position:
-      50% 120%,
-      50% 120%;
-    filter: brightness(1.15) hue-rotate(20deg);
+    transform: rotate(0deg) scale(1.8) translateX(5vw);
   }
   100% {
-    background-position:
-      50% -20%,
-      50% -20%;
-    filter: brightness(0.95);
+    transform: rotate(360deg) scale(1.8) translateX(5vw);
   }
-}
-
-html,
-body {
-  background-color: #010307 !important;
-  background-image:
-    radial-gradient(
-      circle at 50% 50%,
-      #010307 36%,
-      rgba(56, 189, 248, 0.2) 54%,
-      rgba(139, 92, 246, 0.15) 72%,
-      transparent 90%
-    ),
-    repeating-radial-gradient(
-      circle at 50% 50%,
-      transparent 0,
-      transparent 10px,
-      rgba(56, 189, 248, 0.08) 10px,
-      rgba(56, 189, 248, 0.08) 13px
-    );
-  background-size:
-    160% 160%,
-    100% 100%;
-  animation: high-freq-waves-down 26s ease-in-out infinite;
-  background-attachment: fixed;
-  color: #e0f2fe !important;
-  color-scheme: dark;
 }
 
 /* Painel de Glassmorphism com contraste reforçado no Dark Mode */
