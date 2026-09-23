@@ -38,95 +38,151 @@
   --foreground-subtle: #64748b;
 }
 
-/* Força o tema escuro mesmo que o SO ou navegador estejam configurados para Light Mode */
-/* 1. CONTAINER PAI COM PERSPECTIVA 3D ISOLADA */
+/* Animações do background */
+/* ========================================================
+   TEMA 1: Nebulosa Violeta — violeta, magenta e ciano
+   ======================================================== */
+
 html {
   overflow-x: hidden;
-  background-color: #030107;
-  perspective: 600px; /* Corrige o bug do Chrome colocando a perspectiva no pai */
+  background-color: #05030a;
 }
 
 body {
-  background-color: #030107;
+  background-color: transparent;
   min-height: 100vh;
   margin: 0;
   position: relative;
   color: #ffffff;
 }
 
-/* 2. GRADE 3D CYBERPUNK (MOVIMENTO CONTINUO) */
 body::before {
   content: "";
   position: fixed;
-  inset: -100% -50%;
+  inset: -35%;
   z-index: -2;
   pointer-events: none;
 
-  background-image:
-    linear-gradient(rgba(236, 72, 153, 0.22) 2px, transparent 2px),
-    linear-gradient(90deg, rgba(168, 85, 247, 0.18) 2px, transparent 2px);
-  background-size: 60px 60px;
+  background:
+    radial-gradient(
+      circle at 20% 30%,
+      rgba(124, 58, 237, 0.28) 0%,
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 80% 25%,
+      rgba(236, 72, 153, 0.2) 0%,
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 55% 75%,
+      rgba(34, 211, 238, 0.16) 0%,
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 15% 85%,
+      rgba(168, 85, 247, 0.18) 0%,
+      transparent 28%
+    ),
+    linear-gradient(135deg, #05030a 0%, #090612 45%, #03050a 100%);
 
-  /* Mantém apenas a rotação X (A perspectiva vem da tag html) */
-  transform: rotateX(72deg);
+  transform: translate3d(0, 0, 0) scale(1);
   transform-origin: center center;
-
-  /* Máscara Anti-Aliasing (Zero Tremor no horizonte) */
-  -webkit-mask-image: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 1) 35%,
-    transparent 70%
-  );
-  mask-image: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 1) 35%,
-    transparent 70%
-  );
-
   will-change: transform;
-  animation: grid_flow_clean 2.5s linear infinite;
+  animation: nebula_violet_drift 44s ease-in-out infinite alternate;
 }
 
-/* 3. NÚCLEO CENTRAL DARK FLUTUANTE */
 body::after {
   content: "";
   position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 420px;
-  height: 420px;
+  inset: -10%;
   z-index: -1;
   pointer-events: none;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    #030107 0%,
-    #030107 55%,
-    rgba(3, 1, 7, 0.95) 75%,
-    transparent 100%
-  );
+
+  background:
+    radial-gradient(
+      circle at 8% 18%,
+      rgba(255, 255, 255, 0.95) 0 1px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 18% 72%,
+      rgba(165, 243, 252, 0.85) 0 1px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 31% 34%,
+      rgba(255, 255, 255, 0.9) 0 1px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 43% 82%,
+      rgba(196, 181, 253, 0.85) 0 1px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 52% 24%,
+      rgba(255, 255, 255, 0.95) 0 1px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 66% 64%,
+      rgba(103, 232, 249, 0.8) 0 1px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 78% 18%,
+      rgba(255, 255, 255, 0.9) 0 1px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 88% 76%,
+      rgba(244, 114, 182, 0.85) 0 1px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 94% 38%,
+      rgba(255, 255, 255, 0.92) 0 1px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 72% 44%,
+      rgba(255, 255, 255, 0.7) 0 1px,
+      transparent 2px
+    );
+
+  opacity: 0.72;
+  transform: translate3d(0, 0, 0);
   will-change: transform;
-  animation: float_dark_core 5s ease-in-out infinite alternate;
+  animation: stars_violet_float 2s ease-in-out infinite alternate;
 }
 
-/* 4. KEYFRAMES ANIMAÇÃO (GPU ACCELERATED) */
-@keyframes grid_flow_clean {
+@keyframes nebula_violet_drift {
   0% {
-    transform: rotateX(72deg) translate3d(0, 0, 0);
+    transform: translate3d(-2%, -1%, 0) scale(1);
   }
+
   100% {
-    transform: rotateX(72deg) translate3d(0, 60px, 0);
+    transform: translate3d(2%, 2%, 0) scale(1.08);
   }
 }
 
-@keyframes float_dark_core {
+@keyframes stars_violet_float {
   0% {
-    transform: translate(-50%, calc(-50% - 14px));
+    transform: translate3d(0, 0, 0);
+    opacity: 0.62;
   }
+
   100% {
-    transform: translate(-50%, calc(-50% + 14px));
+    transform: translate3d(0, -1.5%, 0);
+    opacity: 0.9;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none;
   }
 }
 
