@@ -41,8 +41,33 @@
 /* Força o tema escuro mesmo que o SO ou navegador estejam configurados para Light Mode */
 html,
 body {
-  background-color: #08090d !important;
-  color: #f8fafc !important;
+  background-color: #04060f !important;
+  background-image:
+    linear-gradient(rgba(129, 140, 248, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(129, 140, 248, 0.055) 1px, transparent 1px),
+    radial-gradient(
+      ellipse 50% 40% at 25% 0%,
+      rgba(16, 185, 129, 0.22),
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 55% 40% at 55% 5%,
+      rgba(56, 189, 248, 0.22),
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 85% 0%,
+      rgba(167, 139, 250, 0.22),
+      transparent 65%
+    );
+  background-size:
+    48px 48px,
+    48px 48px,
+    100% 100%,
+    100% 100%,
+    100% 100%;
+  background-attachment: fixed;
+  color: #e0f2fe !important;
   color-scheme: dark;
 }
 
