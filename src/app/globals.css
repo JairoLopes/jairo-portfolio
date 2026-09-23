@@ -39,25 +39,91 @@
 }
 
 /* Força o tema escuro mesmo que o SO ou navegador estejam configurados para Light Mode */
+@keyframes heated-accretion {
+  0% {
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: hue-rotate(30deg) brightness(1.1);
+  }
+  100% {
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg);
+  }
+}
+
 html,
 body {
-  background-color: #04060f !important;
+  background-color: #020205 !important;
   background-image:
     radial-gradient(
-      circle at 15% 50%,
-      rgba(129, 140, 248, 0.15),
-      transparent 50%
+      circle at 50% 50%,
+      #020205 38%,
+      rgba(217, 70, 239, 0.18) 55%,
+      rgba(129, 140, 248, 0.12) 75%,
+      transparent 90%
     ),
-    radial-gradient(
-      circle at 85% 30%,
-      rgba(215, 132, 243, 0.12),
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 50% 80%,
-      rgba(56, 189, 248, 0.15),
-      transparent 50%
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      transparent 0,
+      transparent 18px,
+      rgba(244, 63, 94, 0.04) 18px,
+      rgba(244, 63, 94, 0.04) 20px
     );
+  background-size:
+    160% 160%,
+    100% 100%;
+  animation: heated-accretion 14s ease-in-out infinite;
+  background-attachment: fixed;
+  color: #e0f2fe !important;
+  color-scheme: dark;
+}
+
+@keyframes high-freq-waves-down {
+  0% {
+    background-position:
+      50% -20%,
+      50% -20%;
+    filter: brightness(0.95);
+  }
+  50% {
+    background-position:
+      50% 120%,
+      50% 120%;
+    filter: brightness(1.15) hue-rotate(20deg);
+  }
+  100% {
+    background-position:
+      50% -20%,
+      50% -20%;
+    filter: brightness(0.95);
+  }
+}
+
+html,
+body {
+  background-color: #010307 !important;
+  background-image:
+    radial-gradient(
+      circle at 50% 50%,
+      #010307 36%,
+      rgba(56, 189, 248, 0.2) 54%,
+      rgba(139, 92, 246, 0.15) 72%,
+      transparent 90%
+    ),
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      transparent 0,
+      transparent 10px,
+      rgba(56, 189, 248, 0.08) 10px,
+      rgba(56, 189, 248, 0.08) 13px
+    );
+  background-size:
+    160% 160%,
+    100% 100%;
+  animation: high-freq-waves-down 26s ease-in-out infinite;
   background-attachment: fixed;
   color: #e0f2fe !important;
   color-scheme: dark;
