@@ -39,70 +39,83 @@
 }
 
 /* Força o tema escuro mesmo que o SO ou navegador estejam configurados para Light Mode */
-html {
-  background-color: var(--background, #08090d);
-  overflow-x: hidden;
-}
-
 body {
-  position: relative;
+  background: #030107;
   min-height: 100vh;
-  background: transparent;
+  margin: 0;
+  position: relative;
   overflow: hidden;
 }
 
-/* Regras de isolamento e alta performance compartilhadas */
-html::before,
+/* Grade 3D com Máscara de Sub-pixel (Zero Tremor) */
 body::before {
   content: "";
   position: fixed;
-  inset: -20vmax; /* Área otimizada para baixo consumo de GPU */
-  pointer-events: none;
-
-  /* Isolamento estrito de rendering e prevenção de flickering em telas HiDPI */
-  contain: strict;
-  backface-visibility: hidden;
-  will-change: transform;
-}
-
-/* Camada 1: Órbita Amarelo Ouro */
-html::before {
+  inset: -100% -50%;
   z-index: -2;
-  background-image: radial-gradient(
-    circle at 40% 40%,
-    #54018363 0%,
-    transparent 22%
+  pointer-events: none;
+  contain: strict;
+  will-change: transform;
+  background:
+    linear-gradient(rgba(236, 72, 153, 0.22) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(168, 85, 247, 0.18) 2px, transparent 2px);
+  background-size: 60px 60px;
+  transform: perspective(600px) rotateX(72deg);
+  /* Elimina o tremor cortando a convergência no horizonte */
+  -webkit-mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 35%,
+    transparent 70%
   );
-  animation: orbit9_A_opt 9s linear infinite;
+  mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 35%,
+    transparent 70%
+  );
+  animation: grid_flow_clean 2.5s linear infinite;
 }
 
-/* Camada 2: Órbita Rosa Choque */
-body::before {
+/* Núcleo Central Dark Flutuante (Sem borda clara) */
+body::after {
+  content: "";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 420px;
+  height: 420px;
+  margin-top: -210px;
+  margin-left: -210px;
   z-index: -1;
-  background-image: radial-gradient(
-    circle at 60% 60%,
-    #38bff846 0%,
-    transparent 28%
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    #030107 0%,
+    #030107 55%,
+    rgba(3, 1, 7, 0.95) 75%,
+    transparent 100%
   );
-  animation: orbit9_B_opt 12s linear infinite reverse;
+  will-change: transform;
+  animation: float_dark_core 5s ease-in-out infinite alternate;
 }
 
-/* Animações com aceleração 3D ativa */
-@keyframes orbit9_A_opt {
+@keyframes grid_flow_clean {
   0% {
-    transform: rotate(0deg) scale(1.5) translateZ(0);
+    transform: perspective(600px) rotateX(72deg) translate3d(0, 0, 0);
   }
   100% {
-    transform: rotate(360deg) scale(1.5) translateZ(0);
+    transform: perspective(600px) rotateX(72deg) translate3d(0, 60px, 0);
   }
 }
 
-@keyframes orbit9_B_opt {
+@keyframes float_dark_core {
   0% {
-    transform: rotate(0deg) scale(1.8) translateX(5vw) translateZ(0);
+    transform: translate3d(0, -14px, 0);
   }
   100% {
-    transform: rotate(360deg) scale(1.8) translateX(5vw) translateZ(0);
+    transform: translate3d(0, 14px, 0);
   }
 }
 
