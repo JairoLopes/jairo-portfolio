@@ -15,6 +15,7 @@ import {
   SiReact,
   SiTypescript,
   SiTailwindcss,
+  SiShadcnui,
 } from "react-icons/si";
 import { TbApi } from "react-icons/tb";
 import { FaTools } from "react-icons/fa";
@@ -123,6 +124,16 @@ const SKILL_CATEGORIES: readonly SkillCategory[] = [
           "Configuração centralizada via @theme",
           "Arquitetura Utility-First",
           "Layouts Responsivos focados em Mobile-First",
+        ],
+      },
+      {
+        name: "shadcn/ui",
+        icon: SiShadcnui,
+        concepts: [
+          "Componentes reutilizáveis e acessíveis",
+          "Customização via Tailwind CSS",
+          "Variants com Class Variance Authority (CVA)",
+          "Composição de componentes",
         ],
       },
     ],
