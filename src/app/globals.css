@@ -39,29 +39,39 @@
 }
 
 /* Força o tema escuro mesmo que o SO ou navegador estejam configurados para Light Mode */
+/* 1. CONTAINER PAI COM PERSPECTIVA 3D ISOLADA */
+html {
+  overflow-x: hidden;
+  background-color: #030107;
+  perspective: 600px; /* Corrige o bug do Chrome colocando a perspectiva no pai */
+}
+
 body {
-  background: #030107;
+  background-color: #030107;
   min-height: 100vh;
   margin: 0;
   position: relative;
-  overflow: hidden;
+  color: #ffffff;
 }
 
-/* Grade 3D com Máscara de Sub-pixel (Zero Tremor) */
+/* 2. GRADE 3D CYBERPUNK (MOVIMENTO CONTINUO) */
 body::before {
   content: "";
   position: fixed;
   inset: -100% -50%;
   z-index: -2;
   pointer-events: none;
-  contain: strict;
-  will-change: transform;
-  background:
+
+  background-image:
     linear-gradient(rgba(236, 72, 153, 0.22) 2px, transparent 2px),
     linear-gradient(90deg, rgba(168, 85, 247, 0.18) 2px, transparent 2px);
   background-size: 60px 60px;
-  transform: perspective(600px) rotateX(72deg);
-  /* Elimina o tremor cortando a convergência no horizonte */
+
+  /* Mantém apenas a rotação X (A perspectiva vem da tag html) */
+  transform: rotateX(72deg);
+  transform-origin: center center;
+
+  /* Máscara Anti-Aliasing (Zero Tremor no horizonte) */
   -webkit-mask-image: linear-gradient(
     to top,
     rgba(0, 0, 0, 1) 0%,
@@ -74,10 +84,12 @@ body::before {
     rgba(0, 0, 0, 1) 35%,
     transparent 70%
   );
+
+  will-change: transform;
   animation: grid_flow_clean 2.5s linear infinite;
 }
 
-/* Núcleo Central Dark Flutuante (Sem borda clara) */
+/* 3. NÚCLEO CENTRAL DARK FLUTUANTE */
 body::after {
   content: "";
   position: fixed;
@@ -85,8 +97,6 @@ body::after {
   left: 50%;
   width: 420px;
   height: 420px;
-  margin-top: -210px;
-  margin-left: -210px;
   z-index: -1;
   pointer-events: none;
   border-radius: 50%;
@@ -101,21 +111,22 @@ body::after {
   animation: float_dark_core 5s ease-in-out infinite alternate;
 }
 
+/* 4. KEYFRAMES ANIMAÇÃO (GPU ACCELERATED) */
 @keyframes grid_flow_clean {
   0% {
-    transform: perspective(600px) rotateX(72deg) translate3d(0, 0, 0);
+    transform: rotateX(72deg) translate3d(0, 0, 0);
   }
   100% {
-    transform: perspective(600px) rotateX(72deg) translate3d(0, 60px, 0);
+    transform: rotateX(72deg) translate3d(0, 60px, 0);
   }
 }
 
 @keyframes float_dark_core {
   0% {
-    transform: translate3d(0, -14px, 0);
+    transform: translate(-50%, calc(-50% - 14px));
   }
   100% {
-    transform: translate3d(0, 14px, 0);
+    transform: translate(-50%, calc(-50% + 14px));
   }
 }
 
