@@ -43,6 +43,7 @@ html {
   background-color: var(--background, #08090d);
   overflow-x: hidden;
 }
+
 body {
   position: relative;
   min-height: 100vh;
@@ -50,51 +51,58 @@ body {
   overflow: hidden;
 }
 
-html::before {
-  content: "";
-  position: fixed;
-  inset: -50vmax;
-  z-index: -2;
-  pointer-events: none;
-  will-change: transform;
-  background-image: radial-gradient(
-    circle at 20% 50%,
-    rgba(13, 148, 136, 0.7) 0%,
-    transparent 35%
-  );
-  animation: orbit2_A 12s linear infinite;
-}
-
+/* Regras de isolamento e alta performance compartilhadas */
+html::before,
 body::before {
   content: "";
   position: fixed;
-  inset: -50vmax;
-  z-index: -1;
+  inset: -20vmax; /* Área otimizada para baixo consumo de GPU */
   pointer-events: none;
+
+  /* Isolamento estrito de rendering e prevenção de flickering em telas HiDPI */
+  contain: strict;
+  backface-visibility: hidden;
   will-change: transform;
+}
+
+/* Camada 1: Órbita Amarelo Ouro */
+html::before {
+  z-index: -2;
   background-image: radial-gradient(
-    circle at 80% 50%,
-    rgba(76, 29, 149, 0.8) 0%,
-    transparent 35%
+    circle at 40% 40%,
+    #54018363 0%,
+    transparent 22%
   );
-  animation: orbit2_B 9s linear infinite reverse;
+  animation: orbit9_A_opt 9s linear infinite;
 }
 
-@keyframes orbit2_A {
+/* Camada 2: Órbita Rosa Choque */
+body::before {
+  z-index: -1;
+  background-image: radial-gradient(
+    circle at 60% 60%,
+    #38bff846 0%,
+    transparent 28%
+  );
+  animation: orbit9_B_opt 12s linear infinite reverse;
+}
+
+/* Animações com aceleração 3D ativa */
+@keyframes orbit9_A_opt {
   0% {
-    transform: rotate(0deg) scale(1.5);
+    transform: rotate(0deg) scale(1.5) translateZ(0);
   }
   100% {
-    transform: rotate(360deg) scale(1.5);
+    transform: rotate(360deg) scale(1.5) translateZ(0);
   }
 }
 
-@keyframes orbit2_B {
+@keyframes orbit9_B_opt {
   0% {
-    transform: rotate(0deg) scale(1.8) translateX(5vw);
+    transform: rotate(0deg) scale(1.8) translateX(5vw) translateZ(0);
   }
   100% {
-    transform: rotate(360deg) scale(1.8) translateX(5vw);
+    transform: rotate(360deg) scale(1.8) translateX(5vw) translateZ(0);
   }
 }
 
@@ -114,5 +122,3 @@ body::before {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
-/* Última alteração: Correção da sintaxe :root no CSS global, injeção de valores diretos no @theme e imposição de color-scheme: dark no html/body - Resolução definitiva do tema claro indesejado. */
