@@ -48,65 +48,35 @@
    ========================================================= */
 
 html {
-  /*
-   * Cor sólida de fallback.
-   * Também evita que o overscroll revele uma área branca.
-   */
+  /* Cor sólida de fallback. Também evita que o overscroll revele uma área branca. */
   min-height: 100%;
   background-color: #08090d;
-
-  /*
-   * Gradiente estático barato.
-   */
+  /* Gradiente estático barato.*/
   background-image: radial-gradient(
     circle at 50% 50%,
     #000000 0%,
     #120314 100%
   );
-
-  /*
-   * Evita o comportamento de background fixo
-   * problemático em alguns cenários mobile.
-   */
+  /* Evita o comportamento de background fixo problemático em alguns cenários mobile. */
   background-attachment: scroll;
-
-  /*
-   * Impede bounce/pull-to-refresh quando suportado.
-   */
+  /* Impede bounce/pull-to-refresh quando suportado. */
   overscroll-behavior-y: none;
 }
 
 /* =========================================================
    BODY
    ========================================================= */
-
 body {
   margin: 0;
-
-  /*
-   * Fallback amplo para navegadores antigos.
-   * svh fornece uma altura estável em mobile.
-   */
+  /* Fallback amplo para navegadores antigos. svh fornece uma altura estável em mobile. */
   min-height: 100vh;
   min-height: 100svh;
-
   position: relative;
-
-  /*
-   * O fundo real está no html.
-   */
+  /* O fundo real está no html.*/
   background-color: transparent;
-
-  /*
-   * Evita overflow horizontal causado pelas
-   * transformações das camadas animadas.
-   */
+  /* Evita overflow horizontal causado pelas transformações das camadas animadas.*/
   overflow-x: hidden;
-
-  /*
-   * Mantém os pseudo-elementos com z-index negativo
-   * dentro do contexto do body.
-   */
+  /* Mantém os pseudo-elementos com z-index negativo dentro do contexto do body.*/
   isolation: isolate;
 }
 
@@ -117,9 +87,7 @@ body {
 body::before,
 body::after {
   content: "";
-
   position: fixed;
-
   /*
    * Área maior que o viewport para impedir
    * que a transformação revele bordas.
@@ -128,20 +96,13 @@ body::after {
    * uma superfície exageradamente grande.
    */
   inset: -25vmax;
-
   pointer-events: none;
 
-  /*
-   * Mantém as partículas atrás do conteúdo.
-   */
+  /* Mantém as partículas atrás do conteúdo. */
   z-index: -1;
-
   transform-origin: center;
 
-  /*
-   * Os gradients são repetidos para criar
-   * o campo de partículas.
-   */
+  /* Os gradients são repetidos para criar o campo de partículas.*/
   background-repeat: repeat;
 
   background-image:
@@ -167,16 +128,12 @@ body::after {
     20vmax 20vmax;
 }
 
-/*
- * Primeira camada.
- */
+/*  Primeira camada. */
 body::before {
   animation: blackhole-spin 16s linear infinite;
 }
 
-/*
- * Segunda camada, defasada em metade do ciclo.
- */
+/* Segunda camada, defasada em metade do ciclo. */
 body::after {
   animation: blackhole-spin 16s linear infinite;
   animation-delay: -8s;
@@ -185,7 +142,6 @@ body::after {
 /* =========================================================
    ANIMAÇÃO
    ========================================================= */
-
 @keyframes blackhole-spin {
   0% {
     transform: scale(4) rotate(30deg);
@@ -209,7 +165,6 @@ body::after {
 /* =========================================================
    REDUÇÃO DE MOVIMENTO
    ========================================================= */
-
 @media (prefers-reduced-motion: reduce) {
   body::before,
   body::after {
@@ -222,7 +177,6 @@ body::after {
 /* =========================================================
    OTIMIZAÇÃO MOBILE
    ========================================================= */
-
 @media (max-width: 768px) {
   /*
    * Remove a segunda camada no mobile.
@@ -261,7 +215,7 @@ body::after {
      * Movimento um pouco mais suave visualmente
      * no celular.
      */
-    animation-duration: 20s;
+    animation-duration: 18s;
   }
 
   /*
