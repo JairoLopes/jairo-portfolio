@@ -40,29 +40,73 @@
 
 /* Animações do background */
 html {
-  background: radial-gradient(circle at 50% 50%, #000000 0%, #120314 100%);
-  background-attachment: fixed;
+  min-height: 100%;
+  background-color: #08090d;
+  background-image: radial-gradient(
+    circle at 50% 50%,
+    #000000 0%,
+    #120314 100%
+  );
+
+  /*
+   * Evita problemas do background fixed em navegadores mobile.
+   */
+  background-attachment: scroll;
+
+  /*
+   * Impede o efeito de bounce/pull-to-refresh quando suportado.
+   */
+  overscroll-behavior-y: none;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
+  min-height: 100dvh;
+
   position: relative;
+
+  /*
+   * Nunca deixe o body depender de um fundo transparente
+   * durante mudanças do viewport mobile.
+   */
   background-color: transparent;
+
+  /*
+   * Evita overflow horizontal causado pelas camadas gigantes.
+   */
+  overflow-x: hidden;
+
+  /*
+   * Mantém o comportamento do overscroll controlado.
+   */
+  overscroll-behavior-y: none;
+
+  /*
+   * Mantém os pseudo-elementos negativos dentro do
+   * contexto de empilhamento do body.
+   */
+  isolation: isolate;
 }
 
 body::before,
 body::after {
   content: "";
+
   position: fixed;
-  top: -100vh;
-  left: -100vw;
-  width: 300vw;
-  height: 300vh;
+  inset: -100vmax;
+
+  width: auto;
+  height: auto;
+
   pointer-events: none;
+
   z-index: -1;
+
   transform-origin: center;
+
   will-change: transform, opacity;
+
   background-image:
     radial-gradient(
       circle at 15% 45%,
@@ -79,6 +123,7 @@ body::after {
       rgba(200, 180, 255, 0.8) 0px,
       transparent 2px
     );
+
   background-size:
     16vmax 16vmax,
     24vmax 24vmax,
@@ -98,12 +143,15 @@ body::after {
     transform: scale(4) rotate(30deg) translate3d(0, 0, 0);
     opacity: 0;
   }
+
   20% {
     opacity: 1;
   }
+
   80% {
     opacity: 1;
   }
+
   100% {
     transform: scale(0.05) rotate(0deg) translate3d(0, 0, 0);
     opacity: 0;
