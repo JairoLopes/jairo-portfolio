@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import BottomSheetNav from "@/components/navigation/BottomSheetNav";
 import "./globals.css";
+import type { Viewport } from "next";
+
+export const viewport: Viewport = {
+  themeColor: "#08090d",
+  colorScheme: "dark",
+};
 
 /**
  * @Responsabilidade: Prover a casca estrutural global da aplicação (Root Layout), carregando fontes tipográficas, estilização base, camadas de iluminação de fundo e a barra de navegação persistente.

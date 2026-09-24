@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* Mapeamento de cores nativas no Tailwind CSS v4 */
+  /* Cores do sistema Tailwind */
   --color-background: #08090d;
   --color-surface: rgba(17, 19, 28, 0.8);
   --color-surface-hover: rgba(26, 30, 44, 0.9);
@@ -19,29 +19,45 @@
   --color-foreground-subtle: #64748b;
 }
 
+/*
+ * Variáveis CSS mantidas para compatibilidade
+ * com classes utilitárias e estilos inline.
+ */
 :root {
-  /* Variáveis CSS nativas para consumo em classes utilitárias e inline */
-  --background: #08090d;
-  --surface: rgba(17, 19, 28, 0.8);
-  --surface-hover: rgba(26, 30, 44, 0.9);
-  --surface-active: rgba(35, 41, 62, 0.95);
-  --border: rgba(255, 255, 255, 0.1);
-  --border-glow: rgba(56, 189, 248, 0.4);
+  --background: var(--color-background);
+  --surface: var(--color-surface);
+  --surface-hover: var(--color-surface-hover);
+  --surface-active: var(--color-surface-active);
+  --border: var(--color-border);
+  --border-glow: var(--color-border-glow);
 
-  --primary: #38bdf8;
-  --primary-glow: #60a5fa;
-  --accent-purple: #818cf8;
-  --accent-magenta: #cb84f3;
+  --primary: var(--color-primary);
+  --primary-glow: var(--color-primary-glow);
+  --accent-purple: var(--color-accent-purple);
+  --accent-magenta: var(--color-accent-magenta);
 
-  --foreground: #f8fafc;
-  --foreground-muted: #94a3b8;
-  --foreground-subtle: #64748b;
+  --foreground: var(--color-foreground);
+  --foreground-muted: var(--color-foreground-muted);
+  --foreground-subtle: var(--color-foreground-subtle);
+
+  color-scheme: dark;
 }
 
-/* Animações do background */
+/* =========================================================
+   BACKGROUND BASE
+   ========================================================= */
+
 html {
+  /*
+   * Cor sólida de fallback.
+   * Também evita que o overscroll revele uma área branca.
+   */
   min-height: 100%;
   background-color: #08090d;
+
+  /*
+   * Gradiente estático barato.
+   */
   background-image: radial-gradient(
     circle at 50% 50%,
     #000000 0%,
@@ -49,78 +65,99 @@ html {
   );
 
   /*
-   * Evita problemas do background fixed em navegadores mobile.
+   * Evita o comportamento de background fixo
+   * problemático em alguns cenários mobile.
    */
   background-attachment: scroll;
 
   /*
-   * Impede o efeito de bounce/pull-to-refresh quando suportado.
+   * Impede bounce/pull-to-refresh quando suportado.
    */
   overscroll-behavior-y: none;
 }
 
+/* =========================================================
+   BODY
+   ========================================================= */
+
 body {
   margin: 0;
+
+  /*
+   * Fallback amplo para navegadores antigos.
+   * svh fornece uma altura estável em mobile.
+   */
   min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 100svh;
 
   position: relative;
 
   /*
-   * Nunca deixe o body depender de um fundo transparente
-   * durante mudanças do viewport mobile.
+   * O fundo real está no html.
    */
   background-color: transparent;
 
   /*
-   * Evita overflow horizontal causado pelas camadas gigantes.
+   * Evita overflow horizontal causado pelas
+   * transformações das camadas animadas.
    */
   overflow-x: hidden;
 
   /*
-   * Mantém o comportamento do overscroll controlado.
-   */
-  overscroll-behavior-y: none;
-
-  /*
-   * Mantém os pseudo-elementos negativos dentro do
-   * contexto de empilhamento do body.
+   * Mantém os pseudo-elementos com z-index negativo
+   * dentro do contexto do body.
    */
   isolation: isolate;
 }
+
+/* =========================================================
+   CAMADAS DO BACKGROUND ANIMADO
+   ========================================================= */
 
 body::before,
 body::after {
   content: "";
 
   position: fixed;
-  inset: -100vmax;
 
-  width: auto;
-  height: auto;
+  /*
+   * Área maior que o viewport para impedir
+   * que a transformação revele bordas.
+   *
+   * 25vmax é suficiente para este efeito e evita
+   * uma superfície exageradamente grande.
+   */
+  inset: -25vmax;
 
   pointer-events: none;
 
+  /*
+   * Mantém as partículas atrás do conteúdo.
+   */
   z-index: -1;
 
   transform-origin: center;
 
-  will-change: transform, opacity;
+  /*
+   * Os gradients são repetidos para criar
+   * o campo de partículas.
+   */
+  background-repeat: repeat;
 
   background-image:
     radial-gradient(
       circle at 15% 45%,
-      rgba(255, 200, 220, 0.8) 0px,
+      rgba(255, 200, 220, 0.8) 0,
       transparent 2px
     ),
     radial-gradient(
       circle at 60% 15%,
-      rgba(255, 255, 255, 0.9) 0px,
+      rgba(255, 255, 255, 0.9) 0,
       transparent 1.5px
     ),
     radial-gradient(
       circle at 85% 75%,
-      rgba(200, 180, 255, 0.8) 0px,
+      rgba(200, 180, 255, 0.8) 0,
       transparent 2px
     );
 
@@ -130,17 +167,28 @@ body::after {
     20vmax 20vmax;
 }
 
+/*
+ * Primeira camada.
+ */
 body::before {
-  animation: blackhole-spin 16s infinite linear;
+  animation: blackhole-spin 16s linear infinite;
 }
 
+/*
+ * Segunda camada, defasada em metade do ciclo.
+ */
 body::after {
-  animation: blackhole-spin 16s infinite -8s linear;
+  animation: blackhole-spin 16s linear infinite;
+  animation-delay: -8s;
 }
+
+/* =========================================================
+   ANIMAÇÃO
+   ========================================================= */
 
 @keyframes blackhole-spin {
   0% {
-    transform: scale(4) rotate(30deg) translate3d(0, 0, 0);
+    transform: scale(4) rotate(30deg);
     opacity: 0;
   }
 
@@ -153,23 +201,102 @@ body::after {
   }
 
   100% {
-    transform: scale(0.05) rotate(0deg) translate3d(0, 0, 0);
+    transform: scale(0.05) rotate(0deg);
     opacity: 0;
   }
 }
 
-/* Painel de Glassmorphism com contraste reforçado no Dark Mode */
+/* =========================================================
+   REDUÇÃO DE MOVIMENTO
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none;
+    transform: none;
+    opacity: 0.35;
+  }
+}
+
+/* =========================================================
+   OTIMIZAÇÃO MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  /*
+   * Remove a segunda camada no mobile.
+   *
+   * Isso reduz pela metade a quantidade de superfícies
+   * animadas, sem eliminar completamente o efeito.
+   */
+  body::after {
+    display: none;
+  }
+
+  /*
+   * Apenas dois gradients no mobile.
+   *
+   * O terceiro é removido para reduzir o trabalho
+   * de pintura sem comprometer o efeito visual.
+   */
+  body::before {
+    background-image:
+      radial-gradient(
+        circle at 15% 45%,
+        rgba(255, 200, 220, 0.75) 0,
+        transparent 2px
+      ),
+      radial-gradient(
+        circle at 75% 25%,
+        rgba(220, 210, 255, 0.8) 0,
+        transparent 1.5px
+      );
+
+    background-size:
+      20vmax 20vmax,
+      28vmax 28vmax;
+
+    /*
+     * Movimento um pouco mais suave visualmente
+     * no celular.
+     */
+    animation-duration: 20s;
+  }
+
+  /*
+   * Blur menor no mobile.
+   *
+   * backdrop-filter pode ser uma operação relativamente
+   * cara, portanto o raio é reduzido em telas menores.
+   */
+  .glass-panel {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}
+
+/* =========================================================
+   GLASSMORPHISM
+   ========================================================= */
+
 .glass-panel {
   background-color: var(--surface);
+
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+
   border: 1px solid var(--border);
 }
 
-/* Scrollbar invisível mas com scroll funcional para mobile/desktop */
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
