@@ -54,8 +54,8 @@ html {
   /* Gradiente estático barato.*/
   background-image: radial-gradient(
     circle at 50% 50%,
-    #0c00047e 0%,
-    #10012e7e 100%
+    #1a01097e 0%,
+    #0b01217e 100%
   );
   /* Evita o comportamento de background fixo problemático em alguns cenários mobile. */
   background-attachment: scroll;
