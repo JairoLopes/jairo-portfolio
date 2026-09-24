@@ -50,7 +50,7 @@
 html {
   /* Cor sólida de fallback. Também evita que o overscroll revele uma área branca. */
   min-height: 100%;
-  background-color: #030a1a;
+  background-color: #020713;
   /* Gradiente estático barato.*/
   background-image: radial-gradient(
     circle at 50% 50%,
