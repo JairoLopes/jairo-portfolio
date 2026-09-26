@@ -112,22 +112,6 @@ html {
   min-height: 100%;
   background-color: #03000a;
 
-  /* Gradiente radial elíptico: um foco de nebulosa no topo,
-     esmaecendo em três camadas até o vazio absoluto.
-     Cria a sensação de "estar dentro" da galáxia. */
-  background-image: radial-gradient(
-    ellipse 100% 80% at 50% 30%,
-    #1e0b4a 0%,
-    #0d0326 50%,
-    #03000a 100%
-  );
-
-  /* `fixed` ancora o gradiente à viewport (não ao documento).
-     Assim o véu permanece idêntico independente de quanto
-     a página for rolada — o centro violeta continua sempre em
-     30% da altura da tela, em vez de 30% da altura do documento. */
-  background-attachment: fixed;
-
   /* Impede bounce/pull-to-refresh quando suportado. */
   overscroll-behavior-y: none;
 }

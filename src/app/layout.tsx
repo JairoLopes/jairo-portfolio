@@ -48,6 +48,18 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
     >
       <body className="bg-background text-foreground selection:bg-primary/25 selection:text-primary relative flex min-h-full flex-col overflow-x-hidden font-sans">
+        {/* ─────────────────────────────────────────────────────────
+      Véu cósmico — gradiente radial fixo atrás de tudo.
+      Substitui o background-image que antes vivia no html
+      com background-attachment: fixed (que repintava a cada
+      frame de scroll). Fixo por viewport + z-index negativo
+      = camada isolada, zero repaint durante a rolagem.
+      ───────────────────────────────────────────────────────── */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_100%_80%_at_50%_30%,#1e0b4a_0%,#0d0326_50%,#03000a_100%)]"
+        />
+
         {/* Camada de Iluminação Ambiente (Glow Effects sutis em background) */}
         <div
           aria-hidden="true"
