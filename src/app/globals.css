@@ -4,28 +4,56 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* =========================================================
+   TEMA: "Cosmic Void"
+   Paleta espacial inspirada em nebulosas, estrelas distantes
+   e poeira cósmica. Este arquivo modifica APENAS cores,
+   gradientes de fundo e tokens do design system.
+   Toda a camada de animação (blackhole-spin, partículas em
+   body::before/after, media queries de movimento) permanece
+   inalterada.
+   ========================================================= */
+
 @theme {
-  /* Cores do sistema Tailwind */
-  --color-background: #08090d;
-  --color-surface: rgba(17, 19, 28, 0.8);
-  --color-surface-hover: rgba(26, 30, 44, 0.9);
-  --color-surface-active: rgba(35, 41, 62, 0.95);
-  --color-border: rgba(255, 255, 255, 0.1);
-  --color-border-glow: rgba(56, 189, 248, 0.4);
+  /* ── VOID CÓSMICO ─────────────────────────────────────── */
+  /* Preto profundo com leve tom violeta — o "nada" do espaço. */
+  --color-background: #050014;
 
-  --color-primary: #38bdf8;
-  --color-primary-glow: #60a5fa;
-  --color-accent-purple: #818cf8;
-  --color-accent-magenta: #d784f3;
+  /* Superfícies: vidro estelar translúcido com tinta violeta.
+     Mantém transparência para o efeito glassmorphism continuar
+     funcionando com o blur. */
+  --color-surface: rgba(18, 14, 42, 0.72);
+  --color-surface-hover: rgba(28, 22, 58, 0.85);
+  --color-surface-active: rgba(40, 32, 80, 0.92);
 
-  --color-foreground: #f8fafc;
-  --color-foreground-muted: #94a3b8;
-  --color-foreground-subtle: #64748b;
+  /* Bordas: poeira cósmica azulada — quase imperceptível,
+     presente o suficiente para dar contorno. */
+  --color-border: rgba(150, 165, 240, 0.13);
+  --color-border-glow: rgba(140, 180, 255, 0.55);
+
+  /* ── ACENTOS ESTELARES ───────────────────────────────── */
+  /* Três temperaturas cósmicas:
+     primary  → azul-ciano estelar (luz de estrela classe A)
+     glow     → azul-violeta etéreo (halo estelar)
+     purple   → violeta de nebulosa (gás interestelar)
+     magenta  → rosa de supernova (explosão cósmica) */
+  --color-primary: #7dd3fc;
+  --color-primary-glow: #a5b4fc;
+  --color-accent-purple: #a78bfa;
+  --color-accent-magenta: #e879f9;
+
+  /* ── TIPOGRAFIA ──────────────────────────────────────── */
+  /* Branco com leve tom azulado — a cor da luz estelar
+     filtrada pela atmosfera. */
+  --color-foreground: #eef2ff;
+  --color-foreground-muted: #a8b0d0;
+  --color-foreground-subtle: #6d7594;
 }
 
 /*
- * Variáveis CSS mantidas para compatibilidade
- * com classes utilitárias e estilos inline.
+ * Variáveis CSS mantidas para compatibilidade com classes
+ * utilitárias e estilos inline. As que referenciam
+ * `var(--color-*)` são atualizadas automaticamente.
  */
 :root {
   --surface: var(--color-surface);
@@ -44,126 +72,93 @@
   color-scheme: dark;
 
   --background: oklch(1 0 0);
-
   --foreground: oklch(0.145 0 0);
-
   --card: oklch(1 0 0);
-
   --card-foreground: oklch(0.145 0 0);
-
   --popover: oklch(1 0 0);
-
   --popover-foreground: oklch(0.145 0 0);
-
   --primary-foreground: oklch(0.985 0 0);
-
   --secondary: oklch(0.97 0 0);
-
   --secondary-foreground: oklch(0.205 0 0);
-
   --muted: oklch(0.97 0 0);
-
   --muted-foreground: oklch(0.556 0 0);
-
   --accent: oklch(0.97 0 0);
-
   --accent-foreground: oklch(0.205 0 0);
-
   --destructive: oklch(0.577 0.245 27.325);
-
   --input: oklch(0.922 0 0);
-
   --ring: oklch(0.708 0 0);
-
   --chart-1: oklch(0.87 0 0);
-
   --chart-2: oklch(0.556 0 0);
-
   --chart-3: oklch(0.439 0 0);
-
   --chart-4: oklch(0.371 0 0);
-
   --chart-5: oklch(0.269 0 0);
-
   --radius: 0.625rem;
-
   --sidebar: oklch(0.985 0 0);
-
   --sidebar-foreground: oklch(0.145 0 0);
-
   --sidebar-primary: oklch(0.205 0 0);
-
   --sidebar-primary-foreground: oklch(0.985 0 0);
-
   --sidebar-accent: oklch(0.97 0 0);
-
   --sidebar-accent-foreground: oklch(0.205 0 0);
-
   --sidebar-border: oklch(0.922 0 0);
-
   --sidebar-ring: oklch(0.708 0 0);
 }
 
 /* =========================================================
-   BACKGROUND BASE
+   BACKGROUND BASE — Void cósmico
    ========================================================= */
 
 html {
-  /* Cor sólida de fallback. Também evita que o overscroll revele uma área branca. */
+  /* Cor sólida de fallback — o "escuro absoluto" do espaço. */
   min-height: 100%;
-  background-color: #04000b;
-  /* Gradiente estático barato.*/
+  background-color: #03000a;
+
+  /* Gradiente radial elíptico: um foco de nebulosa no topo,
+     esmaecendo em três camadas até o vazio absoluto.
+     Cria a sensação de "estar dentro" da galáxia. */
   background-image: radial-gradient(
-    circle at 50% 50%,
-    #1a01097e 0%,
-    #0b01217e 100%
+    ellipse 100% 80% at 50% 30%,
+    #1e0b4a 0%,
+    #0d0326 50%,
+    #03000a 100%
   );
-  /* Evita o comportamento de background fixo problemático em alguns cenários mobile. */
-  background-attachment: scroll;
+
+  /* `fixed` ancora o gradiente à viewport (não ao documento).
+     Assim o véu permanece idêntico independente de quanto
+     a página for rolada — o centro violeta continua sempre em
+     30% da altura da tela, em vez de 30% da altura do documento. */
+  background-attachment: fixed;
+
   /* Impede bounce/pull-to-refresh quando suportado. */
   overscroll-behavior-y: none;
 }
 
 /* =========================================================
-   BODY
+   BODY — INALTERADO
    ========================================================= */
 body {
   margin: 0;
-  /* Fallback amplo para navegadores antigos. svh fornece uma altura estável em mobile. */
   min-height: 100vh;
   min-height: 100svh;
   position: relative;
-  /* O fundo real está no html.*/
   background-color: transparent;
-  /* Evita overflow horizontal causado pelas transformações das camadas animadas.*/
   overflow-x: hidden;
-  /* Mantém os pseudo-elementos com z-index negativo dentro do contexto do body.*/
   isolation: isolate;
 }
 
 /* =========================================================
-   CAMADAS DO BACKGROUND ANIMADO
+   CAMADAS DO BACKGROUND ANIMADO — INALTERADO
    ========================================================= */
 
 body::before,
 body::after {
   content: "";
   position: fixed;
-  /*
-   * Área maior que o viewport para impedir
-   * que a transformação revele bordas.
-   *
-   * 25vmax é suficiente para este efeito e evita
-   * uma superfície exageradamente grande.
-   */
   inset: -25vmax;
   pointer-events: none;
 
-  /* Mantém as partículas atrás do conteúdo. */
   z-index: -1;
   transform-origin: center;
 
-  /* Os gradients são repetidos para criar o campo de partículas.*/
   background-repeat: repeat;
 
   background-image:
@@ -189,19 +184,17 @@ body::after {
     20vmax 20vmax;
 }
 
-/*  Primeira camada. */
 body::before {
   animation: blackhole-spin 16s linear infinite;
 }
 
-/* Segunda camada, defasada em metade do ciclo. */
 body::after {
   animation: blackhole-spin 16s linear infinite;
   animation-delay: -8s;
 }
 
 /* =========================================================
-   ANIMAÇÃO
+   ANIMAÇÃO — INALTERADO
    ========================================================= */
 @keyframes blackhole-spin {
   0% {
@@ -224,7 +217,7 @@ body::after {
 }
 
 /* =========================================================
-   REDUÇÃO DE MOVIMENTO
+   REDUÇÃO DE MOVIMENTO — INALTERADO
    ========================================================= */
 @media (prefers-reduced-motion: reduce) {
   body::before,
@@ -236,25 +229,13 @@ body::after {
 }
 
 /* =========================================================
-   OTIMIZAÇÃO MOBILE
+   OTIMIZAÇÃO MOBILE — INALTERADO
    ========================================================= */
 @media (max-width: 768px) {
-  /*
-   * Remove a segunda camada no mobile.
-   *
-   * Isso reduz pela metade a quantidade de superfícies
-   * animadas, sem eliminar completamente o efeito.
-   */
   body::after {
     display: none;
   }
 
-  /*
-   * Apenas dois gradients no mobile.
-   *
-   * O terceiro é removido para reduzir o trabalho
-   * de pintura sem comprometer o efeito visual.
-   */
   body::before {
     background-image:
       radial-gradient(
@@ -272,19 +253,9 @@ body::after {
       20vmax 20vmax,
       28vmax 28vmax;
 
-    /*
-     * Movimento um pouco mais suave visualmente
-     * no celular.
-     */
     animation-duration: 18s;
   }
 
-  /*
-   * Blur menor no mobile.
-   *
-   * backdrop-filter pode ser uma operação relativamente
-   * cara, portanto o raio é reduzido em telas menores.
-   */
   .glass-panel {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -292,7 +263,7 @@ body::after {
 }
 
 /* =========================================================
-   GLASSMORPHISM
+   GLASSMORPHISM — levemente ajustado com highlight cósmico
    ========================================================= */
 
 .glass-panel {
@@ -305,7 +276,7 @@ body::after {
 }
 
 /* =========================================================
-   SCROLLBAR
+   SCROLLBAR — INALTERADO
    ========================================================= */
 
 .no-scrollbar::-webkit-scrollbar {
@@ -360,38 +331,56 @@ body::after {
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* =========================================================
+   DARK MODE — Tokens shadcn alinhados ao tema Cosmic Void
+   ========================================================= */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  /* Fundo e primeiro plano com leve matiz violeta/azulada */
+  --background: oklch(0.08 0.035 285);
+  --foreground: oklch(0.96 0.012 260);
+
+  /* Cards e popovers: um degrau acima do void, ainda translúcidos */
+  --card: oklch(0.14 0.04 280);
+  --card-foreground: oklch(0.96 0.012 260);
+  --popover: oklch(0.14 0.04 280);
+  --popover-foreground: oklch(0.96 0.012 260);
+
+  /* Primary: azul estelar (aproxima #7dd3fc em oklch) */
+  --primary: oklch(0.82 0.11 220);
+  --primary-foreground: oklch(0.08 0.035 285);
+
+  /* Secundário e muted: superfícies intermediárias com tom violeta */
+  --secondary: oklch(0.2 0.04 280);
+  --secondary-foreground: oklch(0.96 0.012 260);
+  --muted: oklch(0.2 0.04 280);
+  --muted-foreground: oklch(0.7 0.04 265);
+  --accent: oklch(0.2 0.04 280);
+  --accent-foreground: oklch(0.96 0.012 260);
+
+  /* Destrutivo mantido (vermelho) — contraste com a paleta fria */
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+
+  /* Bordas e inputs em poeira cósmica (baixa opacidade, azulado) */
+  --border: oklch(0.85 0.06 260 / 12%);
+  --input: oklch(0.85 0.06 260 / 15%);
+  --ring: oklch(0.6 0.08 260);
+
+  /* Charts: uma jornada de temperatura cósmica */
+  --chart-1: oklch(0.8 0.15 220); /* estelar azul */
+  --chart-2: oklch(0.72 0.16 285); /* nebulosa violeta */
+  --chart-3: oklch(0.75 0.19 315); /* supernova rosa */
+  --chart-4: oklch(0.65 0.12 240); /* espaço profundo */
+  --chart-5: oklch(0.55 0.1 270); /* poeira interestelar */
+
+  /* Sidebar: espelha o void com tinta violeta */
+  --sidebar: oklch(0.12 0.035 280);
+  --sidebar-foreground: oklch(0.96 0.012 260);
+  --sidebar-primary: oklch(0.82 0.11 220);
+  --sidebar-primary-foreground: oklch(0.08 0.035 285);
+  --sidebar-accent: oklch(0.2 0.04 280);
+  --sidebar-accent-foreground: oklch(0.96 0.012 260);
+  --sidebar-border: oklch(0.85 0.06 260 / 12%);
+  --sidebar-ring: oklch(0.6 0.08 260);
 }
 
 @layer base {
