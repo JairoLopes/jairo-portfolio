@@ -112,37 +112,69 @@ html {
   min-height: 100%;
   background-color: #03000a;
 
+  /* Nota de arquitetura:
+     O gradiente radial que antes vivia aqui foi movido para um
+     <div> fixo no layout.tsx. Motivo: com
+     `background-attachment: fixed`, o browser repintava o
+     gradiente a cada frame de scroll, porque o `html` cresce
+     com o documento. Movendo para um <div> com `position:
+     fixed`, o browser trata como camada isolada e o repaint
+     durante a rolagem cai para zero. */
+
   /* Impede bounce/pull-to-refresh quando suportado. */
   overscroll-behavior-y: none;
 }
 
 /* =========================================================
-   BODY — INALTERADO
+   BODY
    ========================================================= */
 body {
   margin: 0;
+  /* Fallback amplo para navegadores antigos. svh fornece uma altura estável em mobile. */
   min-height: 100vh;
   min-height: 100svh;
   position: relative;
+  /* O fundo real está no html. */
   background-color: transparent;
+  /* Evita overflow horizontal causado pelas transformações das camadas animadas. */
   overflow-x: hidden;
+  /* Mantém os pseudo-elementos com z-index negativo dentro do contexto do body. */
   isolation: isolate;
 }
 
 /* =========================================================
-   CAMADAS DO BACKGROUND ANIMADO — INALTERADO
+   CAMADAS DO BACKGROUND ANIMADO
    ========================================================= */
 
 body::before,
 body::after {
   content: "";
   position: fixed;
-  inset: -25vmax;
+
+  /* Área do pseudo-elemento: reduzida de -25vmax para -15vmax.
+     Como o efeito "vem de fora para dentro" (scale 4 → 0.05),
+     -15vmax ainda é suficiente para cobrir a viewport durante
+     toda a animação, mas reduz a alocação de buffer na GPU. */
+  inset: -15vmax;
   pointer-events: none;
 
+  /* Mantém as partículas atrás do conteúdo. */
   z-index: -1;
   transform-origin: center;
 
+  /* `contain: strict` diz ao browser que este elemento é
+     completamente isolado do resto da página — não afeta
+     tamanho, layout, estilo ou pintura externa. Como é
+     decorativo e não tem filhos, é seguro isolar 100%. O
+     compositor usa isso para otimizar o pipeline. */
+  contain: strict;
+
+  /* Promove a camada antes do primeiro frame de animação,
+     evitando um "promote on first paint" que causa micro-jank
+     no início do ciclo. */
+  will-change: transform, opacity;
+
+  /* Os gradientes são repetidos para criar o campo de partículas. */
   background-repeat: repeat;
 
   background-image:
@@ -168,10 +200,12 @@ body::after {
     20vmax 20vmax;
 }
 
+/*  Primeira camada. */
 body::before {
   animation: blackhole-spin 16s linear infinite;
 }
 
+/* Segunda camada, defasada em metade do ciclo. */
 body::after {
   animation: blackhole-spin 16s linear infinite;
   animation-delay: -8s;
@@ -213,13 +247,61 @@ body::after {
 }
 
 /* =========================================================
-   OTIMIZAÇÃO MOBILE — INALTERADO
+   GLASSMORPHISM — blur base em desktop
+   ========================================================= */
+/* IMPORTANTE: esta regra base precisa vir ANTES das media
+   queries abaixo. Caso contrário, por ordem de cascade
+   (mesma especificidade, último vence), a regra base
+   sobrescreveria os valores responsivos de tablet e mobile.
+   Essa ordem era o motivo pelo qual a otimização de mobile
+   não estava surtindo efeito no arquivo anterior. */
+
+.glass-panel {
+  background-color: var(--surface);
+
+  /* Blur reduzido de 16px para 12px: visualmente quase
+     idêntico, mas o custo do blur gaussiano cai
+     consideravelmente em muitos engines. */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid var(--border);
+}
+
+/* =========================================================
+   OTIMIZAÇÃO TABLET — blur intermediário
+   ========================================================= */
+/* Tablets e notebooks pequenos ganham blur um degrau menor:
+   mantém a sensação de vidro mas reduz o custo de paint em
+   telas médias, onde a GPU costuma ser mais modesta. */
+
+@media (max-width: 1024px) {
+  .glass-panel {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}
+
+/* =========================================================
+   OTIMIZAÇÃO MOBILE
    ========================================================= */
 @media (max-width: 768px) {
+  /*
+   * Remove a segunda camada no mobile.
+   *
+   * Isso reduz pela metade a quantidade de superfícies
+   * animadas, sem eliminar completamente o efeito.
+   */
   body::after {
     display: none;
   }
 
+  /*
+   * Apenas dois gradients no mobile.
+   *
+   * O terceiro é removido para reduzir o trabalho
+   * de pintura sem comprometer o efeito visual.
+   */
   body::before {
     background-image:
       radial-gradient(
@@ -237,26 +319,25 @@ body::after {
       20vmax 20vmax,
       28vmax 28vmax;
 
+    /*
+     * Movimento um pouco mais suave visualmente
+     * no celular.
+     */
     animation-duration: 18s;
   }
 
+  /*
+   * Blur menor no mobile.
+   *
+   * backdrop-filter pode ser uma operação relativamente
+   * cara em GPUs de celular, então o raio é reduzido
+   * para 8px — o mínimo que ainda preserva a leitura
+   * como "vidro" sem custo excessivo.
+   */
   .glass-panel {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
-}
-
-/* =========================================================
-   GLASSMORPHISM — levemente ajustado com highlight cósmico
-   ========================================================= */
-
-.glass-panel {
-  background-color: var(--surface);
-
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-
-  border: 1px solid var(--border);
 }
 
 /* =========================================================
