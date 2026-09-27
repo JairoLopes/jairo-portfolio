@@ -1,35 +1,6 @@
-/**
- * @Responsabilidade: Apresentar a stack técnica do desenvolvedor organizada por
- * categorias (Front-end / Back-end / Ferramentas) através de um sistema de abas
- * acessível e preservar a seção de formação acadêmica em bloco separado.
- * @Fluxo: Renderiza como Server Component -> Cabeçalho animado
- * (TitleAnimated/SubTitleAnimated) -> Componente Tabs (Client isolado em
- * @/components/ui/tabs.tsx) organiza as três categorias -> Aba Front-end exibe
- * Core Stack destacado + tecnologias complementares -> Abas Back-end e
- * Ferramentas exibem grids de skills -> Bloco final com formação acadêmica.
- * @Entradas: N/A (Server Component de rota "/skills").
- * @Saídas: Interface com abas responsivas, cards compactos em Glassmorphism,
- * badges discretos, layout mobile-first (1 col) -> tablet (2 col) -> desktop (3 col).
- * @Dependencias: react, react-icons/si, react-icons/ri, react-icons/tb,
- * @/components/ui/{tabs,card,badge,separator},
- * @/components/animatedComponents/{TitleAnimated,SubTitleAnimated}, @/lib/utils.
- * @Regras_de_negocio: Core Stack (Next.js, React, TypeScript, Tailwind CSS, Zod)
- * recebe destaque visual discreto via badge CORE; cada tecnologia aparece em
- * apenas uma aba (sem duplicação); identidade visual (Glassmorphism + dark +
- * cyan/roxo/magenta) preservada; nenhuma dependência nova adicionada.
- * @Limitacoes: Dados estruturados estaticamente no arquivo; expansão futura pode
- * consumir CMS ou API.
- * @Edge_cases: Grid do Core Stack com 5 itens distribui-se naturalmente em
- * 1/2/3 colunas; pills de conceitos quebram linha via flex-wrap sem overflow
- * horizontal; o componente Tabs preserva navegação por teclado e foco visível.
- * @Arquivos_relacionados: src/components/ui/tabs.tsx, src/components/ui/card.tsx,
- * src/components/ui/badge.tsx, src/components/ui/separator.tsx,
- * src/components/animatedComponents/TitleAnimated.tsx,
- * src/components/animatedComponents/SubTitleAnimated.tsx, src/app/globals.css.
- */
+import React from "react";
 
-import type { ComponentType } from "react";
-
+// Componentes de UI e Animação reutilizáveis
 import TitleAnimated from "@/components/animatedComponents/TitleAnimated";
 import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
 import { Card } from "@/components/ui/card";
@@ -38,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
-// ── Ícones: stack técnica (Simple Icons) ───────────────────────
+// Ícones da stack técnica (Simple Icons)
 import {
   SiNextdotjs,
   SiReact,
@@ -59,7 +30,7 @@ import {
   SiZod,
 } from "react-icons/si";
 
-// ── Ícones: semânticos e de apoio (Remix Icon) ─────────────────
+// Ícones semânticos e de apoio (Remix Icon e Tabler Icons)
 import {
   RiCodeSSlashLine,
   RiDatabase2Line,
@@ -72,32 +43,45 @@ import {
 } from "react-icons/ri";
 import { TbApi } from "react-icons/tb";
 
+/**
+ * ============================================================================
+ * 💡 CONCEITO NEXT.JS (APP ROUTER):
+ * Esta página é um SERVER COMPONENT por padrão.
+ * - É renderizada diretamente no servidor gerando HTML puro e de rápido carregamento.
+ * - Não envia código JavaScript desnecessário para o navegador no carregamento inicial.
+ * - O componente interativo de abas (<Tabs />) gerencia a alternância no lado
+ *   do cliente de forma isolada sem impactar a performance global.
+ * ============================================================================
+ */
+
 // =============================================================
-// Tipagens
+// TIPAGENS (Interfaces simples e diretas para fácil leitura)
 // =============================================================
 
+// Representa uma tecnologia ou habilidade da stack
 interface Skill {
-  readonly name: string;
-  readonly icon: ComponentType<{ className?: string }>;
-  readonly category: string;
-  readonly concepts: readonly string[];
+  name: string;
+  icon: React.ComponentType<{ className?: string }>;
+  category: string;
+  concepts: string[];
 }
 
+// Representa um item do histórico de formação acadêmica
 interface AcademicDegree {
-  readonly title: string;
-  readonly type: string;
-  readonly institution: string;
-  readonly period: string;
-  readonly description: string;
-  readonly highlights: readonly string[];
+  title: string;
+  type: string;
+  institution: string;
+  period: string;
+  description: string;
+  highlights: string[];
 }
 
 // =============================================================
-// Dados: Core Stack — destaque dentro da aba Front-end
+// DADOS DE CONHECIMENTOS E HABILIDADES
 // =============================================================
-// Tecnologias que representam a base principal do stack atual.
-// Zod entra aqui como peça de validação/schema do ecossistema.
-const CORE_STACK: readonly Skill[] = [
+
+// Tecnologias principais exibidas na aba Front-end (Com destaque CORE)
+const CORE_STACK: Skill[] = [
   {
     name: "Next.js",
     icon: SiNextdotjs,
@@ -134,24 +118,20 @@ const CORE_STACK: readonly Skill[] = [
     category: "Validação",
     concepts: ["Schemas", "safeParse", "Inferência"],
   },
-] as const;
+];
 
-// =============================================================
-// Dados: Tecnologias complementares (aba Front-end)
-// =============================================================
-const FRONTEND_COMPLEMENTARY: readonly Skill[] = [
+// Tecnologias secundárias do Front-end
+const FRONTEND_COMPLEMENTARY: Skill[] = [
   {
     name: "Motion",
     icon: SiFramer,
     category: "Animação",
     concepts: ["Variants", "Layout Anim"],
   },
-] as const;
+];
 
-// =============================================================
-// Dados: Back-end, Dados & Integração (aba Back-end)
-// =============================================================
-const BACKEND_SKILLS: readonly Skill[] = [
+// Tecnologias do Back-end, Bancos de Dados e Integrações
+const BACKEND_SKILLS: Skill[] = [
   {
     name: "Prisma ORM",
     icon: SiPrisma,
@@ -188,12 +168,10 @@ const BACKEND_SKILLS: readonly Skill[] = [
     category: "Integração",
     concepts: ["HTTP", "Autenticação", "Fetch/Axios"],
   },
-] as const;
+];
 
-// =============================================================
-// Dados: Ferramentas, Ambiente & DevOps (aba Ferramentas)
-// =============================================================
-const TOOLS_SKILLS: readonly Skill[] = [
+// Ferramentas de ambiente, qualidade e DevOps
+const TOOLS_SKILLS: Skill[] = [
   {
     name: "Git",
     icon: SiGit,
@@ -230,12 +208,10 @@ const TOOLS_SKILLS: readonly Skill[] = [
     category: "Pacotes",
     concepts: ["Scripts", "Dependências"],
   },
-] as const;
+];
 
-// =============================================================
-// Dados: Formação acadêmica (preservada do layout original)
-// =============================================================
-const ACADEMIC_BACKGROUND: readonly AcademicDegree[] = [
+// Histórico acadêmico e especializações
+const ACADEMIC_BACKGROUND: AcademicDegree[] = [
   {
     type: "Pós-Graduação / Especialização",
     title: "Desenvolvimento Web Moderno",
@@ -262,15 +238,9 @@ const ACADEMIC_BACKGROUND: readonly AcademicDegree[] = [
       "Shell Scripting",
     ],
   },
-] as const;
+];
 
-// =============================================================
-// Classe compartilhada dos TabsTrigger (evita repetição)
-// =============================================================
-// Cobre: tamanho de toque confortável (h-10), tipografia compacta,
-// estado inativo discreto e estado ativo com tint primário sutil.
-// O "dark:data-active:*" é obrigatório para sobrepor os defaults do
-// componente Tabs (que aplica dark:data-active:bg-input/30).
+// Classes CSS reutilizáveis para os gatilhos das abas (TabsTrigger)
 const TAB_TRIGGER_CLASS = cn(
   "text-foreground-muted h-10 gap-2 rounded-full border-transparent px-3 text-xs font-medium tracking-wide transition-all",
   "hover:text-foreground",
@@ -281,10 +251,42 @@ const TAB_TRIGGER_CLASS = cn(
 );
 
 // =============================================================
-// Componente auxiliar: SkillCard
+// SUBCOMPONENTES AUXILIARES
 // =============================================================
-// Card compacto e escaneável. O modo "featured" (usado no Core Stack)
-// aplica ícone maior, tipografia um grau acima e glow discreto.
+
+/**
+ * Componente de título reutilizável para cada subseção da página.
+ * Exibe um ícone ao lado de um título estilizado com cor customizável.
+ */
+function SectionHeading({
+  icon: Icon,
+  title,
+  accent = "primary",
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  accent?: "primary" | "magenta";
+}) {
+  return (
+    <div className="mb-4 flex items-center gap-2.5">
+      <Icon
+        aria-hidden="true"
+        className={cn(
+          "h-5 w-5",
+          accent === "primary" ? "text-primary" : "text-accent-magenta",
+        )}
+      />
+      <h2 className="text-foreground text-base font-semibold tracking-tight sm:text-lg">
+        {title}
+      </h2>
+    </div>
+  );
+}
+
+/**
+ * Card reutilizável para renderizar cada tecnologia individual.
+ * Suporta o modo `featured` (destacado) com bordas/glow especiais e badge "CORE".
+ */
 function SkillCard({
   skill,
   featured = false,
@@ -297,14 +299,13 @@ function SkillCard({
   return (
     <Card
       className={cn(
-        "glass-panel group relative flex h-full flex-col gap-0 overflow-hidden rounded-2xl border border-white/5 p-4 ring-0",
-        "hover:border-border-glow transition-all duration-300 hover:-translate-y-0.5",
-        "hover:shadow-[0_0_20px_rgba(56,189,248,0.12)]",
-        featured &&
-          "border-primary/20 hover:shadow-[0_0_25px_rgba(56,189,248,0.18)]",
+        "glass-panel group relative flex h-full flex-col gap-0 overflow-hidden rounded-2xl border border-white/5 p-4 ring-0 transition-all duration-300 hover:-translate-y-0.5",
+        featured
+          ? "border-primary/20 hover:border-border-glow hover:shadow-[0_0_25px_rgba(56,189,248,0.18)]"
+          : "hover:border-border-glow hover:shadow-[0_0_20px_rgba(56,189,248,0.12)]",
       )}
     >
-      {/* Cabeçalho do card: ícone + nome + categoria + badge CORE */}
+      {/* Cabeçalho do Card: Ícone + Nome + Categoria */}
       <div className="flex items-start gap-3">
         <div
           className={cn(
@@ -345,7 +346,7 @@ function SkillCard({
         </div>
       </div>
 
-      {/* Conceitos em pills monoespaçadas (mesmo padrão visual de /projects) */}
+      {/* Lista de pills/tags com conceitos chave da tecnologia */}
       <div className="mt-3 flex flex-wrap gap-1">
         {skill.concepts.map((concept) => (
           <span
@@ -361,51 +362,19 @@ function SkillCard({
 }
 
 // =============================================================
-// Componente auxiliar: SectionHeading
+// COMPONENTE PRINCIPAL DA PÁGINA (/skills)
 // =============================================================
-// Cabeçalho pequeno usado dentro das abas e no bloco acadêmico.
-// O parâmetro "accent" alterna entre primary (cyan) e magenta para
-// criar ritmo visual entre seções dentro da mesma aba.
-function SectionHeading({
-  icon: Icon,
-  title,
-  accent = "primary",
-}: {
-  icon: ComponentType<{ className?: string }>;
-  title: string;
-  accent?: "primary" | "magenta";
-}) {
-  return (
-    <div className="mb-4 flex items-center gap-2.5">
-      <Icon
-        aria-hidden="true"
-        className={cn(
-          "h-5 w-5",
-          accent === "primary" ? "text-primary" : "text-accent-magenta",
-        )}
-      />
-      <h2 className="text-foreground text-base font-semibold tracking-tight sm:text-lg">
-        {title}
-      </h2>
-    </div>
-  );
-}
 
-// =============================================================
-// Página: /skills
-// =============================================================
 export default function SkillsPage() {
   return (
     <section
       aria-label="Habilidades e Stack Técnica"
       className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-12 sm:px-6 md:py-16"
     >
-      {/* ============================================================
-          Cabeçalho da seção: badge + título animado + subtítulo
-          ============================================================ */}
+      {/* ── CABEÇALHO DA PÁGINA ──────────────────────────────── */}
       <header className="mb-12 text-center md:mb-16">
         <div className="border-border bg-surface text-primary mb-3 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 font-mono text-xs backdrop-blur-md">
-          <RiBookOpenLine className="h-3.5 w-3.5" aria-hidden="true" />
+          <RiBookOpenLine aria-hidden="true" className="h-3.5 w-3.5" />
           <span>HABILIDADES & TECNOLOGIAS</span>
         </div>
 
@@ -422,36 +391,31 @@ export default function SkillsPage() {
         </SubTitleAnimated>
       </header>
 
-      {/* ============================================================
-          Bloco 1: Stack Técnica com Tabs
-          ============================================================ */}
+      {/* ── SEÇÃO DE ABAS (SKILLS) ───────────────────────────── */}
       <div className="mb-16">
         <Tabs defaultValue="frontend" className="w-full gap-8">
-          {/* Navegação por categorias (segmented control glass) */}
+          {/* Navegador das abas */}
           <TabsList
             className={cn(
               "glass-panel mx-auto flex w-full max-w-md items-center justify-center gap-1 rounded-full border p-1.5 group-data-horizontal/tabs:h-auto",
             )}
           >
             <TabsTrigger value="frontend" className={TAB_TRIGGER_CLASS}>
-              <RiCodeSSlashLine className="size-3.5" aria-hidden="true" />
+              <RiCodeSSlashLine aria-hidden="true" className="size-3.5" />
               <span>Front-end</span>
             </TabsTrigger>
             <TabsTrigger value="backend" className={TAB_TRIGGER_CLASS}>
-              <RiDatabase2Line className="size-3.5" aria-hidden="true" />
+              <RiDatabase2Line aria-hidden="true" className="size-3.5" />
               <span>Back-end</span>
             </TabsTrigger>
             <TabsTrigger value="tools" className={TAB_TRIGGER_CLASS}>
-              <RiToolsLine className="size-3.5" aria-hidden="true" />
+              <RiToolsLine aria-hidden="true" className="size-3.5" />
               <span>Ferramentas</span>
             </TabsTrigger>
           </TabsList>
 
-          {/* ------------------------------------------------------------
-              Aba: Front-end
-              ------------------------------------------------------------ */}
+          {/* Conteúdo Aba Front-end */}
           <TabsContent value="frontend" className="space-y-10">
-            {/* Core Stack: tecnologias que representam a base principal */}
             <div>
               <SectionHeading
                 icon={RiSparklingLine}
@@ -465,10 +429,8 @@ export default function SkillsPage() {
               </div>
             </div>
 
-            {/* Separador entre Core Stack e complementares */}
             <Separator className="bg-white/5" />
 
-            {/* Tecnologias complementares do ecossistema front-end */}
             <div>
               <SectionHeading
                 icon={RiCodeSSlashLine}
@@ -483,9 +445,7 @@ export default function SkillsPage() {
             </div>
           </TabsContent>
 
-          {/* ------------------------------------------------------------
-              Aba: Back-end
-              ------------------------------------------------------------ */}
+          {/* Conteúdo Aba Back-end */}
           <TabsContent value="backend">
             <SectionHeading
               icon={RiDatabase2Line}
@@ -499,9 +459,7 @@ export default function SkillsPage() {
             </div>
           </TabsContent>
 
-          {/* ------------------------------------------------------------
-              Aba: Ferramentas
-              ------------------------------------------------------------ */}
+          {/* Conteúdo Aba Ferramentas */}
           <TabsContent value="tools">
             <SectionHeading
               icon={RiToolsLine}
@@ -517,9 +475,7 @@ export default function SkillsPage() {
         </Tabs>
       </div>
 
-      {/* ============================================================
-          Bloco 2: Formação Acadêmica (fora das Tabs)
-          ============================================================ */}
+      {/* ── SEÇÃO FORMAÇÃO ACADÊMICA ─────────────────────────── */}
       <div>
         <SectionHeading
           icon={RiGraduationCapLine}
