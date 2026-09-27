@@ -131,10 +131,8 @@ export default function ServicesPage() {
 
         {/* Subtítulo animado */}
         <SubTitleAnimated>
-          <p className="text-foreground-muted mx-auto mt-4 max-w-2xl text-sm leading-relaxed sm:text-base">
-            Soluções digitais para transformar ideias em experiências
-            profissionais, rápidas e fáceis de usar.
-          </p>
+          Soluções digitais para transformar ideias em experiências
+          profissionais, rápidas e fáceis de usar.
         </SubTitleAnimated>
       </header>
 

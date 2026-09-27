@@ -65,7 +65,7 @@ export default function Home() {
           respeitar o espaçamento global do hero. */}
       <div className="mb-4">
         <TitleAnimated>
-          <span className="text-foreground">Olá, eu sou </span>
+          <span className="text-foreground">Oi, eu sou </span>
           {/* Texto com gradiente via bg-clip-text — herda a paleta cyan → roxo. */}
           <span className="from-primary via-primary-glow to-accent-purple bg-linear-to-r bg-clip-text text-transparent">
             Jairo Lopes
@@ -80,17 +80,15 @@ export default function Home() {
           destaque apenas às tecnologias centrais para não competir
           com o título principal. */}
       <SubTitleAnimated>
-        <h2 className="text-foreground-muted max-w-2xl text-base leading-relaxed font-normal sm:text-lg">
-          <strong className="text-foreground font-semibold">
-            Desenvolvedor Next.js,
-          </strong>{" "}
-          focado na criação de aplicações web de alto desempenho, arquiteturas
-          modernas com <span className="text-primary font-medium">Next.js</span>
-          , ecossistema{" "}
-          <span className="text-accent-purple font-medium">React</span>,{" "}
-          <span className="text-accent-magenta font-medium">TypeScript</span> e
-          produtos SaaS escaláveis.
-        </h2>
+        <strong className="text-foreground font-semibold">
+          Desenvolvedor Next.js,
+        </strong>{" "}
+        focado na criação de aplicações web de alto desempenho, arquiteturas
+        modernas com <span className="text-primary font-medium">Next.js</span>,
+        ecossistema{" "}
+        <span className="text-accent-purple font-medium">React</span>,{" "}
+        <span className="text-accent-magenta font-medium">TypeScript</span> e
+        produtos SaaS escaláveis.
       </SubTitleAnimated>
 
       {/* ============================================================
@@ -99,7 +97,7 @@ export default function Home() {
       {/* Linha enxuta de "credenciais rápidas" — cada item é um chip textual
           com ícone à esquerda. Ficam num flex-wrap para quebrar
           elegantemente em telas estreitas. */}
-      <div className="text-foreground-subtle mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs">
+      <div className="text-foreground-subtle mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs">
         {/* Item 1: localização / modelo de trabalho */}
         <span className="inline-flex items-center gap-1.5">
           <RiMapPinLine className="text-primary h-3.5 w-3.5" />
@@ -115,7 +113,7 @@ export default function Home() {
         {/* Item 2: tipo de atuação profissional */}
         <span className="inline-flex items-center gap-1.5">
           <RiCodeSSlashLine className="text-accent-purple h-3.5 w-3.5" />
-          Desenvolvimento web
+          Next.js
         </span>
 
         {/* Separador visual entre itens (apenas decorativo). */}
@@ -127,7 +125,7 @@ export default function Home() {
         {/* Item 3: foco principal de mercado */}
         <span className="inline-flex items-center gap-1.5">
           <RiRocketLine className="text-accent-magenta h-3.5 w-3.5" />
-          Foco em SaaS
+          Responsividade
         </span>
       </div>
 

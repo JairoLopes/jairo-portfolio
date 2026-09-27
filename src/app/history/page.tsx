@@ -120,11 +120,9 @@ export default function HistoryPage() {
 
         {/* Subtitulo animado */}
         <SubTitleAnimated>
-          <p className="text-foreground-muted mx-auto mt-4 max-w-2xl text-sm leading-relaxed sm:text-base">
-            Um resumo da minha trajetória e das experiências que construí ao
-            longo da minha jornada{" "}
-            <span className="text-accent-magenta">na área de tecnologia</span>
-          </p>
+          Um resumo da minha trajetória e das experiências que construí ao longo
+          da minha jornada{" "}
+          <span className="text-accent-magenta">na área de tecnologia</span>
         </SubTitleAnimated>
       </header>
 

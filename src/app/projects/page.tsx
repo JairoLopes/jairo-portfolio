@@ -101,10 +101,8 @@ export default function ProjectsPage() {
 
         {/* Subtítulo animado */}
         <SubTitleAnimated>
-          <p className="text-foreground-muted mx-auto mt-4 max-w-2xl text-sm leading-relaxed sm:text-base">
-            Uma seleção de aplicações de arquitetura moderna, com código limpo,
-            foco em performance, tipagem rigorosa e uma boa UX.
-          </p>
+          Uma seleção de aplicações de arquitetura moderna, com código limpo,
+          foco em performance, tipagem rigorosa e uma boa UX.
         </SubTitleAnimated>
       </header>
 

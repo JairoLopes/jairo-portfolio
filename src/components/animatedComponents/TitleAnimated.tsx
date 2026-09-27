@@ -7,14 +7,13 @@ type Props = {
 };
 
 export default function TitleAnimated({ children }: Props) {
-  const estiloTitle = "text-3xl font-bold text-sky-600";
-
   return (
     <motion.h1
       variants={fadeUp}
       initial="hidden"
       whileInView={"visible"}
-      className={estiloTitle}
+      viewport={{ once: true }}
+      className="text-3xl font-bold text-sky-600 max-sm:text-2xl"
     >
       {children}
     </motion.h1>
