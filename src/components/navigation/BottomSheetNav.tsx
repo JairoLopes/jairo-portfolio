@@ -75,29 +75,26 @@ export default function BottomSheetNav() {
                 aria-current={isActive ? "page" : undefined}
                 className={[
                   "relative flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-4.5 py-4",
-                  "border backdrop-blur-xs transition-all duration-200 active:scale-95",
+                  "transition-all duration-200 active:scale-95",
                   "text-xs font-medium tracking-wide sm:px-4 sm:text-sm",
-                  // 1. Base escura unificada para evitar transparência total em páginas vazias
-                  "bg-black/85",
                   isActive
-                    ? // Ativo: Apenas texto e borda iluminados (o fundo vem do motion.span)
-                      "border-primary/30 text-primary"
-                    : // Inativo: Borda sutil e estado de hover
-                      "text-foreground-muted hover:text-foreground border-white/8 hover:border-white/15 hover:bg-black/90",
+                    ? "font-semibold text-white"
+                    : "text-foreground-muted hover:text-foreground border border-white/8 bg-black/85 hover:border-white/15",
                 ].join(" ")}
               >
-                {/* Indicador deslizante que acompanha o item ativo */}
                 {isActive && (
                   <motion.span
                     layoutId="navIndicator"
-                    transition={{ type: "spring", stiffness: 500, damping: 35 }}
-                    // 2. Realce da cor primária posicionado atrás do texto (-z-10),
-                    // mas sobreposto ao fundo bg-black/50 do Link
-                    className="bg-primary/10 absolute inset-0 -z-10 rounded-lg"
-                  />
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    className="from-primary absolute inset-0 -z-10 rounded-lg bg-gradient-to-r via-purple-500 to-indigo-500 p-[1.5px]"
+                  >
+                    <span className="block h-full w-full rounded-[6px] bg-black/90 backdrop-blur-md" />
+                  </motion.span>
                 )}
 
-                <Icon className="h-4 w-4 shrink-0" />
+                <Icon
+                  className={`h-4 w-4 shrink-0 ${isActive ? "text-primary" : ""}`}
+                />
                 <span className="whitespace-nowrap select-none">
                   {item.label}
                 </span>
