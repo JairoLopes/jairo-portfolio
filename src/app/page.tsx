@@ -81,7 +81,7 @@ export default function Home() {
           com o título principal. */}
       <SubTitleAnimated>
         <strong className="text-foreground font-semibold">
-          Desenvolvedor Next.js,
+          Desenvolvedor Web,
         </strong>{" "}
         focado na criação de aplicações web de alto desempenho, arquiteturas
         modernas com <span className="text-primary font-medium">Next.js</span>,
@@ -113,7 +113,7 @@ export default function Home() {
         {/* Item 2: tipo de atuação profissional */}
         <span className="inline-flex items-center gap-1.5">
           <RiCodeSSlashLine className="text-accent-purple h-3.5 w-3.5" />
-          Next.js
+          React
         </span>
 
         {/* Separador visual entre itens (apenas decorativo). */}
