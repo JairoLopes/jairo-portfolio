@@ -462,3 +462,29 @@ body::after {
     @apply font-sans;
   }
 }
+
+/* Oculta a barra de rolagem mantendo a funcionalidade de scroll */
+@layer utilities {
+  /* Utilitário para ocultar scrollbar em qualquer container */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE e Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+/* Oculta a barra de rolagem vertical padrão em telas menores (mobile) */
+@media (max-width: 768px) {
+  html,
+  body {
+    -ms-overflow-style: none; /* IE e Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari e Opera */
+  }
+}
