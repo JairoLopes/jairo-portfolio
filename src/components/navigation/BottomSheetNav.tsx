@@ -1,70 +1,68 @@
 "use client";
 
 /**
- * @Responsabilidade: Fornecer barra de navegação global persistente (Bottom Sheet / Floating Dock) com detecção de rota ativa e suporte a toque responsivo.
- * @Fluxo: Obtém rota atual via usePathname -> Verifica estado de rolagem (UI/UX) -> Renderiza dock flutuante com indicador visual de scroll para mobile.
- * @Dependencias: react (useState, useRef), next/link, next/navigation, motion/react, react-icons/fi.
- * @Regras_de_negocio: Menu fixo no rodapé. Em telas onde o conteúdo excede a largura (mobile), exibe um hint visual dinâmico à direita informando que há mais rotas. O hint desaparece ao rolar.
+ * Barra de navegação inferior fixa.
+ *
+ * - Cada rota é um botão escuro com leve transparência.
+ * - O container é totalmente transparente — os botões "flutuam" soltos.
+ * - Há um pequeno espaçamento separador entre eles.
+ * - Em telas pequenas, aparece uma setinha indicando que há mais itens à direita.
  */
 
-import React, { useState, useRef } from "react";
+import React, { useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import {
-  FiHome,
-  FiCode,
-  FiFolder,
-  FiClock,
   FiBriefcase,
   FiChevronRight,
+  FiClock,
+  FiCode,
+  FiFolder,
+  FiHome,
 } from "react-icons/fi";
 
-interface NavItem {
-  readonly label: string;
-  readonly path: string;
-  readonly icon: React.ComponentType<{ className?: string }>;
-}
-
-// Rota de Serviços inserida no array
-const NAV_ITEMS: readonly NavItem[] = [
+// ─────────────────────────────────────────────────────────────
+// Itens do menu (rota + rótulo + ícone)
+// ─────────────────────────────────────────────────────────────
+const NAV_ITEMS = [
   { label: "Início", path: "/", icon: FiHome },
   { label: "Conhecimentos", path: "/skills", icon: FiCode },
   { label: "Projetos", path: "/projects", icon: FiFolder },
   { label: "Serviços", path: "/job", icon: FiBriefcase },
   { label: "Histórico", path: "/history", icon: FiClock },
-] as const;
+];
 
 export default function BottomSheetNav() {
+  // Rota atual (para saber qual botão marcar como ativo)
   const pathname = usePathname();
-  const scrollContainerRef = useRef<HTMLElement>(null);
-  const [isScrolledToEnd, setIsScrolledToEnd] = useState(false);
 
-  // Monitora a rolagem para esconder o indicador visual quando o usuário chegar ao final
-  const handleScroll = () => {
-    if (!scrollContainerRef.current) return;
-    const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+  // Referência ao <nav> rolável + estado de "chegou ao fim"
+  const navRef = useRef<HTMLElement>(null);
+  const [reachedEnd, setReachedEnd] = useState(false);
 
-    // Margem de 10px para considerar que chegou ao fim do scroll
-    if (scrollLeft + clientWidth >= scrollWidth - 10) {
-      setIsScrolledToEnd(true);
-    } else {
-      setIsScrolledToEnd(false);
-    }
-  };
+  // Sempre que o usuário rola o menu, checa se a setinha deve sumir
+  function handleScroll() {
+    const nav = navRef.current;
+    if (!nav) return;
+
+    const distanceToEnd = nav.scrollWidth - nav.clientWidth - nav.scrollLeft;
+    setReachedEnd(distanceToEnd < 10);
+  }
 
   return (
+    // Camada fixa no rodapé (centralizada, com safe-area para iOS)
     <div
-      className="fixed bottom-4 left-1/2 z-50 flex w-full max-w-fit -translate-x-1/2 px-3 md:bottom-6"
+      className="fixed bottom-4 left-1/2 z-50 w-full max-w-fit -translate-x-1/2 px-3 md:bottom-6"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
-      <div className="relative flex w-full max-w-[calc(100vw-2rem)] rounded-full shadow-2xl shadow-black/80">
-        {/* Navegação principal com ref e handler de scroll */}
+      <div className="relative">
+        {/* ── Barra transparente que agrupa os botões ────────────── */}
         <nav
-          ref={scrollContainerRef}
+          ref={navRef}
           onScroll={handleScroll}
-          aria-label="Navegação Principal Inferior"
-          className="glass-panel no-scrollbar relative flex w-full items-center gap-1 overflow-x-auto rounded-full p-1.5 sm:gap-2 sm:p-2"
+          aria-label="Navegação principal"
+          className="no-scrollbar flex max-w-[calc(100vw-2rem)] items-center gap-2.5 overflow-x-auto p-1 sm:gap-2"
         >
           {NAV_ITEMS.map((item) => {
             const isActive = pathname === item.path;
@@ -75,31 +73,27 @@ export default function BottomSheetNav() {
                 key={item.path}
                 href={item.path}
                 aria-current={isActive ? "page" : undefined}
-                className={`relative flex min-h-11 shrink-0 items-center gap-2 rounded-full px-3.5 py-2 text-xs font-medium tracking-wide transition-all duration-200 active:scale-95 sm:px-4 sm:text-sm ${
+                className={[
+                  "relative flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-4.5 py-4",
+                  "border backdrop-blur-md transition-all duration-200 active:scale-95",
+                  "text-xs font-medium tracking-wide sm:px-4 sm:text-sm",
                   isActive
-                    ? "text-primary font-semibold"
-                    : "text-foreground-muted hover:text-foreground hover:bg-white/5"
-                }`}
+                    ? // Ativo: toque discreto de cyan estelar (cor primária do tema)
+                      "border-primary/25 bg-primary/8 text-primary"
+                    : // Inativo: fundo escuro e sutilmente translúcido
+                      "text-foreground-muted hover:text-foreground border-white/8 bg-black/50 hover:border-white/15 hover:bg-black/70",
+                ].join(" ")}
               >
+                {/* Indicador deslizante que acompanha o item ativo */}
                 {isActive && (
                   <motion.span
-                    layoutId="activeNavPill"
-                    transition={{
-                      type: "spring",
-                      stiffness: 500,
-                      damping: 35,
-                      mass: 0.8,
-                    }}
-                    className="bg-surface-active border-border-glow shadow-primary/20 absolute inset-0 -z-10 rounded-full border shadow-[0_0_15px_rgba(56,189,248,0.25)] backdrop-blur-md"
+                    layoutId="navIndicator"
+                    transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                    className="bg-primary/[0.05] absolute inset-0 -z-10 rounded-lg"
                   />
                 )}
 
-                <Icon
-                  className={`h-4 w-4 shrink-0 transition-transform duration-200 ${
-                    isActive ? "text-primary scale-110" : ""
-                  }`}
-                />
-
+                <Icon className="h-4 w-4 shrink-0" />
                 <span className="whitespace-nowrap select-none">
                   {item.label}
                 </span>
@@ -108,17 +102,16 @@ export default function BottomSheetNav() {
           })}
         </nav>
 
-        {/* Indicador Sutil de Rolagem (Scroll Hint) para Mobile */}
-        {/* Desaparece suavemente quando o usuário rola o menu até o fim */}
+        {/* ── Setinha de "há mais itens" (só aparece no mobile) ─── */}
         <AnimatePresence>
-          {!isScrolledToEnd && (
+          {!reachedEnd && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="pointer-events-none absolute top-0 right-0 bottom-0 z-10 flex w-12 items-center justify-end rounded-r-full bg-linear-to-l from-[#11131c] to-transparent pr-2 sm:hidden"
+              className="pointer-events-none absolute inset-y-0 right-0 z-10 flex w-10 items-center justify-end pr-1 sm:hidden"
             >
-              <FiChevronRight className="text-primary/80 h-6 w-6 animate-pulse font-bold" />
+              <FiChevronRight className="text-primary/80 h-5 w-5 animate-pulse" />
             </motion.div>
           )}
         </AnimatePresence>

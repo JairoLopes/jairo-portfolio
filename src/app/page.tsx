@@ -11,6 +11,7 @@ import {
 } from "react-icons/ri";
 import TitleAnimated from "@/components/animatedComponents/TitleAnimated";
 import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
+import { Button } from "@/components/ui/button";
 
 /**
  * @Responsabilidade: Apresentar a porta de entrada do portfólio (Hero Section), destacando identidade profissional, especialidades técnicas, canais diretos de contato e um snippet de código estilizado como editor.
@@ -207,51 +208,62 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ============================================================
-          BLOCO 6 — Botões de contato
-          ============================================================ */}
-      {/* Três ações em hierarquia decrescente:
-          WhatsApp (primário, gradiente), GitHub (secundário, glass) e
-          LinkedIn (terciário, apenas ícone). Todos com h-12 (48px) para
-          atender ao mínimo de toque confortável em mobile. */}
-      <div className="flex w-full max-w-md flex-col items-center justify-center gap-3 sm:flex-row">
-        {/* Botão primário: WhatsApp. Gradiente cyan → azul claro, texto escuro
-            e leve scale no hover para reforçar a sensação de CTA. */}
-        <Link
-          href="https://wa.me/5581997052877?text=Olá%20Jairo,%20encontrei%20seu%20portfólio%20e%20gostaria%20de%20conversar."
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group from-primary to-primary-glow shadow-primary/30 hover:shadow-primary/50 relative flex h-12 w-full items-center justify-center gap-2 rounded-full bg-linear-to-r px-6 text-sm font-semibold text-slate-950 shadow-md transition-all duration-300 hover:scale-105 sm:w-auto"
+      {/* Container dos botoes */}
+      <div className="mt-2 flex flex-row items-center justify-center gap-2 sm:gap-3">
+        {/* ── WhatsApp */}
+        <Button
+          nativeButton={false}
+          size="lg"
+          className="from-primary to-primary-glow group border-primary/30 shadow-primary/25 hover:border-primary/60 hover:shadow-primary/40 h-11 gap-2 rounded-xl border bg-linear-to-r px-4 text-sm font-semibold text-slate-950 shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg sm:px-5"
+          render={
+            <Link
+              href="https://wa.me/5581997052877?text=Olá%20Jairo,%20encontrei%20seu%20portfólio%20e%20gostaria%20de%20conversar."
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+          }
         >
-          <RiWhatsappFill className="h-5 w-5 transition-transform duration-200 group-hover:scale-110" />
-          <span>Falar no WhatsApp</span>
-          <RiArrowRightUpLine className="h-4 w-4 opacity-70 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </Link>
+          <RiWhatsappFill className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+          <span className="whitespace-nowrap">WhatsApp</span>
+        </Button>
 
-        {/* Botão secundário: GitHub. Visual glass combinando com os cards,
-            hover translada seta diagonal e escala o ícone. */}
-        <Link
-          href="https://github.com/JairoLopes"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="glass-panel text-foreground hover:bg-surface-hover hover:border-border-glow group flex h-12 w-full items-center justify-center gap-2 rounded-full px-6 text-sm font-medium transition-all duration-200 sm:w-auto"
+        {/* ── GitHub — quick action neutra (glass escuro) ─────────── */}
+        <Button
+          nativeButton={false}
+          size="lg"
+          variant="ghost"
+          aria-label="Perfil do GitHub"
+          className="glass-panel text-foreground-muted hover:text-foreground group hover:border-border-glow hover:bg-surface-hover h-11 gap-2 rounded-xl px-3 text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 sm:px-4"
+          render={
+            <Link
+              href="https://github.com/JairoLopes"
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+          }
         >
-          <RiGithubFill className="text-foreground-muted group-hover:text-foreground h-5 w-5 transition-transform duration-200 group-hover:scale-110" />
-          <span>GitHub</span>
-          <RiArrowRightUpLine className="text-foreground-subtle h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </Link>
+          <RiGithubFill className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+          <span className="hidden whitespace-nowrap sm:inline">GitHub</span>
+        </Button>
 
-        {/* Botão terciário: LinkedIn. Apenas ícone, formato circular.
-            aria-label garante leitura por leitores de tela. */}
-        <Link
-          href="https://www.linkedin.com/in/jairo-lopes-filho/"
-          target="_blank"
-          rel="noopener noreferrer"
+        {/* ── LinkedIn — quick action azul corporativo ────────────── */}
+        <Button
+          nativeButton={false}
+          size="lg"
+          variant="ghost"
           aria-label="Perfil do LinkedIn"
-          className="glass-panel text-foreground-muted hover:text-primary hover:border-primary/40 group flex h-12 w-12 shrink-0 items-center justify-center rounded-full transition-all duration-200"
+          className="glass-panel text-foreground-muted hover:text-foreground group hover:border-border-glow hover:bg-surface-hover h-11 gap-2 rounded-xl px-3 text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 sm:px-4"
+          render={
+            <Link
+              href="https://www.linkedin.com/in/jairo-lopes-filho/"
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+          }
         >
-          <RiLinkedinBoxFill className="h-5 w-5 transition-transform duration-200 group-hover:scale-110" />
-        </Link>
+          <RiLinkedinBoxFill className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+          <span className="hidden whitespace-nowrap sm:inline">LinkedIn</span>
+        </Button>
       </div>
     </section>
   );
