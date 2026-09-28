@@ -83,7 +83,7 @@ export default function BottomSheetNav() {
                     ? // Ativo: Apenas texto e borda iluminados (o fundo vem do motion.span)
                       "border-primary/30 text-primary"
                     : // Inativo: Borda sutil e estado de hover
-                      "text-foreground-muted hover:text-foreground border-white/8 hover:border-white/15 hover:bg-black/70",
+                      "text-foreground-muted hover:text-foreground border-white/8 hover:border-white/15 hover:bg-black/90",
                 ].join(" ")}
               >
                 {/* Indicador deslizante que acompanha o item ativo */}
@@ -93,7 +93,7 @@ export default function BottomSheetNav() {
                     transition={{ type: "spring", stiffness: 500, damping: 35 }}
                     // 2. Realce da cor primária posicionado atrás do texto (-z-10),
                     // mas sobreposto ao fundo bg-black/50 do Link
-                    className="bg-primary/15 absolute inset-0 -z-10 rounded-lg"
+                    className="bg-primary/10 absolute inset-0 -z-10 rounded-lg"
                   />
                 )}
 
