@@ -77,11 +77,13 @@ export default function BottomSheetNav() {
                   "relative flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-4.5 py-4",
                   "border backdrop-blur-md transition-all duration-200 active:scale-95",
                   "text-xs font-medium tracking-wide sm:px-4 sm:text-sm",
+                  // 1. Base escura unificada para evitar transparência total em páginas vazias
+                  "bg-black/50",
                   isActive
-                    ? // Ativo: toque discreto de cyan estelar (cor primária do tema)
-                      "border-primary/25 bg-primary/8 text-primary"
-                    : // Inativo: fundo escuro e sutilmente translúcido
-                      "text-foreground-muted hover:text-foreground border-white/8 bg-black/50 hover:border-white/15 hover:bg-black/70",
+                    ? // Ativo: Apenas texto e borda iluminados (o fundo vem do motion.span)
+                      "border-primary/30 text-primary"
+                    : // Inativo: Borda sutil e estado de hover
+                      "text-foreground-muted hover:text-foreground border-white/8 hover:border-white/15 hover:bg-black/70",
                 ].join(" ")}
               >
                 {/* Indicador deslizante que acompanha o item ativo */}
@@ -89,7 +91,9 @@ export default function BottomSheetNav() {
                   <motion.span
                     layoutId="navIndicator"
                     transition={{ type: "spring", stiffness: 500, damping: 35 }}
-                    className="bg-primary/[0.05] absolute inset-0 -z-10 rounded-lg"
+                    // 2. Realce da cor primária posicionado atrás do texto (-z-10),
+                    // mas sobreposto ao fundo bg-black/50 do Link
+                    className="bg-primary/15 absolute inset-0 -z-10 rounded-lg"
                   />
                 )}
 
