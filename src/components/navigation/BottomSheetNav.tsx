@@ -75,10 +75,10 @@ export default function BottomSheetNav() {
                 aria-current={isActive ? "page" : undefined}
                 className={[
                   "relative flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-4.5 py-4",
-                  "border backdrop-blur-md transition-all duration-200 active:scale-95",
+                  "border backdrop-blur-xs transition-all duration-200 active:scale-95",
                   "text-xs font-medium tracking-wide sm:px-4 sm:text-sm",
                   // 1. Base escura unificada para evitar transparência total em páginas vazias
-                  "bg-black/50",
+                  "bg-black/85",
                   isActive
                     ? // Ativo: Apenas texto e borda iluminados (o fundo vem do motion.span)
                       "border-primary/30 text-primary"
