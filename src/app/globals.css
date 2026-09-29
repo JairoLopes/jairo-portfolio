@@ -263,11 +263,6 @@ body::after {
   -webkit-backdrop-filter: blur(12px);
 
   border: 1px solid var(--border);
-
-  /* Otimização de GPU: isola o elemento em sua própria camada de
-     composição, garantindo 60 FPS durante as animações de slide de rota. */
-  transform: translateZ(0);
-  backface-visibility: hidden;
 }
 
 /* =========================================================

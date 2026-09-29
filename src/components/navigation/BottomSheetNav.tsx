@@ -57,7 +57,7 @@ export default function BottomSheetNav() {
           ref={navRef}
           onScroll={handleScroll}
           aria-label="Navegação principal"
-          className="no-scrollbar flex max-w-[calc(100vw-2rem)] items-center gap-2.5 overflow-x-auto p-1 sm:gap-2"
+          className="no-scrollbar flex max-w-[calc(100vw-2rem)] items-center gap-1.5 overflow-x-auto p-1 sm:gap-2"
           style={{ contain: "layout" }}
         >
           {NAV_ITEMS.map((item) => {
@@ -112,7 +112,7 @@ export default function BottomSheetNav() {
               exit={{ opacity: 0 }}
               className="pointer-events-none absolute inset-y-0 right-0 z-10 flex w-10 items-center justify-end pr-1 sm:hidden"
             >
-              <FiChevronRight className="text-primary/80 h-5 w-5 animate-pulse" />
+              <FiChevronRight className="text-primary-glow h-7 w-7 animate-pulse" />
             </motion.div>
           )}
         </AnimatePresence>
