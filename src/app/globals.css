@@ -252,12 +252,6 @@ body::after {
 /* =========================================================
    GLASSMORPHISM — blur base em desktop
    ========================================================= */
-/* IMPORTANTE: esta regra base precisa vir ANTES das media
-   queries abaixo. Caso contrário, por ordem de cascade
-   (mesma especificidade, último vence), a regra base
-   sobrescreveria os valores responsivos de tablet e mobile.
-   Essa ordem era o motivo pelo qual a otimização de mobile
-   não estava surtindo efeito no arquivo anterior. */
 
 .glass-panel {
   background-color: var(--surface);
@@ -269,6 +263,11 @@ body::after {
   -webkit-backdrop-filter: blur(12px);
 
   border: 1px solid var(--border);
+
+  /* Otimização de GPU: isola o elemento em sua própria camada de
+     composição, garantindo 60 FPS durante as animações de slide de rota. */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* =========================================================

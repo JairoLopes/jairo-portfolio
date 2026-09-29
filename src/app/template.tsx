@@ -1,15 +1,11 @@
 "use client";
 
 /**
- * @Responsabilidade: Orquestrar transições direcionais animadas (slide horizontal nativo) entre rotas durante a navegação no Next.js App Router.
- * @Fluxo: Captura pathname atual -> Calcula delta vetorial comparando índice atual com índice anterior -> Define direção no eixo X -> Renderiza container animado com Motion.
+ * @Responsabilidade: Orquestrar transições direcionais animadas (slide horizontal suave) entre rotas durante a navegação no Next.js App Router.
+ * @Fluxo: Captura pathname atual -> Calcula delta vetorial comparando índice atual com índice anterior -> Define direção no eixo X -> Renderiza container animado com Motion sem provocar 'blink' visual.
  * @Entradas: children (React.ReactNode representando a página da rota atual).
- * @Saídas: Container animado (motion.div) com entrada direcional fluida e quase instantânea (0.25s).
+ * @Saídas: Container animado (motion.div) com entrada direcional fluida.
  * @Dependencias: react (useEffect, useState), next/navigation (usePathname), motion/react (motion).
- * @Regras_de_negocio: Transição rápida (0.2s a 0.3s) com easing easeOut, sem atrasos (delays), respeitando a ordem linear: Início (0) -> Skills (1) -> Projetos (2) -> Histórico (3).
- * @Limitacoes: Executa no lado do cliente ("use client") para cálculo de estado e execução do loop de animação gráfica.
- * @Edge_cases: Rotas não mapeadas assumem índice padrão 0 para evitar cálculo com NaN e preservar animação suave.
- * @Arquivos_relacionados: src/app/layout.tsx, src/components/navigation/BottomSheetNav.tsx.
  */
 
 import React, { useEffect, useState } from "react";
@@ -25,7 +21,7 @@ const ROUTE_INDEX_MAP: Record<string, number> = {
   "/history": 3,
 };
 
-// Variável de módulo persistente na sessão SPA para registrar a rota de origem
+// Registrador do índice da rota anterior no ciclo de navegação SPA
 let globalLastRouteIndex = 0;
 
 export default function Template({
@@ -37,7 +33,7 @@ export default function Template({
   const currentRouteIndex = ROUTE_INDEX_MAP[pathname] ?? 0;
 
   // Lógica Matemática de Direção:
-  // Se currentRouteIndex >= globalLastRouteIndex, o usuário está avançando na árvore (direção +1: entra da direita).
+  // Se currentRouteIndex >= globalLastRouteIndex, o usuário está avançando (direção +1: entra da direita).
   // Se currentRouteIndex < globalLastRouteIndex, o usuário está retrocedendo (direção -1: entra da esquerda).
   const [slideDirection] = useState<number>(() => {
     const delta = currentRouteIndex - globalLastRouteIndex;
@@ -51,17 +47,16 @@ export default function Template({
 
   return (
     <motion.div
-      key={pathname}
       initial={{
-        opacity: 0,
-        x: slideDirection * 35,
+        opacity: 0.85,
+        x: slideDirection * 20,
       }}
       animate={{
         opacity: 1,
         x: 0,
       }}
       transition={{
-        duration: 0.25,
+        duration: 0.2,
         ease: "easeOut",
       }}
       className="flex flex-1 flex-col"
