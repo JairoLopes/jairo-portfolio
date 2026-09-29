@@ -48,8 +48,8 @@ export default function Template({
   return (
     <motion.div
       initial={{
-        opacity: 0.85,
-        x: slideDirection * 20,
+        opacity: 0.9,
+        x: slideDirection * 28,
       }}
       animate={{
         opacity: 1,
