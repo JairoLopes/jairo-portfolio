@@ -86,16 +86,18 @@ export default function BottomSheetNav() {
                   <motion.span
                     layoutId="navIndicator"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                    className="via-primary/40 absolute inset-0 -z-10 rounded-lg bg-gradient-to-b from-cyan-400/80 to-white/5 p-[1.5px]"
+                    className="absolute inset-0 -z-10 overflow-hidden rounded-lg border border-white/5 bg-black/90 backdrop-blur-md"
                   >
-                    {/* Feixe prismático tricolor no topo */}
-                    <span className="via-primary absolute top-0 right-2 left-2 z-10 h-[1.5px] bg-gradient-to-r from-cyan-400 to-fuchsia-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]" />
-                    <span className="block h-full w-full rounded-[6px] bg-black/90 backdrop-blur-md" />
+                    {/* Borda superior desvanecendo para a direita */}
+                    <span className="from-primary via-primary-glow absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r to-transparent shadow-[0_0_8px_rgba(125,211,252,0.4)]" />
+
+                    {/* Borda inferior desvanecendo para a esquerda */}
+                    <span className="from-primary-glow via-primary/50 absolute inset-x-0 bottom-0 h-[1.5px] bg-gradient-to-l to-transparent" />
                   </motion.span>
                 )}
 
                 <Icon
-                  className={`h-4 w-4 shrink-0 ${isActive ? "text-cyan-400" : ""}`}
+                  className={`h-4 w-4 shrink-0 ${isActive ? "text-primary" : ""}`}
                 />
                 <span className="whitespace-nowrap select-none">
                   {item.label}
