@@ -1,0 +1,3135 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+app/
+  history/
+    page.tsx
+  job/
+    page.tsx
+  projects/
+    CardProject.tsx
+    page.tsx
+  skills/
+    page.tsx
+  favicon.ico
+  globals.css
+  layout.tsx
+  page.tsx
+  template.tsx
+components/
+  animatedComponents/
+    SubTitleAnimated.tsx
+    TitleAnimated.tsx
+    variants.ts
+  navigation/
+    BottomSheetNav.tsx
+  ui/
+    accordion.tsx
+    badge.tsx
+    button.tsx
+    card.tsx
+    scroll-area.tsx
+    separator.tsx
+    tabs.tsx
+lib/
+  utils.ts
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="app/history/page.tsx">
+import TitleAnimated from "@/components/animatedComponents/TitleAnimated";
+import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
+import {
+  RiBuilding4Line,
+  RiMapPinLine,
+  RiCalendarLine,
+  RiCheckboxCircleLine,
+  RiTimeLine,
+} from "react-icons/ri";
+
+/**
+ * @Responsabilidade: Exibir a linha do tempo e histórico de carreira profissional do desenvolvedor, demonstrando evolução técnica, liderança e realizações.
+ * @Fluxo: Renderiza como Server Component -> Monta cabeçalho com TitleAnimated -> Mapeia as 4 etapas profissionais estruturadas em ordem cronológica inversa -> Renderiza cards interativos com timeline visual e indicadores de impacto.
+ * @Entradas: N/A (Server Component de rota "/history").
+ * @Saídas: Interface rica com cards estilo Glassmorphism diferenciados por marcadores temporais, métricas de impacto e tags de tecnologias.
+ * @Dependencias: react, react-icons/ri, TitleAnimated (@/components/animatedComponents/TitleAnimated).
+ * @Regras_de_negocio: Os 4 cards devem ser distinguidos dos cards de projetos através de foco em cronologia, realizações com métricas e ausência de botões de deploy; o cargo mais recente possui badge pulsante de posição atual.
+ * @Limitacoes: Dados estruturados estaticamente (mock de carreira); preparado para futura sincronização com perfis externos (LinkedIn/JSON).
+ * @Edge_cases: Em resoluções móveis, a linha de timeline é ajustada para margem esquerda reduzida, evitando quebra de textos.
+ * @Arquivos_relacionados: src/components/animatedComponents/TitleAnimated.tsx, src/app/globals.css, src/app/layout.tsx.
+ */
+
+interface CareerMilestone {
+  readonly id: string;
+  readonly role: string;
+  readonly company: string;
+  readonly location: string;
+  readonly period: string;
+  readonly isCurrent?: boolean;
+  readonly summary: string;
+  readonly keyAchievements: readonly string[];
+  readonly technologies: readonly string[];
+}
+
+const CAREER_HISTORY: readonly CareerMilestone[] = [
+  {
+    id: "milestone-1",
+    role: "Desenvolvedor Front-end",
+    company: "Freelancer",
+    location: "Home Office",
+    period: "2025",
+    isCurrent: true,
+    summary:
+      "Desenvolvimento de interfaces web responsivas utilizando Next.js, Tailwind e TypeScript para a criação de componentes reutilizáveis para diferentes dispositivos.",
+    keyAchievements: [
+      "Criação de interfaces web responsivas com foco em performance e componentização avançada.",
+    ],
+    technologies: ["Next.js", "Tailwind CSS", "TypeScript", "React", "prisma"],
+  },
+  {
+    id: "milestone-2",
+    role: "Programador Front-end",
+    company: "Prefeitura de Olinda",
+    location: "Olinda - PE",
+    period: "2022",
+    isCurrent: false,
+    summary:
+      "Realização de ajustes e melhorias no front-end de sistemas corporativos utilizando React.",
+    keyAchievements: [
+      "Evolução contínua e otimização de interfaces para sistemas corporativos públicos.",
+    ],
+    technologies: ["React", "JavaScript", "HTML5", "CSS3"],
+  },
+  {
+    id: "milestone-3",
+    role: "Técnico em Segurança da Informação",
+    company: "Bidweb Security",
+    location: "Recife - PE",
+    period: "2020",
+    isCurrent: false,
+    summary:
+      "Trabalhando com o desenvolvimento e manutenção de scripts Python em containers, e monitoramento de ameaças.",
+    keyAchievements: [
+      "Automação de processos e isolamento de aplicações de monitoramento utilizando containers.",
+    ],
+    technologies: ["Python", "Docker", "Linux", "Segurança da Informação"],
+  },
+  {
+    id: "milestone-4",
+    role: "Help Desk",
+    company: "Secretaria da Fazenda",
+    location: "Recife - PE",
+    period: "2017",
+    isCurrent: false,
+    summary:
+      "Prestação de suporte técnico a sistemas e infraestrutura interna.",
+    keyAchievements: [
+      "Resolução ágil de chamados técnicos, garantindo a estabilidade operacional dos postos de atendimento.",
+    ],
+    technologies: [
+      "Suporte Técnico",
+      "Redes",
+      "Hardware",
+      "Sistemas Operacionais",
+    ],
+  },
+] as const;
+
+export default function HistoryPage() {
+  return (
+    <section
+      aria-labelledby="history-heading"
+      className="mx-auto flex w-full max-w-4xl flex-1 flex-col px-4 py-12 sm:px-6 md:py-16"
+    >
+      {/* Cabeçalho da Seção com Título e subtitulo Animado */}
+      <header className="mb-12 text-center md:mb-16">
+        {/* Badge acima do titulo */}
+        <div className="border-border bg-surface text-primary mb-3 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 font-mono text-xs backdrop-blur-md">
+          <RiTimeLine className="h-3.5 w-3.5" />
+          <span>TRAJETÓRIA & EXPERIÊNCIA PROFISSIONAL</span>
+        </div>
+
+        {/* Titulo animado */}
+        <TitleAnimated>
+          <span className="text-foreground">Histórico & </span>
+          <span className="from-primary via-primary-glow to-accent-purple bg-linear-to-r bg-clip-text text-transparent">
+            Evolução de Carreira
+          </span>
+        </TitleAnimated>
+
+        {/* Subtitulo animado */}
+        <SubTitleAnimated>
+          Um resumo da minha trajetória e das experiências que construí ao longo
+          da minha jornada{" "}
+          <span className="text-accent-magenta">na área de tecnologia</span>
+        </SubTitleAnimated>
+      </header>
+
+      {/* Timeline Linear com Conexão Visual Vertical */}
+      <div className="border-border/70 relative ml-2 space-y-10 border-l pl-6 sm:ml-4 sm:pl-8">
+        {CAREER_HISTORY.map((item) => (
+          <article key={item.id} className="group relative">
+            {/* Marcador Visual da Linha do Tempo */}
+            <div
+              aria-hidden="true"
+              className={`bg-background absolute top-5 -left-7.75 flex h-4 w-4 items-center justify-center rounded-full border transition-all duration-300 sm:-left-9.75 ${
+                item.isCurrent
+                  ? "border-primary ring-primary/20 shadow-[0_0_12px_rgba(56,189,248,0.8)] ring-4"
+                  : "border-border group-hover:border-primary/60 group-hover:shadow-[0_0_8px_rgba(56,189,248,0.4)]"
+              }`}
+            >
+              <div
+                className={`h-2 w-2 rounded-full transition-colors ${
+                  item.isCurrent
+                    ? "bg-primary animate-pulse"
+                    : "bg-foreground-subtle group-hover:bg-primary"
+                }`}
+              />
+            </div>
+
+            {/* Card Glassmorphism com Detalhes da Atuação */}
+            <div className="glass-panel hover:border-border-glow rounded-2xl p-6 transition-all duration-300 hover:shadow-[0_0_25px_rgba(56,189,248,0.12)]">
+              {/* Header do Card: Período, Status e Cargo */}
+              <div className="border-border/60 flex flex-wrap items-center justify-between gap-2 border-b pb-4">
+                <div>
+                  <h2 className="text-foreground group-hover:text-primary text-lg font-semibold tracking-tight transition-colors">
+                    {item.role}
+                  </h2>
+                  <div className="text-foreground-muted mt-1 flex flex-wrap items-center gap-3 text-xs sm:text-sm">
+                    <span className="text-foreground flex items-center gap-1 font-medium">
+                      <RiBuilding4Line className="text-primary h-3.5 w-3.5" />
+                      {item.company}
+                    </span>
+                    <span className="text-foreground-subtle">•</span>
+                    <span className="text-foreground-subtle flex items-center gap-1">
+                      <RiMapPinLine className="h-3.5 w-3.5" />
+                      {item.location}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Badge de Período / Status */}
+                <div className="flex items-center gap-2">
+                  {item.isCurrent && (
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 font-mono text-xs text-emerald-400">
+                      <span className="h-1.5 w-1.5 animate-ping rounded-full bg-emerald-400" />
+                      ATUAL
+                    </span>
+                  )}
+                  <span className="glass-panel text-foreground-muted inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-mono text-xs">
+                    <RiCalendarLine className="text-primary h-3 w-3" />
+                    {item.period}
+                  </span>
+                </div>
+              </div>
+
+              {/* Resumo da Atuação */}
+              <p className="text-foreground-muted mt-4 text-xs leading-relaxed sm:text-sm">
+                {item.summary}
+              </p>
+
+              {/* Principais Realizações e Impactos Técnicos */}
+              <div className="mt-5 space-y-2">
+                <span className="text-foreground-subtle block font-mono text-[11px] tracking-wider uppercase">
+                  Realizações e Impactos Chave:
+                </span>
+                <ul className="space-y-2">
+                  {item.keyAchievements.map((achieve, idx) => (
+                    <li
+                      key={idx}
+                      className="text-foreground-muted flex items-start gap-2 text-xs sm:text-sm"
+                    >
+                      <RiCheckboxCircleLine className="text-primary mt-0.5 h-4 w-4 shrink-0" />
+                      <span>{achieve}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Badges de Tecnologias Utilizadas */}
+              <div className="border-border/60 mt-6 border-t pt-4">
+                <div className="flex flex-wrap gap-1.5">
+                  {item.technologies.map((tech) => (
+                    <span
+                      key={tech}
+                      className="text-accent-purple hover:text-primary hover:border-primary/30 inline-flex items-center rounded-md border border-white/5 bg-white/5 px-2.5 py-0.5 font-mono text-[11px] transition-colors"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="app/job/page.tsx">
+import React from "react";
+
+import TitleAnimated from "@/components/animatedComponents/TitleAnimated";
+import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
+
+import {
+  RiBriefcase4Line,
+  RiMacbookLine,
+  RiSpeedUpLine,
+  RiSmartphoneLine,
+  RiCheckboxCircleLine,
+  RiCodeSSlashLine,
+} from "react-icons/ri";
+
+/**
+ * @Responsabilidade: Apresentar os principais serviços oferecidos pelo desenvolvedor,
+ * destacando soluções e benefícios de forma clara para potenciais clientes.
+ * @Fluxo: Renderiza como Server Component -> Apresenta cabeçalho com TitleAnimated ->
+ * Mapeia a matriz de serviços -> Renderiza cards interativos com foco em benefícios.
+ * @Entradas: N/A (Server Component de rota "/services").
+ * @Saídas: Interface em grid responsivo (1 coluna no mobile, 2 no desktop) com cards
+ * em Glassmorphism apresentando serviços de forma simples e comercial.
+ * @Dependencias: react, react-icons/ri, TitleAnimated, SubTitleAnimated.
+ * @Regras_de_negocio: Linguagem acessível para clientes; foco nos problemas que os
+ * serviços resolvem; ausência de valores financeiros; apresentação clara dos principais
+ * benefícios e entregáveis.
+ * @Limitacoes: Dados estruturados estaticamente.
+ * @Arquivos_relacionados: src/components/animatedComponents/TitleAnimated.tsx,
+ * src/app/globals.css.
+ */
+
+interface ServiceItem {
+  readonly id: string;
+  readonly title: string;
+  readonly description: string;
+  readonly icon: React.ComponentType<{ className?: string }>;
+  readonly deliverables: readonly string[];
+}
+
+/**
+ * Catálogo de serviços.
+ *
+ * Os textos foram mantidos propositalmente menos técnicos, priorizando o que o cliente
+ * recebe e o problema que a solução ajuda a resolver, em vez de destacar tecnologias.
+ */
+const SERVICES_OFFERED: readonly ServiceItem[] = [
+  {
+    id: "professional-websites",
+    title: "Sites e Landing Pages",
+    description:
+      "Criação de sites profissionais para apresentar sua empresa, seus serviços ou seu trabalho e transformar visitantes em novos contatos.",
+    icon: RiMacbookLine,
+    deliverables: [
+      "Página profissional e personalizada",
+      "Experiência perfeita no celular e computador",
+      "Integração com WhatsApp e canais de contato",
+    ],
+  },
+  {
+    id: "business-presence",
+    title: "Presença Digital",
+    description:
+      "Estruturas digitais pensadas para ajudar sua empresa a ser encontrada, transmitir credibilidade e facilitar o contato com novos clientes.",
+    icon: RiBriefcase4Line,
+    deliverables: [
+      "Apresentação clara dos seus serviços",
+      "Estrutura preparada para mecanismos de busca",
+      "Links e chamadas para contato bem posicionados",
+    ],
+  },
+  {
+    id: "performance-seo",
+    title: "Velocidade e Visibilidade",
+    description:
+      "Melhoria de sites existentes para carregar mais rápido, oferecer uma experiência melhor e aumentar suas chances de ser encontrado no Google.",
+    icon: RiSpeedUpLine,
+    deliverables: [
+      "Carregamento mais rápido",
+      "Otimização para dispositivos móveis",
+      "Melhor estrutura para mecanismos de busca",
+    ],
+  },
+  {
+    id: "web-systems",
+    title: "Sistemas e Aplicações Web",
+    description:
+      "Desenvolvimento de sistemas personalizados para empresas que precisam ir além de um site e transformar processos em soluções digitais.",
+    icon: RiCodeSSlashLine,
+    deliverables: [
+      "Painéis e áreas administrativas",
+      "Integração com APIs e serviços externos",
+      "Soluções personalizadas para sua necessidade",
+    ],
+  },
+  {
+    id: "interface-ux",
+    title: "Interfaces e Experiência",
+    description:
+      "Criação de interfaces modernas, intuitivas e agradáveis de usar, pensando tanto na aparência quanto na facilidade de navegação.",
+    icon: RiSmartphoneLine,
+    deliverables: [
+      "Interface moderna e responsiva",
+      "Navegação simples e intuitiva",
+      "Experiência consistente em diferentes dispositivos",
+    ],
+  },
+] as const;
+
+export default function ServicesPage() {
+  return (
+    <section
+      aria-labelledby="services-heading"
+      className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-12 sm:px-6 md:py-16"
+    >
+      {/* Cabeçalho da Seção com Título e Subtítulo Animado */}
+      <header className="mb-12 text-center md:mb-16">
+        {/* Badge acima do título */}
+        <div className="border-border bg-surface text-primary mb-3 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 font-mono text-xs backdrop-blur-md">
+          <RiBriefcase4Line className="h-3.5 w-3.5" />
+          <span>SOLUÇÕES & SERVIÇOS</span>
+        </div>
+
+        {/* Título animado */}
+        <TitleAnimated>
+          <span className="text-foreground">Como posso </span>
+
+          <span className="from-primary via-primary-glow to-accent-purple bg-linear-to-r bg-clip-text text-transparent">
+            Ajudar seu Projeto
+          </span>
+        </TitleAnimated>
+
+        {/* Subtítulo animado */}
+        <SubTitleAnimated>
+          Soluções digitais para transformar ideias em experiências
+          profissionais, rápidas e fáceis de usar.
+        </SubTitleAnimated>
+      </header>
+
+      {/* Grid Responsivo Mobile-First para os Serviços */}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        {SERVICES_OFFERED.map((service) => {
+          const Icon = service.icon;
+
+          return (
+            <article
+              key={service.id}
+              className="glass-panel hover:border-border-glow group flex flex-col rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(56,189,248,0.15)] sm:p-8"
+            >
+              {/* Cabeçalho do Card de Serviço */}
+              <div className="mb-5 flex items-center gap-4">
+                <div className="bg-surface-active border-border text-primary group-hover:bg-primary/10 rounded-xl border p-3 shadow-inner transition-colors duration-300">
+                  <Icon className="h-6 w-6" />
+                </div>
+
+                <h2 className="text-foreground text-lg font-bold tracking-tight sm:text-xl">
+                  {service.title}
+                </h2>
+              </div>
+
+              {/* Descrição Principal */}
+              <p className="text-foreground-muted mb-6 text-sm leading-relaxed">
+                {service.description}
+              </p>
+
+              {/* Linha Divisória */}
+              <div className="border-border/60 mt-auto border-t pt-5">
+                <span className="text-foreground-subtle mb-3 block font-mono text-[11px] tracking-wider uppercase">
+                  O que você recebe:
+                </span>
+
+                {/* Lista de Benefícios e Entregáveis */}
+                <ul className="space-y-2.5">
+                  {service.deliverables.map((item, idx) => (
+                    <li
+                      key={idx}
+                      className="text-foreground-muted flex items-start gap-2 text-xs sm:text-sm"
+                    >
+                      <RiCheckboxCircleLine className="text-accent-purple mt-0.5 h-4 w-4 shrink-0" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="app/projects/CardProject.tsx">
+"use client";
+
+import Link from "next/link";
+
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+
+import {
+  RiExternalLinkLine,
+  RiGithubFill,
+  RiLockLine,
+  RiFolderLine,
+  RiSparklingLine,
+  RiTimeLine,
+} from "react-icons/ri";
+
+// ============================================================
+// TIPAGEM DOS PROJETOS
+// ============================================================
+
+export interface Project {
+  readonly id: string;
+  readonly title: string;
+  readonly category: string;
+  readonly description: string;
+  readonly tags: readonly string[];
+
+  /** URLs opcionais para projetos ainda não publicados. */
+  readonly liveUrl?: string;
+  readonly githubUrl?: string;
+
+  /** Define se o projeto recebe o destaque visual. */
+  readonly isFeatured?: boolean;
+
+  /** Controla o estado do desenvolvimento e o acesso ao código. */
+  readonly isCompleted: boolean;
+  readonly isOpenSource: boolean;
+}
+
+interface CardProjectProps {
+  readonly project: Project;
+  readonly index: number;
+}
+
+// ============================================================
+// COMPONENTE
+// ============================================================
+
+export default function CardProject({ project, index }: CardProjectProps) {
+  const displayIndex = String(index + 1).padStart(2, "0");
+  const isInDevelopment = !project.isCompleted;
+  const isFeatured = project.isFeatured === true;
+
+  return (
+    <article aria-label={`Projeto: ${project.title}`} className="h-full w-full">
+      <Card
+        className={`glass-panel group relative flex h-full min-h-100 flex-col gap-0 overflow-hidden rounded-2xl border p-0 ring-0 transition-all duration-300 hover:-translate-y-1 ${
+          isFeatured
+            ? "border-accent-magenta/40 ring-accent-magenta/20 hover:border-accent-magenta/70 shadow-[0_0_28px_rgba(217,70,239,0.12)] ring-1 hover:shadow-[0_0_34px_rgba(217,70,239,0.2)]"
+            : isInDevelopment
+              ? "border-amber-400/30 hover:border-amber-300/60 hover:shadow-[0_0_25px_rgba(251,191,36,0.14)]"
+              : "hover:border-border-glow border-white/5 hover:shadow-[0_0_25px_rgba(56,189,248,0.15)]"
+        }`}
+      >
+        {/* Brilho de fundo do projeto em destaque. */}
+        {isFeatured && (
+          <div
+            aria-hidden="true"
+            className="from-accent-magenta/10 pointer-events-none absolute inset-0 z-0 bg-linear-to-b via-transparent to-transparent"
+          />
+        )}
+
+        {/* Linha superior colorida conforme o estado do projeto. */}
+        <div
+          aria-hidden="true"
+          className={`absolute inset-x-0 top-0 z-20 h-px ${
+            isFeatured
+              ? "via-accent-magenta/80 bg-linear-to-r from-transparent to-transparent"
+              : isInDevelopment
+                ? "bg-linear-to-r from-transparent via-amber-400/70 to-transparent"
+                : "via-primary/40 bg-linear-to-r from-transparent to-transparent"
+          }`}
+        />
+
+        {/* Cantos decorativos. */}
+        <span
+          aria-hidden="true"
+          className={`absolute top-3 left-3 z-20 h-3 w-3 border-t border-l transition-colors ${
+            isFeatured
+              ? "border-accent-magenta/60"
+              : "border-primary/40 group-hover:border-primary"
+          }`}
+        />
+        <span
+          aria-hidden="true"
+          className={`absolute right-3 bottom-3 z-20 h-3 w-3 border-r border-b transition-colors ${
+            isFeatured
+              ? "border-accent-magenta/60"
+              : "border-primary/40 group-hover:border-primary"
+          }`}
+        />
+
+        {/* ================================================== */}
+        {/* FAIXA VISUAL                                      */}
+        {/* ================================================== */}
+
+        <div className="relative z-10 flex h-24 shrink-0 items-center justify-center overflow-hidden">
+          <div
+            aria-hidden="true"
+            className={`absolute -top-10 left-1/2 h-32 w-32 -translate-x-1/2 rounded-full blur-3xl ${
+              isFeatured ? "bg-accent-magenta/20" : "bg-primary/15"
+            }`}
+          />
+
+          <span
+            aria-hidden="true"
+            className="text-foreground-subtle/30 group-hover:text-primary/40 absolute top-2 left-8 font-mono text-[10px] tracking-widest transition-colors"
+          >
+            {displayIndex}
+          </span>
+
+          {/* Badge avisando que está em desenvolvimento */}
+          {isInDevelopment && (
+            <Badge
+              variant="outline"
+              className="absolute top-2 right-2 z-20 gap-1 rounded-full border-amber-400/30 bg-amber-400/10 px-2 py-0 text-[9px] font-semibold tracking-wide text-amber-300"
+            >
+              <RiTimeLine className="h-2.5 w-2.5" />
+              EM DESENVOLVIMENTO
+            </Badge>
+          )}
+
+          <div
+            className={`glass-panel relative z-10 flex h-11 w-11 items-center justify-center rounded-xl border transition-all duration-300 ${
+              isFeatured
+                ? "border-accent-magenta/40 bg-accent-magenta/10 shadow-[0_0_20px_rgba(217,70,239,0.12)]"
+                : "border-border group-hover:border-primary/40"
+            }`}
+          >
+            <RiFolderLine
+              className={`h-5 w-5 transition-transform duration-300 group-hover:scale-110 ${
+                isFeatured ? "text-accent-magenta" : "text-primary"
+              }`}
+            />
+          </div>
+
+          <span
+            aria-hidden="true"
+            className="absolute bottom-2 left-3 flex h-2.5 w-2.5"
+          >
+            <span
+              className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-60 ${
+                isInDevelopment ? "bg-amber-400" : "bg-emerald-400"
+              }`}
+            />
+            <span
+              className={`relative inline-flex h-2.5 w-2.5 rounded-full ${
+                isInDevelopment ? "bg-amber-500" : "bg-emerald-500"
+              }`}
+            />
+          </span>
+        </div>
+
+        {/* ================================================== */}
+        {/* CONTEÚDO                                          */}
+        {/* ================================================== */}
+        <div className="relative z-10 flex flex-1 flex-col justify-between gap-3 px-5 pt-4 pb-5">
+          <CardHeader className="gap-2.5 p-0">
+            <div className="flex flex-wrap items-center gap-1.5">
+              <Badge
+                variant="outline"
+                className="border-primary/20 bg-primary/10 text-primary rounded-full px-2 py-0 text-[10px] font-medium tracking-wide"
+              >
+                {project.category}
+              </Badge>
+
+              {isFeatured && (
+                <Badge className="border-accent-magenta/30 bg-accent-magenta/15 text-accent-magenta gap-1 rounded-full border px-2 py-0 text-[10px] font-semibold tracking-wider">
+                  <RiSparklingLine className="h-2.5 w-2.5" />
+                  DESTAQUE
+                </Badge>
+              )}
+            </div>
+
+            <CardTitle className="flex items-baseline gap-1.5 text-base font-semibold tracking-tight">
+              <span className="text-foreground-subtle font-mono text-xs font-normal">
+                ~/
+              </span>
+              <span className="text-foreground group-hover:text-primary transition-colors">
+                {project.title}
+              </span>
+            </CardTitle>
+
+            {/* Descrição completa, sem clamp e sem botão de expansão. */}
+            <p className="text-foreground-muted text-xs leading-relaxed">
+              {project.description}
+            </p>
+          </CardHeader>
+
+          {/* ================================================= */}
+          {/* TECNOLOGIAS — SCROLL HORIZONTAL (shadcn ScrollArea) */}
+          {/* ================================================= */}
+          <div className="flex flex-col gap-3">
+            <span className="from-primary via-primary-glow to-accent-purple bg-linear-to-r bg-clip-text font-mono text-[10px] font-semibold tracking-wider text-transparent uppercase">
+              Tecnologias usadas
+            </span>
+            <CardContent className="min-w-0 p-0">
+              {/*
+              O ScrollArea cuida do overflow e da scrollbar de forma
+              cross-browser. Uma única lista de tags é renderizada —
+              sem duplicatas, sem animação e sem loop.
+            */}
+              <ScrollArea
+                className="w-full whitespace-nowrap"
+                aria-label={`Tecnologias utilizadas em ${project.title}`}
+              >
+                {/* pb-2 reserva espaço para a scrollbar horizontal. */}
+                <div className="flex gap-1 pb-2">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-accent-purple hover:text-foreground hover:border-primary/40 inline-flex shrink-0 items-center rounded-md border border-white/10 bg-white/5 px-2 py-0.5 font-mono text-[10px] whitespace-nowrap transition-colors duration-150"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
+            </CardContent>
+
+            <Separator className="bg-white/5" />
+          </div>
+
+          <CardFooter className="gap-2 border-0 bg-transparent p-0">
+            {project.liveUrl ? (
+              <Button
+                size="lg"
+                className="from-primary to-primary-glow text-primary-foreground hover:shadow-primary/40 h-11 min-w-0 flex-1 gap-1.5 rounded-xl bg-linear-to-r px-3 text-xs font-semibold shadow-md transition-all duration-200"
+                nativeButton={false}
+                render={
+                  <Link
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                }
+              >
+                <span>Preview</span>
+                <RiExternalLinkLine className="h-3.5 w-3.5" />
+              </Button>
+            ) : (
+              <Button
+                size="lg"
+                disabled
+                className="from-primary to-primary-glow text-primary-foreground h-11 min-w-0 flex-1 gap-1.5 rounded-xl bg-linear-to-r px-3 text-xs font-semibold shadow-md"
+              >
+                <span>Preview em breve</span>
+                <RiTimeLine className="h-3.5 w-3.5" />
+              </Button>
+            )}
+
+            {!project.isOpenSource ? (
+              <div
+                role="status"
+                aria-label="Código-fonte privado"
+                title="Código-fonte privado"
+                className="text-foreground-muted flex h-11 min-w-0 flex-1 cursor-default items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 text-xs font-medium"
+              >
+                <RiLockLine className="h-4 w-4 shrink-0" />
+                <span>Código fechado</span>
+              </div>
+            ) : project.githubUrl ? (
+              <Button
+                variant="outline"
+                size="lg"
+                className="text-foreground-muted hover:text-foreground hover:border-border-glow h-11 min-w-0 flex-1 gap-1.5 rounded-xl border-white/10 bg-white/5 px-3 text-xs font-medium transition-all duration-200"
+                nativeButton={false}
+                render={
+                  <Link
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                }
+              >
+                <RiGithubFill className="h-4 w-4" />
+                <span>Código</span>
+              </Button>
+            ) : null}
+          </CardFooter>
+        </div>
+      </Card>
+    </article>
+  );
+}
+</file>
+
+<file path="app/projects/page.tsx">
+// src/app/projects/page.tsx
+
+import TitleAnimated from "@/components/animatedComponents/TitleAnimated";
+import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
+import { RiSparklingLine } from "react-icons/ri";
+import CardProject, { type Project } from "./CardProject";
+
+const PROJECTS_MOCK: readonly Project[] = [
+  {
+    id: "barbossa",
+    title: "Barbossa",
+    category: "Marketplace SaaS",
+    description:
+      "Marketplace em desenvolvimento para conectar clientes a barbearias. A proposta é permitir descobrir estabelecimentos, consultar serviços e preços e agendar atendimentos, enquanto proprietários gerenciam serviços, equipe e agenda.",
+    tags: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind",
+      "Prisma",
+      "PostgreSQL",
+      "Better Auth",
+      "Zod",
+    ],
+    isFeatured: true,
+    isCompleted: false,
+    isOpenSource: false,
+  },
+  {
+    id: "site-personal",
+    title: "Site Personal",
+    category: "Landing Page",
+    description:
+      "Landing page profissional e responsiva para personal trainer, destacando serviços e planos de treino.",
+    tags: ["Next.js", "React", "Tailwind CSS", "TypeScript"],
+    liveUrl: "https://talles-personal.vercel.app/",
+    githubUrl: "https://github.com/JairoLopes/talles-personal-nuxt",
+    isCompleted: true,
+    isOpenSource: true,
+  },
+  {
+    id: "astrolobby",
+    title: "Astrolobby",
+    category: "Integração de APIs",
+    description:
+      "Hub de conteúdo astronômico integrado à API da NASA (APOD) com tradução automática via DeepL.",
+    tags: ["React", "Tailwind CSS", "TypeScript", "API Rest"],
+    liveUrl: "https://astrolobby.vercel.app/",
+    githubUrl: "https://github.com/JairoLopes/Astrolobby",
+    isCompleted: true,
+    isOpenSource: true,
+  },
+  {
+    id: "cardapio-digital",
+    title: "Cardápio Digital",
+    category: "Sistema Dinâmico",
+    description:
+      "Cardápio online customizável com rotas geradas dinamicamente a partir das categorias do menu.",
+    tags: ["Vue.js", "Vue Router", "Tailwind CSS", "TypeScript"],
+    liveUrl: "https://cardapio-exemplo.vercel.app/",
+    githubUrl: "https://github.com/JairoLopes/cardapio",
+    isCompleted: true,
+    isOpenSource: true,
+  },
+] as const;
+
+export default function ProjectsPage() {
+  return (
+    <section
+      aria-labelledby="projects-heading"
+      className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 py-12 sm:px-6 md:py-16"
+    >
+      {/* Cabeçalho da Seção com Título e Subtítulo Animados */}
+      <header className="mb-12 text-center md:mb-16">
+        {/* Badge acima do título */}
+        <div className="border-border bg-surface text-primary mb-3 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 font-mono text-xs backdrop-blur-md">
+          <RiSparklingLine className="h-3.5 w-3.5" />
+          <span>PORTFÓLIO DE PROJETOS SELECIONADOS</span>
+        </div>
+
+        {/* Título animado */}
+        <TitleAnimated>
+          <span className="text-foreground">Projetos & </span>
+          <span className="from-primary via-primary-glow to-accent-purple bg-linear-to-r bg-clip-text text-transparent">
+            Aplicações em Produção
+          </span>
+        </TitleAnimated>
+
+        {/* Subtítulo animado */}
+        <SubTitleAnimated>
+          Uma seleção de aplicações de arquitetura moderna, com código limpo,
+          foco em performance, tipagem rigorosa e uma boa UX.
+        </SubTitleAnimated>
+      </header>
+
+      {/* Grid responsivo com cards de altura natural. */}
+      <div className="grid grid-cols-1 items-start gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {PROJECTS_MOCK.map((project, index) => (
+          <CardProject key={project.id} project={project} index={index} />
+        ))}
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="app/skills/page.tsx">
+import React from "react";
+
+// Componentes de UI e Animação reutilizáveis
+import TitleAnimated from "@/components/animatedComponents/TitleAnimated";
+import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
+
+// Ícones da stack técnica (Simple Icons)
+import {
+  SiNextdotjs,
+  SiReact,
+  SiTypescript,
+  SiTailwindcss,
+  SiShadcnui,
+  SiFramer,
+  SiPrisma,
+  SiPostgresql,
+  SiSqlite,
+  SiNodedotjs,
+  SiGit,
+  SiLinux,
+  SiVercel,
+  SiEslint,
+  SiPrettier,
+  SiNpm,
+  SiZod,
+} from "react-icons/si";
+
+// Ícones semânticos e de apoio (Remix Icon e Tabler Icons)
+import {
+  RiCodeSSlashLine,
+  RiDatabase2Line,
+  RiToolsLine,
+  RiSparklingLine,
+  RiBookOpenLine,
+  RiGraduationCapLine,
+  RiCheckDoubleLine,
+  RiFirebaseFill,
+} from "react-icons/ri";
+import { TbApi } from "react-icons/tb";
+
+/**
+ * ============================================================================
+ * 💡 CONCEITO NEXT.JS (APP ROUTER):
+ * Esta página é um SERVER COMPONENT por padrão.
+ * - É renderizada diretamente no servidor gerando HTML puro e de rápido carregamento.
+ * - Não envia código JavaScript desnecessário para o navegador no carregamento inicial.
+ * - O componente interativo de abas (<Tabs />) gerencia a alternância no lado
+ *   do cliente de forma isolada sem impactar a performance global.
+ * ============================================================================
+ */
+
+// =============================================================
+// TIPAGENS (Interfaces simples e diretas para fácil leitura)
+// =============================================================
+
+// Representa uma tecnologia ou habilidade da stack
+interface Skill {
+  name: string;
+  icon: React.ComponentType<{ className?: string }>;
+  category: string;
+  concepts: string[];
+}
+
+// Representa um item do histórico de formação acadêmica
+interface AcademicDegree {
+  title: string;
+  type: string;
+  institution: string;
+  period: string;
+  description: string;
+  highlights: string[];
+}
+
+// =============================================================
+// DADOS DE CONHECIMENTOS E HABILIDADES
+// =============================================================
+
+// Tecnologias principais exibidas na aba Front-end (Com destaque CORE)
+const CORE_STACK: Skill[] = [
+  {
+    name: "Next.js",
+    icon: SiNextdotjs,
+    category: "Framework",
+    concepts: ["App Router", "RSC", "Server Actions"],
+  },
+  {
+    name: "React",
+    icon: SiReact,
+    category: "Biblioteca",
+    concepts: ["Hooks", "Composição", "Estado"],
+  },
+  {
+    name: "TypeScript",
+    icon: SiTypescript,
+    category: "Linguagem",
+    concepts: ["Strict Mode", "Types", "Genéricos"],
+  },
+  {
+    name: "Tailwind CSS",
+    icon: SiTailwindcss,
+    category: "Estilo",
+    concepts: ["Utility-First", "Mobile-First", "@theme"],
+  },
+  {
+    name: "shadcn/ui",
+    icon: SiShadcnui,
+    category: "UI",
+    concepts: ["Componentes estilizados", "Base UI"],
+  },
+  {
+    name: "Zod",
+    icon: SiZod,
+    category: "Validação",
+    concepts: ["Schemas", "safeParse", "Inferência"],
+  },
+];
+
+// Tecnologias secundárias do Front-end
+const FRONTEND_COMPLEMENTARY: Skill[] = [
+  {
+    name: "Motion",
+    icon: SiFramer,
+    category: "Animação",
+    concepts: ["Variants", "Layout Anim"],
+  },
+];
+
+// Tecnologias do Back-end, Bancos de Dados e Integrações
+const BACKEND_SKILLS: Skill[] = [
+  {
+    name: "Prisma ORM",
+    icon: SiPrisma,
+    category: "ORM",
+    concepts: ["Schema Declarativo", "Type-Safe", "Migrations"],
+  },
+  {
+    name: "PostgreSQL",
+    icon: SiPostgresql,
+    category: "Banco",
+    concepts: ["Relacional", "ACID"],
+  },
+  {
+    name: "Firebase",
+    icon: RiFirebaseFill,
+    category: "Banco",
+    concepts: ["NoSQL", "Firestore"],
+  },
+  {
+    name: "SQLite",
+    icon: SiSqlite,
+    category: "Banco",
+    concepts: ["Embutido", "Prototipagem"],
+  },
+  {
+    name: "Node.js",
+    icon: SiNodedotjs,
+    category: "Runtime",
+    concepts: ["NPM", "APIs"],
+  },
+  {
+    name: "APIs REST",
+    icon: TbApi,
+    category: "Integração",
+    concepts: ["HTTP", "Autenticação", "Fetch/Axios"],
+  },
+];
+
+// Ferramentas de ambiente, qualidade e DevOps
+const TOOLS_SKILLS: Skill[] = [
+  {
+    name: "Git",
+    icon: SiGit,
+    category: "Versionamento",
+    concepts: ["Gitflow", "Code Review"],
+  },
+  {
+    name: "Linux",
+    icon: SiLinux,
+    category: "Sistema",
+    concepts: ["Shell", "Servidores"],
+  },
+  {
+    name: "Vercel",
+    icon: SiVercel,
+    category: "Deploy",
+    concepts: ["CI/CD", "Edge"],
+  },
+  {
+    name: "ESLint",
+    icon: SiEslint,
+    category: "Qualidade",
+    concepts: ["Flat Config", "Regras"],
+  },
+  {
+    name: "Prettier",
+    icon: SiPrettier,
+    category: "Formatação",
+    concepts: ["Padronização"],
+  },
+  {
+    name: "NPM",
+    icon: SiNpm,
+    category: "Pacotes",
+    concepts: ["Scripts", "Dependências"],
+  },
+];
+
+// Histórico acadêmico e especializações
+const ACADEMIC_BACKGROUND: AcademicDegree[] = [
+  {
+    type: "Pós-Graduação / Especialização",
+    title: "Desenvolvimento Web Moderno",
+    institution: "EBAC",
+    period: "2022 — 2023",
+    description:
+      "Aprofundamento na construção de aplicações web escaláveis, com foco no ecossistema React e Next.js. Exploração de estratégias de renderização híbrida, gerenciamento de estado, integração de APIs.",
+    highlights: [
+      "Next.js e Renderização Híbrida (App Router, SSR, SSG e ISR)",
+      "Performance, Acessibilidade e Otimização (Core Web Vitals, Caching e SEO Técnico)",
+      "Integração de APIs, Server Actions e React Server Components",
+    ],
+  },
+  {
+    type: "Graduação",
+    title: "Redes de Computadores",
+    institution: "Uninassau",
+    period: "2017 — 2020",
+    description:
+      "Formação com forte ênfase na administração, sistemas Linux. Arquitetura de redes, Shell Script e gestão de ambientes baseados em sistemas operacionais open source.",
+    highlights: [
+      "Servidores Linux",
+      "Segurança e Gerenciamento de Serviços de Rede (Open Source)",
+      "Shell Scripting",
+    ],
+  },
+];
+
+// Classes CSS reutilizáveis para os gatilhos das abas (TabsTrigger)
+const TAB_TRIGGER_CLASS = cn(
+  "text-foreground-muted h-10 gap-2 rounded-full border-transparent px-3 text-xs font-medium tracking-wide transition-all",
+  "hover:text-foreground",
+  "data-active:bg-primary/15 data-active:text-primary",
+  "dark:data-active:bg-primary/15 dark:data-active:text-primary",
+  "data-active:shadow-[0_0_15px_rgba(56,189,248,0.15)]",
+  "sm:text-sm",
+);
+
+// =============================================================
+// SUBCOMPONENTES AUXILIARES
+// =============================================================
+
+/**
+ * Componente de título reutilizável para cada subseção da página.
+ * Exibe um ícone ao lado de um título estilizado com cor customizável.
+ */
+function SectionHeading({
+  icon: Icon,
+  title,
+  accent = "primary",
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  accent?: "primary" | "magenta";
+}) {
+  return (
+    <div className="mb-4 flex items-center gap-2.5">
+      <Icon
+        aria-hidden="true"
+        className={cn(
+          "h-5 w-5",
+          accent === "primary" ? "text-primary" : "text-accent-magenta",
+        )}
+      />
+      <h2 className="text-foreground text-base font-semibold tracking-tight sm:text-lg">
+        {title}
+      </h2>
+    </div>
+  );
+}
+
+/**
+ * Card reutilizável para renderizar cada tecnologia individual.
+ * Suporta o modo `featured` (destacado) com bordas/glow especiais e badge "CORE".
+ */
+function SkillCard({
+  skill,
+  featured = false,
+}: {
+  skill: Skill;
+  featured?: boolean;
+}) {
+  const Icon = skill.icon;
+
+  return (
+    <Card
+      className={cn(
+        "glass-panel group relative flex h-full flex-col gap-0 overflow-hidden rounded-2xl border border-white/5 p-4 ring-0 transition-all duration-300 hover:-translate-y-0.5",
+        featured
+          ? "border-primary/20 hover:border-border-glow hover:shadow-[0_0_25px_rgba(56,189,248,0.18)]"
+          : "hover:border-border-glow hover:shadow-[0_0_20px_rgba(56,189,248,0.12)]",
+      )}
+    >
+      {/* Cabeçalho do Card: Ícone + Nome + Categoria */}
+      <div className="flex items-start gap-3">
+        <div
+          className={cn(
+            "bg-surface-active border-border flex shrink-0 items-center justify-center rounded-xl border shadow-inner transition-colors duration-300",
+            featured
+              ? "text-primary group-hover:bg-primary/10 h-10 w-10"
+              : "text-accent-purple group-hover:bg-accent-purple/10 h-9 w-9",
+          )}
+        >
+          <Icon
+            aria-hidden="true"
+            className={featured ? "h-5 w-5" : "h-4 w-4"}
+          />
+        </div>
+
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-1.5">
+            <h3
+              className={cn(
+                "text-foreground truncate font-semibold tracking-tight",
+                featured ? "text-sm sm:text-base" : "text-sm",
+              )}
+            >
+              {skill.name}
+            </h3>
+            {featured && (
+              <Badge
+                variant="outline"
+                className="border-primary/30 bg-primary/10 text-primary h-4 rounded-full px-1.5 text-[9px] font-medium tracking-wider"
+              >
+                CORE
+              </Badge>
+            )}
+          </div>
+          <span className="text-foreground-subtle font-mono text-[10px] tracking-wider uppercase">
+            {skill.category}
+          </span>
+        </div>
+      </div>
+
+      {/* Lista de pills/tags com conceitos chave da tecnologia */}
+      <div className="mt-3 flex flex-wrap gap-1">
+        {skill.concepts.map((concept) => (
+          <span
+            key={concept}
+            className="text-foreground-muted hover:text-primary hover:border-primary/30 inline-flex items-center rounded-md border border-white/10 bg-white/5 px-2 py-0.5 font-mono text-[10px] transition-colors"
+          >
+            {concept}
+          </span>
+        ))}
+      </div>
+    </Card>
+  );
+}
+
+// =============================================================
+// COMPONENTE PRINCIPAL DA PÁGINA (/skills)
+// =============================================================
+
+export default function SkillsPage() {
+  return (
+    <section
+      aria-label="Habilidades e Stack Técnica"
+      className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-12 sm:px-6 md:py-16"
+    >
+      {/* ── CABEÇALHO DA PÁGINA ──────────────────────────────── */}
+      <header className="mb-12 text-center md:mb-16">
+        <div className="border-border bg-surface text-primary mb-3 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 font-mono text-xs backdrop-blur-md">
+          <RiBookOpenLine aria-hidden="true" className="h-3.5 w-3.5" />
+          <span>HABILIDADES & TECNOLOGIAS</span>
+        </div>
+
+        <TitleAnimated>
+          <span className="text-foreground">Formação & </span>
+          <span className="from-primary via-primary-glow to-accent-purple bg-linear-to-r bg-clip-text text-transparent">
+            Conhecimento Técnico
+          </span>
+        </TitleAnimated>
+
+        <SubTitleAnimated>
+          Uma visão organizada das tecnologias que uso no dia a dia, divididas
+          por área de atuação.
+        </SubTitleAnimated>
+      </header>
+
+      {/* ── SEÇÃO DE ABAS (SKILLS) ───────────────────────────── */}
+      <div className="mb-16">
+        <Tabs defaultValue="frontend" className="w-full gap-8">
+          {/* Navegador das abas */}
+          <TabsList
+            className={cn(
+              "glass-panel mx-auto flex w-full max-w-md items-center justify-center gap-1 rounded-full border p-1.5 group-data-horizontal/tabs:h-auto",
+            )}
+          >
+            <TabsTrigger value="frontend" className={TAB_TRIGGER_CLASS}>
+              <RiCodeSSlashLine aria-hidden="true" className="size-3.5" />
+              <span>Front-end</span>
+            </TabsTrigger>
+            <TabsTrigger value="backend" className={TAB_TRIGGER_CLASS}>
+              <RiDatabase2Line aria-hidden="true" className="size-3.5" />
+              <span>Back-end</span>
+            </TabsTrigger>
+            <TabsTrigger value="tools" className={TAB_TRIGGER_CLASS}>
+              <RiToolsLine aria-hidden="true" className="size-3.5" />
+              <span>Ferramentas</span>
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Conteúdo Aba Front-end */}
+          <TabsContent value="frontend" className="space-y-10">
+            <div>
+              <SectionHeading
+                icon={RiSparklingLine}
+                title="Core Stack"
+                accent="primary"
+              />
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {CORE_STACK.map((skill) => (
+                  <SkillCard key={skill.name} skill={skill} featured />
+                ))}
+              </div>
+            </div>
+
+            <Separator className="bg-white/5" />
+
+            <div>
+              <SectionHeading
+                icon={RiCodeSSlashLine}
+                title="Tecnologias Complementares"
+                accent="magenta"
+              />
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {FRONTEND_COMPLEMENTARY.map((skill) => (
+                  <SkillCard key={skill.name} skill={skill} />
+                ))}
+              </div>
+            </div>
+          </TabsContent>
+
+          {/* Conteúdo Aba Back-end */}
+          <TabsContent value="backend">
+            <SectionHeading
+              icon={RiDatabase2Line}
+              title="Back-end, Dados & Integração"
+              accent="primary"
+            />
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {BACKEND_SKILLS.map((skill) => (
+                <SkillCard key={skill.name} skill={skill} />
+              ))}
+            </div>
+          </TabsContent>
+
+          {/* Conteúdo Aba Ferramentas */}
+          <TabsContent value="tools">
+            <SectionHeading
+              icon={RiToolsLine}
+              title="Ferramentas, Ambiente & DevOps"
+              accent="magenta"
+            />
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {TOOLS_SKILLS.map((skill) => (
+                <SkillCard key={skill.name} skill={skill} />
+              ))}
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+
+      {/* ── SEÇÃO FORMAÇÃO ACADÊMICA ─────────────────────────── */}
+      <div>
+        <SectionHeading
+          icon={RiGraduationCapLine}
+          title="Formação Acadêmica & Especializações"
+          accent="primary"
+        />
+
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {ACADEMIC_BACKGROUND.map((degree) => (
+            <article
+              key={degree.title}
+              className="glass-panel group hover:border-border-glow relative flex flex-col justify-between rounded-2xl p-6 transition-all duration-300 hover:shadow-[0_0_25px_rgba(56,189,248,0.15)]"
+            >
+              <div>
+                <div className="mb-3 flex items-center justify-between gap-2">
+                  <span className="bg-primary/10 border-primary/20 text-primary rounded-full border px-3 py-1 text-xs font-medium">
+                    {degree.type}
+                  </span>
+                  <span className="text-foreground-subtle font-mono text-xs">
+                    {degree.period}
+                  </span>
+                </div>
+
+                <h3 className="text-foreground text-lg font-semibold tracking-tight">
+                  {degree.title}
+                </h3>
+                <h4 className="text-accent-magenta mb-3 text-sm font-medium">
+                  {degree.institution}
+                </h4>
+
+                <p className="text-foreground-muted text-xs leading-relaxed sm:text-sm">
+                  {degree.description}
+                </p>
+              </div>
+
+              <div className="border-border mt-6 border-t pt-4">
+                <span className="text-foreground-subtle mb-2 block font-mono text-[11px] tracking-wider uppercase">
+                  Destaques da Formação:
+                </span>
+                <ul className="space-y-1.5">
+                  {degree.highlights.map((item) => (
+                    <li
+                      key={item}
+                      className="text-foreground-muted flex items-center gap-2 text-xs"
+                    >
+                      <RiCheckDoubleLine
+                        aria-hidden="true"
+                        className="text-primary h-3.5 w-3.5 shrink-0"
+                      />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="app/globals.css">
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* =========================================================
+   TEMA: "Cosmic Void"
+   Paleta espacial inspirada em nebulosas, estrelas distantes
+   e poeira cósmica. Este arquivo modifica APENAS cores,
+   gradientes de fundo e tokens do design system.
+   Toda a camada de animação (blackhole-spin, partículas em
+   body::before/after, media queries de movimento) permanece
+   inalterada.
+   ========================================================= */
+
+@theme {
+  /* ── VOID CÓSMICO ─────────────────────────────────────── */
+  /* Preto profundo com leve tom violeta — o "nada" do espaço. */
+  --color-background: #050014;
+
+  /* Superfícies: vidro estelar translúcido com tinta violeta.
+     Mantém transparência para o efeito glassmorphism continuar
+     funcionando com o blur. */
+  --color-surface: rgba(18, 14, 42, 0.72);
+  --color-surface-hover: rgba(28, 22, 58, 0.85);
+  --color-surface-active: rgba(40, 32, 80, 0.92);
+
+  /* Bordas: poeira cósmica azulada — quase imperceptível,
+     presente o suficiente para dar contorno. */
+  --color-border: rgba(150, 165, 240, 0.13);
+  --color-border-glow: rgba(140, 180, 255, 0.55);
+
+  /* ── ACENTOS ESTELARES ───────────────────────────────── */
+  /* Três temperaturas cósmicas:
+     primary  → azul-ciano estelar (luz de estrela classe A)
+     glow     → azul-violeta etéreo (halo estelar)
+     purple   → violeta de nebulosa (gás interestelar)
+     magenta  → rosa de supernova (explosão cósmica) */
+  --color-primary: #7dd3fc;
+  --color-primary-glow: #a5b4fc;
+  --color-accent-purple: #a78bfa;
+  --color-accent-magenta: #e879f9;
+
+  /* ── TIPOGRAFIA ──────────────────────────────────────── */
+  /* Branco com leve tom azulado — a cor da luz estelar
+     filtrada pela atmosfera. */
+  --color-foreground: #eef2ff;
+  --color-foreground-muted: #a8b0d0;
+  --color-foreground-subtle: #6d7594;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+/*
+ * Variáveis CSS mantidas para compatibilidade com classes
+ * utilitárias e estilos inline. As que referenciam
+ * `var(--color-*)` são atualizadas automaticamente.
+ */
+:root {
+  --surface: var(--color-surface);
+  --surface-hover: var(--color-surface-hover);
+  --surface-active: var(--color-surface-active);
+  --border: oklch(0.922 0 0);
+  --border-glow: var(--color-border-glow);
+
+  --primary: oklch(0.205 0 0);
+  --primary-glow: var(--color-primary-glow);
+  --accent-purple: var(--color-accent-purple);
+  --accent-magenta: var(--color-accent-magenta);
+  --foreground-muted: var(--color-foreground-muted);
+  --foreground-subtle: var(--color-foreground-subtle);
+
+  color-scheme: dark;
+
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+/* =========================================================
+   BACKGROUND BASE — Void cósmico
+   ========================================================= */
+
+html {
+  /* Cor sólida de fallback — o "escuro absoluto" do espaço. */
+  min-height: 100%;
+  background-color: #03000a;
+
+  /* Nota de arquitetura:
+     O gradiente radial que antes vivia aqui foi movido para um
+     <div> fixo no layout.tsx. Motivo: com
+     `background-attachment: fixed`, o browser repintava o
+     gradiente a cada frame de scroll, porque o `html` cresce
+     com o documento. Movendo para um <div> com `position:
+     fixed`, o browser trata como camada isolada e o repaint
+     durante a rolagem cai para zero. */
+
+  /* Impede bounce/pull-to-refresh quando suportado. */
+  overscroll-behavior-y: none;
+}
+
+/* =========================================================
+   BODY
+   ========================================================= */
+body {
+  margin: 0;
+  /* Fallback amplo para navegadores antigos. svh fornece uma altura estável em mobile. */
+  min-height: 100vh;
+  min-height: 100svh;
+  position: relative;
+  /* O fundo real está no html. */
+  background-color: transparent;
+  /* Evita overflow horizontal causado pelas transformações das camadas animadas. */
+  overflow-x: hidden;
+  /* Mantém os pseudo-elementos com z-index negativo dentro do contexto do body. */
+  isolation: isolate;
+}
+
+/* =========================================================
+   CAMADAS DO BACKGROUND ANIMADO
+   ========================================================= */
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+
+  /* Área do pseudo-elemento: reduzida de -25vmax para -15vmax.
+     Como o efeito "vem de fora para dentro" (scale 4 → 0.05),
+     -15vmax ainda é suficiente para cobrir a viewport durante
+     toda a animação, mas reduz a alocação de buffer na GPU. */
+  inset: -15vmax;
+  pointer-events: none;
+
+  /* Mantém as partículas atrás do conteúdo. */
+  z-index: -1;
+  transform-origin: center;
+
+  /* `contain: strict` diz ao browser que este elemento é
+     completamente isolado do resto da página — não afeta
+     tamanho, layout, estilo ou pintura externa. Como é
+     decorativo e não tem filhos, é seguro isolar 100%. O
+     compositor usa isso para otimizar o pipeline. */
+  contain: strict;
+
+  /* Promove a camada antes do primeiro frame de animação,
+     evitando um "promote on first paint" que causa micro-jank
+     no início do ciclo. */
+  will-change: transform, opacity;
+
+  /* Os gradientes são repetidos para criar o campo de partículas. */
+  background-repeat: repeat;
+
+  background-image:
+    radial-gradient(
+      circle at 15% 45%,
+      rgba(255, 200, 220, 0.8) 0,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 60% 15%,
+      rgba(255, 255, 255, 0.9) 0,
+      transparent 1.5px
+    ),
+    radial-gradient(
+      circle at 85% 75%,
+      rgba(200, 180, 255, 0.8) 0,
+      transparent 2px
+    );
+
+  background-size:
+    16vmax 16vmax,
+    24vmax 24vmax,
+    20vmax 20vmax;
+}
+
+/*  Primeira camada. */
+body::before {
+  animation: blackhole-spin 16s linear infinite;
+}
+
+/* Segunda camada, defasada em metade do ciclo. */
+body::after {
+  animation: blackhole-spin 16s linear infinite;
+  animation-delay: -8s;
+}
+
+/* =========================================================
+   ANIMAÇÃO — INALTERADO
+   ========================================================= */
+@keyframes blackhole-spin {
+  0% {
+    transform: scale(4) rotate(30deg);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.05) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+/* =========================================================
+   REDUÇÃO DE MOVIMENTO — INALTERADO
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none;
+    transform: none;
+    opacity: 0.35;
+  }
+}
+
+/* =========================================================
+   GLASSMORPHISM — blur base em desktop
+   ========================================================= */
+
+.glass-panel {
+  background-color: var(--surface);
+
+  /* Blur reduzido de 16px para 12px: visualmente quase
+     idêntico, mas o custo do blur gaussiano cai
+     consideravelmente em muitos engines. */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid var(--border);
+}
+
+/* =========================================================
+   OTIMIZAÇÃO TABLET — blur intermediário
+   ========================================================= */
+/* Tablets e notebooks pequenos ganham blur um degrau menor:
+   mantém a sensação de vidro mas reduz o custo de paint em
+   telas médias, onde a GPU costuma ser mais modesta. */
+
+@media (max-width: 1024px) {
+  .glass-panel {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}
+
+/* =========================================================
+   OTIMIZAÇÃO MOBILE
+   ========================================================= */
+@media (max-width: 768px) {
+  /*
+   * Remove a segunda camada no mobile.
+   *
+   * Isso reduz pela metade a quantidade de superfícies
+   * animadas, sem eliminar completamente o efeito.
+   */
+  body::after {
+    display: none;
+  }
+
+  /*
+   * Apenas dois gradients no mobile.
+   *
+   * O terceiro é removido para reduzir o trabalho
+   * de pintura sem comprometer o efeito visual.
+   */
+  body::before {
+    background-image:
+      radial-gradient(
+        circle at 15% 45%,
+        rgba(255, 200, 220, 0.75) 0,
+        transparent 2px
+      ),
+      radial-gradient(
+        circle at 75% 25%,
+        rgba(220, 210, 255, 0.8) 0,
+        transparent 1.5px
+      );
+
+    background-size:
+      20vmax 20vmax,
+      28vmax 28vmax;
+
+    /*
+     * Movimento um pouco mais suave visualmente
+     * no celular.
+     */
+    animation-duration: 18s;
+  }
+
+  /*
+   * Blur menor no mobile.
+   *
+   * backdrop-filter pode ser uma operação relativamente
+   * cara em GPUs de celular, então o raio é reduzido
+   * para 8px — o mínimo que ainda preserva a leitura
+   * como "vidro" sem custo excessivo.
+   */
+  .glass-panel {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+/* =========================================================
+   SCROLLBAR — INALTERADO
+   ========================================================= */
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* =========================================================
+   DARK MODE — Tokens shadcn alinhados ao tema Cosmic Void
+   ========================================================= */
+.dark {
+  /* Fundo e primeiro plano com leve matiz violeta/azulada */
+  --background: oklch(0.08 0.035 285);
+  --foreground: oklch(0.96 0.012 260);
+
+  /* Cards e popovers: um degrau acima do void, ainda translúcidos */
+  --card: oklch(0.14 0.04 280);
+  --card-foreground: oklch(0.96 0.012 260);
+  --popover: oklch(0.14 0.04 280);
+  --popover-foreground: oklch(0.96 0.012 260);
+
+  /* Primary: azul estelar (aproxima #7dd3fc em oklch) */
+  --primary: oklch(0.82 0.11 220);
+  --primary-foreground: oklch(0.08 0.035 285);
+
+  /* Secundário e muted: superfícies intermediárias com tom violeta */
+  --secondary: oklch(0.2 0.04 280);
+  --secondary-foreground: oklch(0.96 0.012 260);
+  --muted: oklch(0.2 0.04 280);
+  --muted-foreground: oklch(0.7 0.04 265);
+  --accent: oklch(0.2 0.04 280);
+  --accent-foreground: oklch(0.96 0.012 260);
+
+  /* Destrutivo mantido (vermelho) — contraste com a paleta fria */
+  --destructive: oklch(0.704 0.191 22.216);
+
+  /* Bordas e inputs em poeira cósmica (baixa opacidade, azulado) */
+  --border: oklch(0.85 0.06 260 / 12%);
+  --input: oklch(0.85 0.06 260 / 15%);
+  --ring: oklch(0.6 0.08 260);
+
+  /* Charts: uma jornada de temperatura cósmica */
+  --chart-1: oklch(0.8 0.15 220); /* estelar azul */
+  --chart-2: oklch(0.72 0.16 285); /* nebulosa violeta */
+  --chart-3: oklch(0.75 0.19 315); /* supernova rosa */
+  --chart-4: oklch(0.65 0.12 240); /* espaço profundo */
+  --chart-5: oklch(0.55 0.1 270); /* poeira interestelar */
+
+  /* Sidebar: espelha o void com tinta violeta */
+  --sidebar: oklch(0.12 0.035 280);
+  --sidebar-foreground: oklch(0.96 0.012 260);
+  --sidebar-primary: oklch(0.82 0.11 220);
+  --sidebar-primary-foreground: oklch(0.08 0.035 285);
+  --sidebar-accent: oklch(0.2 0.04 280);
+  --sidebar-accent-foreground: oklch(0.96 0.012 260);
+  --sidebar-border: oklch(0.85 0.06 260 / 12%);
+  --sidebar-ring: oklch(0.6 0.08 260);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+/* Oculta a barra de rolagem mantendo a funcionalidade de scroll */
+@layer utilities {
+  /* Utilitário para ocultar scrollbar em qualquer container */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE e Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+/* Oculta a barra de rolagem vertical padrão em telas menores (mobile) */
+@media (max-width: 768px) {
+  html,
+  body {
+    -ms-overflow-style: none; /* IE e Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari e Opera */
+  }
+}
+</file>
+
+<file path="app/layout.tsx">
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import BottomSheetNav from "@/components/navigation/BottomSheetNav";
+import "./globals.css";
+import type { Viewport } from "next";
+
+export const viewport: Viewport = {
+  themeColor: "#08090d",
+  colorScheme: "dark",
+};
+
+/**
+ * @Responsabilidade: Prover a casca estrutural global da aplicação (Root Layout), carregando fontes tipográficas, estilização base, camadas de iluminação de fundo e a barra de navegação persistente.
+ * @Fluxo: Injeta variáveis de fonte no elemento html -> Renderiza luzes ambientais de fundo -> Provê área central para páginas filhas -> Renderiza navegação global BottomSheetNav.
+ * @Entradas: children (React.ReactNode contendo o template e a página da rota atual).
+ * @Saídas: Estrutura HTML/Body completa com Server Component First, sem remontagem do menu ao navegar.
+ * @Dependencias: next/font/google (Geist, Geist_Mono), BottomSheetNav (@/components/navigation/BottomSheetNav), globals.css.
+ * @Regras_de_negocio: O layout é estritamente um Server Component; a navegação deve persistir sem re-renderizações desnecessárias e o conteúdo principal deve possuir espaçamento inferior para não ser coberto pelo dock.
+ * @Limitacoes: Não manipula estados locais diretamente (responsabilidade delegada aos Client Components isolados).
+ * @Edge_cases: Telas de alta densidade de pixels ou ultrawide são limitadas com max-w e centralização para preservar a ergonomia visual.
+ * @Arquivos_relacionados: src/components/navigation/BottomSheetNav.tsx, src/app/template.tsx, src/app/globals.css.
+ */
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "Jairo | Desenvolvedor Next.js",
+  description:
+    "Portfólio de desenvolvimento de software moderno focado em alta performance, Next.js, React, TypeScript, Tailwind CSS e arquitetura SaaS.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html
+      lang="pt-BR"
+      className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
+    >
+      <body className="bg-background text-foreground selection:bg-primary/25 selection:text-primary relative flex min-h-full flex-col overflow-x-hidden font-sans">
+        {/* ─────────────────────────────────────────────────────────
+      Véu cósmico — gradiente radial fixo atrás de tudo.
+      Substitui o background-image que antes vivia no html
+      com background-attachment: fixed (que repintava a cada
+      frame de scroll). Fixo por viewport + z-index negativo
+      = camada isolada, zero repaint durante a rolagem.
+      ───────────────────────────────────────────────────────── */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_100%_80%_at_50%_30%,#1e0b4a_0%,#0d0326_50%,#03000a_100%)]"
+        />
+
+        {/* Camada de Iluminação Ambiente (Glow Effects sutis em background) */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+        >
+          {/* Luz superior ciano / azul */}
+          <div className="bg-primary/10 absolute -top-40 left-1/2 h-125 w-125 -translate-x-1/2 rounded-full blur-[130px] sm:h-150 sm:w-150" />
+          {/* Luz secundária magenta sutil no rodapé */}
+          <div className="bg-accent-magenta/10 absolute right-10 -bottom-40 h-100 w-100 rounded-full blur-[140px]" />
+        </div>
+
+        {/* Container Principal com espaçamento inferior de compensação do Bottom Sheet */}
+        <main className="relative z-10 flex flex-1 flex-col pb-24 md:pb-28">
+          {children}
+        </main>
+
+        {/* Barra de Navegação Persistente */}
+        <BottomSheetNav />
+      </body>
+    </html>
+  );
+}
+</file>
+
+<file path="app/page.tsx">
+// src/app/page.tsx
+import Link from "next/link";
+import {
+  RiWhatsappFill,
+  RiGithubFill,
+  RiLinkedinBoxFill,
+  RiArrowRightUpLine,
+  RiMapPinLine,
+  RiCodeSSlashLine,
+  RiRocketLine,
+} from "react-icons/ri";
+import TitleAnimated from "@/components/animatedComponents/TitleAnimated";
+import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
+import { Button } from "@/components/ui/button";
+
+/**
+ * @Responsabilidade: Apresentar a porta de entrada do portfólio (Hero Section), destacando identidade profissional, especialidades técnicas, canais diretos de contato e um snippet de código estilizado como editor.
+ * @Fluxo: Renderiza como Server Component -> Badge de status ativo -> TitleAnimated (título principal) -> SubTitleAnimated (especialidade) -> Linha de quick info com localização, foco e stack -> Snippet de código com chrome de janela e numeração de linhas -> Grupo de botões de contato (WhatsApp, GitHub, LinkedIn).
+ * @Entradas: N/A (Server Component de rota raiz "/").
+ * @Saídas: Interface centralizada, responsiva e compacta, com microinterações via Tailwind e animações delegadas aos componentes folha.
+ * @Dependencias: react, next/link, react-icons/ri, TitleAnimated (@/components/animatedComponents/TitleAnimated), SubTitleAnimated (@/components/animatedComponents/SubTitleAnimated).
+ * @Regras_de_negocio: Área de toque dos botões deve respeitar no mínimo 44px de altura (h-12); links externos com atributos de segurança rel="noopener noreferrer"; layout mobile-first; identidade visual (Glassmorphism + dark + cyan/roxo/magenta) preservada.
+ * @Limitacoes: Renderiza estaticamente no servidor; animações interativas complexas são delegadas aos componentes folha em animatedComponents.
+ * @Edge_cases: Em telas pequenas os botões empilham verticalmente; chips de quick info quebram linha naturalmente via flex-wrap; snippets longos quebram palavra dentro do bloco com overflow controlado.
+ * @Arquivos_relacionados: src/components/animatedComponents/TitleAnimated.tsx, src/components/animatedComponents/SubTitleAnimated.tsx, src/app/globals.css, src/app/layout.tsx.
+ */
+
+// Lista estática das principais tecnologias.
+// Fica fora do componente para não recriar o array a cada render (mesmo em Server Component,
+// essa organização facilita leitura e futura extração para CMS/API).
+const STACK_HIGHLIGHTS = [
+  "Next.js",
+  "React",
+  "TypeScript",
+  "Tailwind v4",
+  "Prisma",
+] as const;
+
+export default function Home() {
+  return (
+    <section
+      // Referência de acessibilidade: o título principal define o nome da seção.
+      aria-labelledby="hero-title"
+      // Centraliza vertical e horizontalmente, limita a largura e usa padding enxuto.
+      className="mx-auto flex min-h-svh w-full max-w-4xl flex-1 flex-col items-center justify-center px-8 py-10 text-center sm:px-6 md:py-14"
+    >
+      {/* ============================================================
+          BLOCO 1 — Badge de status "Disponível para novos projetos"
+          ============================================================ */}
+      {/* Chip de status com indicador pulsante. Comunica disponibilidade
+          antes de qualquer outro conteúdo — é a primeira coisa que o olho pega. */}
+      <div className="border-border bg-surface text-foreground-muted mb-5 inline-flex items-center gap-2.5 rounded-full border px-4 py-1.5 font-mono text-xs tracking-wide shadow-lg shadow-black/40 backdrop-blur-md">
+        {/* Ponto duplo: um com animate-ping (efeito sonar) e outro sólido por cima. */}
+        <span className="relative flex h-2 w-2" aria-hidden="true">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+        </span>
+        <span className="select-none">DISPONÍVEL PARA NOVOS PROJETOS</span>
+      </div>
+
+      {/* ============================================================
+          BLOCO 2 — Título principal
+          ============================================================ */}
+      {/* Título com animação isolada em Client Component (TitleAnimated).
+          Mantém-se dentro de uma div com margem controlada para
+          respeitar o espaçamento global do hero. */}
+      <div className="mb-4">
+        <TitleAnimated>
+          <span className="text-foreground">Oi, eu sou </span>
+          {/* Texto com gradiente via bg-clip-text — herda a paleta cyan → roxo. */}
+          <span className="from-primary via-primary-glow to-accent-purple bg-linear-to-r bg-clip-text text-transparent">
+            Jairo Lopes
+          </span>
+        </TitleAnimated>
+      </div>
+
+      {/* ============================================================
+          BLOCO 3 — Subtítulo de especialidade
+          ============================================================ */}
+      {/* Subtítulo com animação de blur (SubTitleAnimated). Aplica-se
+          destaque apenas às tecnologias centrais para não competir
+          com o título principal. */}
+      <SubTitleAnimated>
+        <strong className="text-foreground font-semibold">
+          Desenvolvedor Web,
+        </strong>{" "}
+        focado na criação de aplicações web de alto desempenho, arquiteturas
+        modernas com <span className="text-primary font-medium">Next.js</span>,
+        ecossistema{" "}
+        <span className="text-accent-purple font-medium">React</span>,{" "}
+        <span className="text-accent-magenta font-medium">TypeScript</span> e
+        produtos SaaS escaláveis.
+      </SubTitleAnimated>
+
+      {/* ============================================================
+          BLOCO 4 — Quick info (localização · foco · stack)
+          ============================================================ */}
+      {/* Linha enxuta de "credenciais rápidas" — cada item é um chip textual
+          com ícone à esquerda. Ficam num flex-wrap para quebrar
+          elegantemente em telas estreitas. */}
+      <div className="text-foreground-subtle mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs">
+        {/* Item 1: localização / modelo de trabalho */}
+        <span className="inline-flex items-center gap-1.5">
+          <RiMapPinLine className="text-primary h-3.5 w-3.5" />
+          Brasil
+        </span>
+
+        {/* Separador visual entre itens (apenas decorativo). */}
+        <span
+          className="bg-border hidden h-3 w-px sm:inline-block"
+          aria-hidden="true"
+        />
+
+        {/* Item 2: tipo de atuação profissional */}
+        <span className="inline-flex items-center gap-1.5">
+          <RiCodeSSlashLine className="text-accent-purple h-3.5 w-3.5" />
+          React
+        </span>
+
+        {/* Separador visual entre itens (apenas decorativo). */}
+        <span
+          className="bg-border hidden h-3 w-px sm:inline-block"
+          aria-hidden="true"
+        />
+
+        {/* Item 3: foco principal de mercado */}
+        <span className="inline-flex items-center gap-1.5">
+          <RiRocketLine className="text-accent-magenta h-3.5 w-3.5" />
+          Responsividade
+        </span>
+      </div>
+
+      {/* ============================================================
+          BLOCO 5 — Snippet de código estilizado como editor
+          ============================================================ */}
+      {/* Simula uma janela de editor com chrome (dots + filename + badge de
+          linguagem) e um corpo com numeração de linhas. Reforça a identidade
+          "software developer" sem depender de imagens externas. */}
+      <div className="mt-8 mb-8 w-full max-w-md">
+        <div className="glass-panel overflow-hidden rounded-xl text-left shadow-xl">
+          {/* Chrome da janela: dots coloridos, nome do arquivo e badge de linguagem */}
+          <div className="border-border flex items-center justify-between border-b px-3 py-2">
+            {/* Lado esquerdo: dots estilo macOS + nome do arquivo em monospace */}
+            <div className="flex items-center gap-1.5">
+              <span
+                className="h-2 w-2 rounded-full bg-rose-500/80"
+                aria-hidden="true"
+              />
+              <span
+                className="h-2 w-2 rounded-full bg-amber-500/80"
+                aria-hidden="true"
+              />
+              <span
+                className="h-2 w-2 rounded-full bg-emerald-500/80"
+                aria-hidden="true"
+              />
+              <span className="text-foreground-subtle ml-2 font-mono text-[11px] tracking-wider">
+                jairo_profile.tsx
+              </span>
+            </div>
+
+            {/* Lado direito: badge de linguagem sutil */}
+            <span className="text-primary border-primary/20 bg-primary/10 rounded-md border px-1.5 py-0.5 font-mono text-[10px] tracking-wider">
+              TS
+            </span>
+          </div>
+
+          {/* Corpo do código com numeração de linhas em grid.
+              Cada linha é composta por dois spans: o número (coluna esquerda)
+              e o conteúdo de código (coluna direita). */}
+          <div className="text-foreground-muted grid grid-cols-[1.5rem_1fr] gap-x-3 px-3 py-3 font-mono text-xs leading-relaxed">
+            {/* Linha 1 — abertura do objeto */}
+            <span className="text-foreground-subtle/50 select-none">1</span>
+            <span>
+              <span className="text-accent-magenta">const</span>{" "}
+              <span className="text-primary">developer</span> = &#123;
+            </span>
+
+            {/* Linha 2 — campo role */}
+            <span className="text-foreground-subtle/50 select-none">2</span>
+            <span>
+              &nbsp;&nbsp;role:{" "}
+              <span className="text-emerald-400">
+                &quot;Desenvolvedor Next.js&quot;
+              </span>
+              ,
+            </span>
+
+            {/* Linha 3 — array de stack, iterando STACK_HIGHLIGHTS.
+                Uso de map para não repetir spans manualmente. */}
+            <span className="text-foreground-subtle/50 select-none">3</span>
+            <span>
+              &nbsp;&nbsp;stack: [
+              {STACK_HIGHLIGHTS.map((tech, i) => (
+                <span key={tech}>
+                  <span className="text-emerald-400">&quot;{tech}&quot;</span>
+                  {/* Adiciona vírgula após cada item, exceto o último. */}
+                  {i < STACK_HIGHLIGHTS.length - 1 ? ", " : ""}
+                </span>
+              ))}
+              ]
+            </span>
+
+            {/* Linha 4 — fechamento do objeto */}
+            <span className="text-foreground-subtle/50 select-none">4</span>
+            <span>&#125;;</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Container dos botoes */}
+      <div className="mt-2 flex flex-row items-center justify-center gap-2 sm:gap-3">
+        {/* ── WhatsApp */}
+        <Button
+          nativeButton={false}
+          size="lg"
+          className="from-primary to-primary-glow group border-primary/30 shadow-primary/25 hover:border-primary/60 hover:shadow-primary/40 h-11 gap-2 rounded-xl border bg-linear-to-r px-4 text-sm font-semibold text-slate-950 shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg sm:px-5"
+          render={
+            <Link
+              href="https://wa.me/5581997052877?text=Olá%20Jairo,%20encontrei%20seu%20portfólio%20e%20gostaria%20de%20conversar."
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+          }
+        >
+          <RiWhatsappFill className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+          <span className="whitespace-nowrap">WhatsApp</span>
+        </Button>
+
+        {/* ── GitHub — quick action neutra (glass escuro) ─────────── */}
+        <Button
+          nativeButton={false}
+          size="lg"
+          variant="ghost"
+          aria-label="Perfil do GitHub"
+          className="glass-panel text-foreground-muted hover:text-foreground group hover:border-border-glow hover:bg-surface-hover h-11 gap-2 rounded-xl px-3 text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 sm:px-4"
+          render={
+            <Link
+              href="https://github.com/JairoLopes"
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+          }
+        >
+          <RiGithubFill className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+          <span className="hidden whitespace-nowrap sm:inline">GitHub</span>
+        </Button>
+
+        {/* ── LinkedIn — quick action azul corporativo ────────────── */}
+        <Button
+          nativeButton={false}
+          size="lg"
+          variant="ghost"
+          aria-label="Perfil do LinkedIn"
+          className="glass-panel text-foreground-muted hover:text-foreground group hover:border-border-glow hover:bg-surface-hover h-11 gap-2 rounded-xl px-3 text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 sm:px-4"
+          render={
+            <Link
+              href="https://www.linkedin.com/in/jairo-lopes-filho/"
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+          }
+        >
+          <RiLinkedinBoxFill className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+          <span className="hidden whitespace-nowrap sm:inline">LinkedIn</span>
+        </Button>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="app/template.tsx">
+"use client";
+
+/**
+ * @Responsabilidade: Orquestrar transições direcionais animadas (slide horizontal suave) entre rotas durante a navegação no Next.js App Router.
+ * @Fluxo: Captura pathname atual -> Calcula delta vetorial comparando índice atual com índice anterior -> Define direção no eixo X -> Renderiza container animado com Motion sem provocar 'blink' visual.
+ * @Entradas: children (React.ReactNode representando a página da rota atual).
+ * @Saídas: Container animado (motion.div) com entrada direcional fluida.
+ * @Dependencias: react (useEffect, useState), next/navigation (usePathname), motion/react (motion).
+ */
+
+import React, { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { motion } from "motion/react";
+
+// Mapeamento linear de pesos de rota para computação vetorial
+const ROUTE_INDEX_MAP: Record<string, number> = {
+  "/": 0,
+  "/job": 1,
+  "/skills": 1,
+  "/projects": 2,
+  "/history": 3,
+};
+
+// Registrador do índice da rota anterior no ciclo de navegação SPA
+let globalLastRouteIndex = 0;
+
+export default function Template({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  const pathname = usePathname();
+  const currentRouteIndex = ROUTE_INDEX_MAP[pathname] ?? 0;
+
+  // Lógica Matemática de Direção:
+  // Se currentRouteIndex >= globalLastRouteIndex, o usuário está avançando (direção +1: entra da direita).
+  // Se currentRouteIndex < globalLastRouteIndex, o usuário está retrocedendo (direção -1: entra da esquerda).
+  const [slideDirection] = useState<number>(() => {
+    const delta = currentRouteIndex - globalLastRouteIndex;
+    return delta >= 0 ? 1 : -1;
+  });
+
+  // Atualiza o índice global após o registro da transição
+  useEffect(() => {
+    globalLastRouteIndex = currentRouteIndex;
+  }, [currentRouteIndex]);
+
+  return (
+    <motion.div
+      initial={{
+        opacity: 0.9,
+        x: slideDirection * 28,
+      }}
+      animate={{
+        opacity: 1,
+        x: 0,
+      }}
+      transition={{
+        duration: 0.2,
+        ease: "easeOut",
+      }}
+      className="flex flex-1 flex-col"
+    >
+      {children}
+    </motion.div>
+  );
+}
+</file>
+
+<file path="components/animatedComponents/SubTitleAnimated.tsx">
+"use client";
+
+import { motion } from "motion/react";
+import { blurIn } from "@/components/animatedComponents/variants";
+
+type Props = {
+  children: React.ReactNode;
+  className?: string;
+};
+
+export default function SubTitleAnimated({ children, className = "" }: Props) {
+  return (
+    <motion.p
+      className={`text-foreground-muted mx-auto mt-4 max-w-2xl text-sm leading-relaxed sm:text-base ${className}`.trim()}
+      variants={blurIn}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+    >
+      {children}
+    </motion.p>
+  );
+}
+</file>
+
+<file path="components/animatedComponents/TitleAnimated.tsx">
+"use client";
+import { motion } from "motion/react";
+import { fadeUp } from "@/components/animatedComponents/variants";
+
+type Props = {
+  children: React.ReactNode;
+};
+
+export default function TitleAnimated({ children }: Props) {
+  return (
+    <motion.h1
+      variants={fadeUp}
+      initial="hidden"
+      whileInView={"visible"}
+      viewport={{ once: true }}
+      className="text-3xl font-bold text-sky-600 max-sm:text-2xl"
+    >
+      {children}
+    </motion.h1>
+  );
+}
+</file>
+
+<file path="components/animatedComponents/variants.ts">
+import type { Variants } from "motion/react";
+
+export const fadeUp: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 24,
+  },
+
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
+export const fadeDown: Variants = {
+  hidden: {
+    opacity: 0,
+    y: -24,
+  },
+
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
+export const fadeLeft: Variants = {
+  hidden: {
+    opacity: 0,
+    x: -32,
+  },
+
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
+export const fadeRight: Variants = {
+  hidden: {
+    opacity: 0,
+    x: 32,
+  },
+
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
+export const zoom: Variants = {
+  hidden: {
+    opacity: 0,
+    scale: 0.92,
+  },
+
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.75,
+      ease: "easeOut",
+    },
+  },
+};
+
+export const zoomSmall: Variants = {
+  hidden: {
+    opacity: 0,
+    scale: 0.97,
+  },
+
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.4,
+      ease: "easeOut",
+    },
+  },
+};
+
+export const blurIn: Variants = {
+  hidden: {
+    opacity: 0,
+    filter: "blur(8px)",
+  },
+
+  visible: {
+    opacity: 1,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
+</file>
+
+<file path="components/navigation/BottomSheetNav.tsx">
+"use client";
+
+/**
+ * Barra de navegação inferior fixa.
+ *
+ * - Cada rota é um botão escuro com leve transparência.
+ * - O container é transparente e flutua sobre o conteúdo.
+ * - Possui indicador animado via Motion (layoutId="navIndicator") que desliza entre as opções ativas.
+ */
+
+import React, { useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "motion/react";
+import {
+  FiBriefcase,
+  FiChevronRight,
+  FiClock,
+  FiCode,
+  FiFolder,
+  FiHome,
+} from "react-icons/fi";
+
+// Itens do menu (rota + rótulo + ícone)
+const NAV_ITEMS = [
+  { label: "Início", path: "/", icon: FiHome },
+  { label: "Conhecimentos", path: "/skills", icon: FiCode },
+  { label: "Projetos", path: "/projects", icon: FiFolder },
+  { label: "Serviços", path: "/job", icon: FiBriefcase },
+  { label: "Histórico", path: "/history", icon: FiClock },
+];
+
+export default function BottomSheetNav() {
+  // Rota atual (para definir o item ativo)
+  const pathname = usePathname();
+
+  // Referência ao <nav> rolável + estado de alcance do fim da barra (mobile)
+  const navRef = useRef<HTMLElement>(null);
+  const [reachedEnd, setReachedEnd] = useState(false);
+
+  function handleScroll() {
+    const nav = navRef.current;
+    if (!nav) return;
+
+    const distanceToEnd = nav.scrollWidth - nav.clientWidth - nav.scrollLeft;
+    setReachedEnd(distanceToEnd < 10);
+  }
+
+  return (
+    <div
+      className="fixed bottom-4 left-1/2 z-50 w-full max-w-fit -translate-x-1/2 px-3 md:bottom-6"
+      style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+    >
+      <div className="relative">
+        {/* Barra transparente que agrupa os botões */}
+        <nav
+          ref={navRef}
+          onScroll={handleScroll}
+          aria-label="Navegação principal"
+          className="no-scrollbar flex max-w-[calc(100vw-2rem)] items-center gap-1.5 overflow-x-auto p-1 sm:gap-2"
+          style={{ contain: "layout" }}
+        >
+          {NAV_ITEMS.map((item) => {
+            const isActive = pathname === item.path;
+            const Icon = item.icon;
+
+            return (
+              <Link
+                key={item.path}
+                href={item.path}
+                aria-current={isActive ? "page" : undefined}
+                className={[
+                  "relative flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-4.5 py-4",
+                  "transition-all duration-200 active:scale-95",
+                  "text-xs font-medium tracking-wide sm:px-4 sm:text-sm",
+                  isActive
+                    ? "font-semibold text-white"
+                    : "text-foreground-muted hover:text-foreground border border-white/8 bg-black/85 hover:border-white/15",
+                ].join(" ")}
+              >
+                {isActive && (
+                  <motion.span
+                    layoutId="navIndicator"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    className="absolute inset-0 -z-10 overflow-hidden rounded-lg border border-white/5 bg-black/90 backdrop-blur-md"
+                  >
+                    {/* Borda superior desvanecendo para a direita */}
+                    <span className="from-primary via-primary-glow absolute inset-x-0 top-0 h-[1.5px] bg-linear-to-r to-transparent shadow-[0_0_8px_rgba(125,211,252,0.4)]" />
+
+                    {/* Borda inferior desvanecendo para a esquerda */}
+                    <span className="from-primary-glow via-primary/50 absolute inset-x-0 bottom-0 h-[1.5px] bg-linear-to-l to-transparent" />
+                  </motion.span>
+                )}
+
+                <Icon
+                  className={`h-4 w-4 shrink-0 ${isActive ? "text-primary" : ""}`}
+                />
+                <span className="whitespace-nowrap select-none">
+                  {item.label}
+                </span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Setinha de indicação de scroll (mobile) */}
+        <AnimatePresence>
+          {!reachedEnd && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="pointer-events-none absolute inset-y-0 right-0 z-10 flex w-10 items-center justify-end pr-1 sm:hidden"
+            >
+              <FiChevronRight className="text-primary-glow h-7 w-7 animate-pulse" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="components/ui/accordion.tsx">
+import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion"
+import { cn } from "cn"
+import { ChevronDownIcon, ChevronUpIcon } from "lucide-react"
+
+function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
+  return (
+    <AccordionPrimitive.Root
+      data-slot="accordion"
+      className={cn("flex w-full flex-col", className)}
+      {...props}
+    />
+  )
+}
+
+function AccordionItem({ className, ...props }: AccordionPrimitive.Item.Props) {
+  return (
+    <AccordionPrimitive.Item
+      data-slot="accordion-item"
+      className={cn("not-last:border-b", className)}
+      {...props}
+    />
+  )
+}
+
+function AccordionTrigger({
+  className,
+  children,
+  ...props
+}: AccordionPrimitive.Trigger.Props) {
+  return (
+    <AccordionPrimitive.Header className="flex">
+      <AccordionPrimitive.Trigger
+        data-slot="accordion-trigger"
+        className={cn(
+          "group/accordion-trigger relative flex flex-1 items-start justify-between rounded-lg border border-transparent py-2.5 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:after:border-ring aria-disabled:pointer-events-none aria-disabled:opacity-50 **:data-[slot=accordion-trigger-icon]:ml-auto **:data-[slot=accordion-trigger-icon]:size-4 **:data-[slot=accordion-trigger-icon]:text-muted-foreground",
+          className
+        )}
+        {...props}
+      >
+        {children}
+        <ChevronDownIcon data-slot="accordion-trigger-icon" className="pointer-events-none shrink-0 group-aria-expanded/accordion-trigger:hidden" />
+        <ChevronUpIcon data-slot="accordion-trigger-icon" className="pointer-events-none hidden shrink-0 group-aria-expanded/accordion-trigger:inline" />
+      </AccordionPrimitive.Trigger>
+    </AccordionPrimitive.Header>
+  )
+}
+
+function AccordionContent({
+  className,
+  children,
+  ...props
+}: AccordionPrimitive.Panel.Props) {
+  return (
+    <AccordionPrimitive.Panel
+      data-slot="accordion-content"
+      className="overflow-hidden text-sm data-open:animate-accordion-down data-closed:animate-accordion-up"
+      {...props}
+    >
+      <div
+        className={cn(
+          "h-(--accordion-panel-height) pt-0 pb-2.5 data-ending-style:h-0 data-starting-style:h-0 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
+          className
+        )}
+      >
+        {children}
+      </div>
+    </AccordionPrimitive.Panel>
+  )
+}
+
+export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
+</file>
+
+<file path="components/ui/badge.tsx">
+import { mergeProps } from "@base-ui/react/merge-props"
+import { useRender } from "@base-ui/react/use-render"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "cn"
+
+const badgeVariants = cva(
+  "group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3!",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground [a]:hover:bg-primary/80",
+        secondary:
+          "bg-secondary text-secondary-foreground [a]:hover:bg-secondary/80",
+        destructive:
+          "bg-destructive/10 text-destructive focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:focus-visible:ring-destructive/40 [a]:hover:bg-destructive/20",
+        outline:
+          "border-border text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground",
+        ghost:
+          "hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+function Badge({
+  className,
+  variant = "default",
+  render,
+  ...props
+}: useRender.ComponentProps<"span"> & VariantProps<typeof badgeVariants>) {
+  return useRender({
+    defaultTagName: "span",
+    props: mergeProps<"span">(
+      {
+        className: cn(badgeVariants({ variant }), className),
+      },
+      props
+    ),
+    render,
+    state: {
+      slot: "badge",
+      variant,
+    },
+  })
+}
+
+export { Badge, badgeVariants }
+</file>
+
+<file path="components/ui/button.tsx">
+import { Button as ButtonPrimitive } from "@base-ui/react/button"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "cn"
+
+const buttonVariants = cva(
+  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/80",
+        outline:
+          "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+        ghost:
+          "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50",
+        destructive:
+          "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default:
+          "h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+        xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
+        sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
+        lg: "h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+        icon: "size-8",
+        "icon-xs":
+          "size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3",
+        "icon-sm":
+          "size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg",
+        "icon-lg": "size-9",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+)
+
+function Button({
+  className,
+  variant = "default",
+  size = "default",
+  ...props
+}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+  return (
+    <ButtonPrimitive
+      data-slot="button"
+      className={cn(buttonVariants({ variant, size, className }))}
+      {...props}
+    />
+  )
+}
+
+export { Button, buttonVariants }
+</file>
+
+<file path="components/ui/card.tsx">
+import * as React from "react"
+import { cn } from "cn"
+
+function Card({
+  className,
+  size = "default",
+  ...props
+}: React.ComponentProps<"div"> & { size?: "default" | "sm" }) {
+  return (
+    <div
+      data-slot="card"
+      data-size={size}
+      className={cn(
+        "group/card flex flex-col gap-(--card-spacing) overflow-hidden rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 [--card-spacing:--spacing(4)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-header"
+      className={cn(
+        "group/card-header @container/card-header grid auto-rows-min items-start gap-1 rounded-t-xl px-(--card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto] [.border-b]:pb-(--card-spacing)",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-title"
+      className={cn(
+        "font-heading text-base leading-snug font-medium group-data-[size=sm]/card:text-sm",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-description"
+      className={cn("text-sm text-muted-foreground", className)}
+      {...props}
+    />
+  )
+}
+
+function CardAction({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-action"
+      className={cn(
+        "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function CardContent({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-content"
+      className={cn("px-(--card-spacing)", className)}
+      {...props}
+    />
+  )
+}
+
+function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-footer"
+      className={cn(
+        "flex items-center rounded-b-xl border-t bg-muted/50 p-(--card-spacing)",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+export {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardAction,
+  CardDescription,
+  CardContent,
+}
+</file>
+
+<file path="components/ui/scroll-area.tsx">
+"use client"
+
+import * as React from "react"
+import { ScrollArea as ScrollAreaPrimitive } from "@base-ui/react/scroll-area"
+import { cn } from "cn"
+
+function ScrollArea({
+  className,
+  children,
+  ...props
+}: ScrollAreaPrimitive.Root.Props) {
+  return (
+    <ScrollAreaPrimitive.Root
+      data-slot="scroll-area"
+      className={cn("relative", className)}
+      {...props}
+    >
+      <ScrollAreaPrimitive.Viewport
+        data-slot="scroll-area-viewport"
+        className="size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1"
+      >
+        {children}
+      </ScrollAreaPrimitive.Viewport>
+      <ScrollBar />
+      <ScrollAreaPrimitive.Corner />
+    </ScrollAreaPrimitive.Root>
+  )
+}
+
+function ScrollBar({
+  className,
+  orientation = "vertical",
+  ...props
+}: ScrollAreaPrimitive.Scrollbar.Props) {
+  return (
+    <ScrollAreaPrimitive.Scrollbar
+      data-slot="scroll-area-scrollbar"
+      data-orientation={orientation}
+      orientation={orientation}
+      className={cn(
+        "flex touch-none p-px transition-colors select-none data-horizontal:h-2.5 data-horizontal:flex-col data-horizontal:border-t data-horizontal:border-t-transparent data-vertical:h-full data-vertical:w-2.5 data-vertical:border-l data-vertical:border-l-transparent",
+        className
+      )}
+      {...props}
+    >
+      <ScrollAreaPrimitive.Thumb
+        data-slot="scroll-area-thumb"
+        className="relative flex-1 rounded-full bg-border"
+      />
+    </ScrollAreaPrimitive.Scrollbar>
+  )
+}
+
+export { ScrollArea, ScrollBar }
+</file>
+
+<file path="components/ui/separator.tsx">
+"use client"
+
+import { Separator as SeparatorPrimitive } from "@base-ui/react/separator"
+import { cn } from "cn"
+
+function Separator({
+  className,
+  orientation = "horizontal",
+  ...props
+}: SeparatorPrimitive.Props) {
+  return (
+    <SeparatorPrimitive
+      data-slot="separator"
+      orientation={orientation}
+      className={cn(
+        "shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+export { Separator }
+</file>
+
+<file path="components/ui/tabs.tsx">
+"use client"
+
+import { Tabs as TabsPrimitive } from "@base-ui/react/tabs"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "cn"
+
+function Tabs({
+  className,
+  orientation = "horizontal",
+  ...props
+}: TabsPrimitive.Root.Props) {
+  return (
+    <TabsPrimitive.Root
+      data-slot="tabs"
+      data-orientation={orientation}
+      className={cn(
+        "group/tabs flex gap-2 data-horizontal:flex-col",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+const tabsListVariants = cva(
+  "group/tabs-list inline-flex w-fit items-center justify-center rounded-lg p-[3px] text-muted-foreground group-data-horizontal/tabs:h-8 group-data-vertical/tabs:h-fit group-data-vertical/tabs:flex-col data-[variant=line]:rounded-none",
+  {
+    variants: {
+      variant: {
+        default: "bg-muted",
+        line: "gap-1 bg-transparent",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+function TabsList({
+  className,
+  variant = "default",
+  ...props
+}: TabsPrimitive.List.Props & VariantProps<typeof tabsListVariants>) {
+  return (
+    <TabsPrimitive.List
+      data-slot="tabs-list"
+      data-variant={variant}
+      className={cn(tabsListVariants({ variant }), className)}
+      {...props}
+    />
+  )
+}
+
+function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
+  return (
+    <TabsPrimitive.Tab
+      data-slot="tabs-trigger"
+      className={cn(
+        "relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-1.5 py-0.5 text-sm font-medium whitespace-nowrap text-foreground/60 transition-all group-data-vertical/tabs:w-full group-data-vertical/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 has-data-[icon=inline-end]:pr-1 has-data-[icon=inline-start]:pl-1 aria-disabled:pointer-events-none aria-disabled:opacity-50 dark:text-muted-foreground dark:hover:text-foreground group-data-[variant=default]/tabs-list:data-active:shadow-sm group-data-[variant=line]/tabs-list:data-active:shadow-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-active:bg-transparent dark:group-data-[variant=line]/tabs-list:data-active:border-transparent dark:group-data-[variant=line]/tabs-list:data-active:bg-transparent",
+        "data-active:bg-background data-active:text-foreground dark:data-active:border-input dark:data-active:bg-input/30 dark:data-active:text-foreground",
+        "after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-horizontal/tabs:after:inset-x-0 group-data-horizontal/tabs:after:bottom-[-5px] group-data-horizontal/tabs:after:h-0.5 group-data-vertical/tabs:after:inset-y-0 group-data-vertical/tabs:after:-right-1 group-data-vertical/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-active:after:opacity-100",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function TabsContent({ className, ...props }: TabsPrimitive.Panel.Props) {
+  return (
+    <TabsPrimitive.Panel
+      data-slot="tabs-content"
+      className={cn("flex-1 text-sm outline-none", className)}
+      {...props}
+    />
+  )
+}
+
+export { Tabs, TabsList, TabsTrigger, TabsContent, tabsListVariants }
+</file>
+
+<file path="lib/utils.ts">
+export { cn } from "cn"
+</file>
+
+</files>
