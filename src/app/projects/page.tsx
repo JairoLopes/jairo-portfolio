@@ -22,9 +22,10 @@ const PROJECTS_MOCK: readonly Project[] = [
       "Better Auth",
       "Zod",
     ],
-    isFeatured: true,
-    isCompleted: false,
-    isOpenSource: false,
+    isFeatured: true, // Destaque?
+    isCompleted: false, // Finalizado?
+    isOpenSource: false, // codigo aberto?
+    liveUrl: "https://barbossa-ten.vercel.app",
   },
   {
     id: "site-personal",
