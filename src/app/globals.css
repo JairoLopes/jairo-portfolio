@@ -482,3 +482,13 @@ body::after {
     display: none; /* Chrome, Safari e Opera */
   }
 }
+
+/* Oculta a barra de rolagem, mantendo a rolagem funcional. */
+.scrollbar-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}

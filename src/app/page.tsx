@@ -53,7 +53,7 @@ export default function Home() {
           Mantém-se dentro de uma div com margem controlada para
           respeitar o espaçamento global do hero. */}
       <TitleAnimated>
-        <span className="text-foreground">Oi, eu sou </span>
+        <span className="text-foreground">Olá, eu sou </span>
         {/* Texto com gradiente via bg-clip-text — herda a paleta cyan → roxo. */}
         <span className="from-primary via-primary-glow to-accent-purple bg-linear-to-r bg-clip-text text-transparent">
           Jairo Lopes
