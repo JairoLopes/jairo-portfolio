@@ -4,7 +4,6 @@ import {
   RiWhatsappFill,
   RiGithubFill,
   RiLinkedinBoxFill,
-  RiArrowRightUpLine,
   RiMapPinLine,
   RiCodeSSlashLine,
   RiRocketLine,
@@ -12,18 +11,7 @@ import {
 import TitleAnimated from "@/components/animatedComponents/TitleAnimated";
 import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
 import { Button } from "@/components/ui/button";
-
-/**
- * @Responsabilidade: Apresentar a porta de entrada do portfólio (Hero Section), destacando identidade profissional, especialidades técnicas, canais diretos de contato e um snippet de código estilizado como editor.
- * @Fluxo: Renderiza como Server Component -> Badge de status ativo -> TitleAnimated (título principal) -> SubTitleAnimated (especialidade) -> Linha de quick info com localização, foco e stack -> Snippet de código com chrome de janela e numeração de linhas -> Grupo de botões de contato (WhatsApp, GitHub, LinkedIn).
- * @Entradas: N/A (Server Component de rota raiz "/").
- * @Saídas: Interface centralizada, responsiva e compacta, com microinterações via Tailwind e animações delegadas aos componentes folha.
- * @Dependencias: react, next/link, react-icons/ri, TitleAnimated (@/components/animatedComponents/TitleAnimated), SubTitleAnimated (@/components/animatedComponents/SubTitleAnimated).
- * @Regras_de_negocio: Área de toque dos botões deve respeitar no mínimo 44px de altura (h-12); links externos com atributos de segurança rel="noopener noreferrer"; layout mobile-first; identidade visual (Glassmorphism + dark + cyan/roxo/magenta) preservada.
- * @Limitacoes: Renderiza estaticamente no servidor; animações interativas complexas são delegadas aos componentes folha em animatedComponents.
- * @Edge_cases: Em telas pequenas os botões empilham verticalmente; chips de quick info quebram linha naturalmente via flex-wrap; snippets longos quebram palavra dentro do bloco com overflow controlado.
- * @Arquivos_relacionados: src/components/animatedComponents/TitleAnimated.tsx, src/components/animatedComponents/SubTitleAnimated.tsx, src/app/globals.css, src/app/layout.tsx.
- */
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 // Lista estática das principais tecnologias.
 // Fica fora do componente para não recriar o array a cada render (mesmo em Server Component,
@@ -64,14 +52,22 @@ export default function Home() {
       {/* Título com animação isolada em Client Component (TitleAnimated).
           Mantém-se dentro de uma div com margem controlada para
           respeitar o espaçamento global do hero. */}
-      <div className="mb-4">
-        <TitleAnimated>
-          <span className="text-foreground">Oi, eu sou </span>
-          {/* Texto com gradiente via bg-clip-text — herda a paleta cyan → roxo. */}
-          <span className="from-primary via-primary-glow to-accent-purple bg-linear-to-r bg-clip-text text-transparent">
-            Jairo Lopes
-          </span>
-        </TitleAnimated>
+      <TitleAnimated>
+        <span className="text-foreground">Oi, eu sou </span>
+        {/* Texto com gradiente via bg-clip-text — herda a paleta cyan → roxo. */}
+        <span className="from-primary via-primary-glow to-accent-purple bg-linear-to-r bg-clip-text text-transparent">
+          Jairo Lopes
+        </span>
+      </TitleAnimated>
+
+      {/* Foto de perfil circular com brilho sutil, integrada ao tema cósmico. */}
+      <div className="mt-3 flex justify-center sm:mt-4">
+        <Avatar className="border-primary/40 ring-primary/15 ring-offset-background size-36 border-2 shadow-[0_0_20px_rgba(125,211,252,0.18)] ring-2 ring-offset-2 transition-transform duration-300 hover:scale-105">
+          <AvatarImage src="/FotoPerfil.jpeg" alt="Foto de Jairo Lopes" />
+          <AvatarFallback className="bg-surface text-primary font-semibold">
+            JL
+          </AvatarFallback>
+        </Avatar>
       </div>
 
       {/* ============================================================

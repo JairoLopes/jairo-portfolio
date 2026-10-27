@@ -40,469 +40,195 @@ The content is organized as follows:
 </file_summary>
 
 <directory_structure>
-app/
-  history/
+public/
+  file.svg
+  globe.svg
+  next.svg
+  vercel.svg
+  window.svg
+src/
+  app/
+    history/
+      page.tsx
+    job/
+      page.tsx
+    projects/
+      CardProject.tsx
+      page.tsx
+    skills/
+      page.tsx
+    favicon.ico
+    globals.css
+    layout.tsx
     page.tsx
-  job/
-    page.tsx
-  projects/
-    CardProject.tsx
-    page.tsx
-  skills/
-    page.tsx
-  favicon.ico
-  globals.css
-  layout.tsx
-  page.tsx
-  template.tsx
-components/
-  animatedComponents/
-    SubTitleAnimated.tsx
-    TitleAnimated.tsx
-    variants.ts
-  navigation/
-    BottomSheetNav.tsx
-  ui/
-    accordion.tsx
-    badge.tsx
-    button.tsx
-    card.tsx
-    scroll-area.tsx
-    separator.tsx
-    tabs.tsx
-lib/
-  utils.ts
+    template.tsx
+  components/
+    animatedComponents/
+      SubTitleAnimated.tsx
+      TitleAnimated.tsx
+      variants.ts
+    navigation/
+      BottomSheetNav.tsx
+    ui/
+      accordion.tsx
+      avatar.tsx
+      badge.tsx
+      button.tsx
+      card.tsx
+      scroll-area.tsx
+      separator.tsx
+      tabs.tsx
+  lib/
+    utils.ts
+.gitignore
+.prettierrc
+AGENTS.md
+CLAUDE.md
+components.json
+eslint.config.mjs
+LICENSE
+next.config.ts
+package.json
+postcss.config.mjs
+README.md
+tsconfig.json
 </directory_structure>
 
 <files>
 This section contains the contents of the repository's files.
 
-<file path="app/history/page.tsx">
-import TitleAnimated from "@/components/animatedComponents/TitleAnimated";
-import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
-import {
-  RiBuilding4Line,
-  RiMapPinLine,
-  RiCalendarLine,
-  RiCheckboxCircleLine,
-  RiTimeLine,
-} from "react-icons/ri";
+<file path="src/components/ui/avatar.tsx">
+"use client"
 
-/**
- * @Responsabilidade: Exibir a linha do tempo e histórico de carreira profissional do desenvolvedor, demonstrando evolução técnica, liderança e realizações.
- * @Fluxo: Renderiza como Server Component -> Monta cabeçalho com TitleAnimated -> Mapeia as 4 etapas profissionais estruturadas em ordem cronológica inversa -> Renderiza cards interativos com timeline visual e indicadores de impacto.
- * @Entradas: N/A (Server Component de rota "/history").
- * @Saídas: Interface rica com cards estilo Glassmorphism diferenciados por marcadores temporais, métricas de impacto e tags de tecnologias.
- * @Dependencias: react, react-icons/ri, TitleAnimated (@/components/animatedComponents/TitleAnimated).
- * @Regras_de_negocio: Os 4 cards devem ser distinguidos dos cards de projetos através de foco em cronologia, realizações com métricas e ausência de botões de deploy; o cargo mais recente possui badge pulsante de posição atual.
- * @Limitacoes: Dados estruturados estaticamente (mock de carreira); preparado para futura sincronização com perfis externos (LinkedIn/JSON).
- * @Edge_cases: Em resoluções móveis, a linha de timeline é ajustada para margem esquerda reduzida, evitando quebra de textos.
- * @Arquivos_relacionados: src/components/animatedComponents/TitleAnimated.tsx, src/app/globals.css, src/app/layout.tsx.
- */
+import * as React from "react"
+import { Avatar as AvatarPrimitive } from "@base-ui/react/avatar"
+import { cn } from "cn"
 
-interface CareerMilestone {
-  readonly id: string;
-  readonly role: string;
-  readonly company: string;
-  readonly location: string;
-  readonly period: string;
-  readonly isCurrent?: boolean;
-  readonly summary: string;
-  readonly keyAchievements: readonly string[];
-  readonly technologies: readonly string[];
+function Avatar({
+  className,
+  size = "default",
+  ...props
+}: AvatarPrimitive.Root.Props & {
+  size?: "default" | "sm" | "lg"
+}) {
+  return (
+    <AvatarPrimitive.Root
+      data-slot="avatar"
+      data-size={size}
+      className={cn(
+        "group/avatar relative flex size-8 shrink-0 rounded-full select-none after:absolute after:inset-0 after:rounded-full after:border after:border-border after:mix-blend-darken data-[size=lg]:size-10 data-[size=sm]:size-6 dark:after:mix-blend-lighten",
+        className
+      )}
+      {...props}
+    />
+  )
 }
 
-const CAREER_HISTORY: readonly CareerMilestone[] = [
-  {
-    id: "milestone-1",
-    role: "Desenvolvedor Front-end",
-    company: "Freelancer",
-    location: "Home Office",
-    period: "2025",
-    isCurrent: true,
-    summary:
-      "Desenvolvimento de interfaces web responsivas utilizando Next.js, Tailwind e TypeScript para a criação de componentes reutilizáveis para diferentes dispositivos.",
-    keyAchievements: [
-      "Criação de interfaces web responsivas com foco em performance e componentização avançada.",
-    ],
-    technologies: ["Next.js", "Tailwind CSS", "TypeScript", "React", "prisma"],
-  },
-  {
-    id: "milestone-2",
-    role: "Programador Front-end",
-    company: "Prefeitura de Olinda",
-    location: "Olinda - PE",
-    period: "2022",
-    isCurrent: false,
-    summary:
-      "Realização de ajustes e melhorias no front-end de sistemas corporativos utilizando React.",
-    keyAchievements: [
-      "Evolução contínua e otimização de interfaces para sistemas corporativos públicos.",
-    ],
-    technologies: ["React", "JavaScript", "HTML5", "CSS3"],
-  },
-  {
-    id: "milestone-3",
-    role: "Técnico em Segurança da Informação",
-    company: "Bidweb Security",
-    location: "Recife - PE",
-    period: "2020",
-    isCurrent: false,
-    summary:
-      "Trabalhando com o desenvolvimento e manutenção de scripts Python em containers, e monitoramento de ameaças.",
-    keyAchievements: [
-      "Automação de processos e isolamento de aplicações de monitoramento utilizando containers.",
-    ],
-    technologies: ["Python", "Docker", "Linux", "Segurança da Informação"],
-  },
-  {
-    id: "milestone-4",
-    role: "Help Desk",
-    company: "Secretaria da Fazenda",
-    location: "Recife - PE",
-    period: "2017",
-    isCurrent: false,
-    summary:
-      "Prestação de suporte técnico a sistemas e infraestrutura interna.",
-    keyAchievements: [
-      "Resolução ágil de chamados técnicos, garantindo a estabilidade operacional dos postos de atendimento.",
-    ],
-    technologies: [
-      "Suporte Técnico",
-      "Redes",
-      "Hardware",
-      "Sistemas Operacionais",
-    ],
-  },
-] as const;
-
-export default function HistoryPage() {
+function AvatarImage({ className, ...props }: AvatarPrimitive.Image.Props) {
   return (
-    <section
-      aria-labelledby="history-heading"
-      className="mx-auto flex w-full max-w-4xl flex-1 flex-col px-4 py-12 sm:px-6 md:py-16"
-    >
-      {/* Cabeçalho da Seção com Título e subtitulo Animado */}
-      <header className="mb-12 text-center md:mb-16">
-        {/* Badge acima do titulo */}
-        <div className="border-border bg-surface text-primary mb-3 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 font-mono text-xs backdrop-blur-md">
-          <RiTimeLine className="h-3.5 w-3.5" />
-          <span>TRAJETÓRIA & EXPERIÊNCIA PROFISSIONAL</span>
-        </div>
+    <AvatarPrimitive.Image
+      data-slot="avatar-image"
+      className={cn(
+        "aspect-square size-full rounded-full object-cover",
+        className
+      )}
+      {...props}
+    />
+  )
+}
 
-        {/* Titulo animado */}
-        <TitleAnimated>
-          <span className="text-foreground">Histórico & </span>
-          <span className="from-primary via-primary-glow to-accent-purple bg-linear-to-r bg-clip-text text-transparent">
-            Evolução de Carreira
-          </span>
-        </TitleAnimated>
+function AvatarFallback({
+  className,
+  ...props
+}: AvatarPrimitive.Fallback.Props) {
+  return (
+    <AvatarPrimitive.Fallback
+      data-slot="avatar-fallback"
+      className={cn(
+        "flex size-full items-center justify-center rounded-full bg-muted text-sm text-muted-foreground group-data-[size=sm]/avatar:text-xs",
+        className
+      )}
+      {...props}
+    />
+  )
+}
 
-        {/* Subtitulo animado */}
-        <SubTitleAnimated>
-          Um resumo da minha trajetória e das experiências que construí ao longo
-          da minha jornada{" "}
-          <span className="text-accent-magenta">na área de tecnologia</span>
-        </SubTitleAnimated>
-      </header>
+function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
+  return (
+    <span
+      data-slot="avatar-badge"
+      className={cn(
+        "absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground bg-blend-color ring-2 ring-background select-none",
+        "group-data-[size=sm]/avatar:size-2 group-data-[size=sm]/avatar:[&>svg]:hidden",
+        "group-data-[size=default]/avatar:size-2.5 group-data-[size=default]/avatar:[&>svg]:size-2",
+        "group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&>svg]:size-2",
+        className
+      )}
+      {...props}
+    />
+  )
+}
 
-      {/* Timeline Linear com Conexão Visual Vertical */}
-      <div className="border-border/70 relative ml-2 space-y-10 border-l pl-6 sm:ml-4 sm:pl-8">
-        {CAREER_HISTORY.map((item) => (
-          <article key={item.id} className="group relative">
-            {/* Marcador Visual da Linha do Tempo */}
-            <div
-              aria-hidden="true"
-              className={`bg-background absolute top-5 -left-7.75 flex h-4 w-4 items-center justify-center rounded-full border transition-all duration-300 sm:-left-9.75 ${
-                item.isCurrent
-                  ? "border-primary ring-primary/20 shadow-[0_0_12px_rgba(56,189,248,0.8)] ring-4"
-                  : "border-border group-hover:border-primary/60 group-hover:shadow-[0_0_8px_rgba(56,189,248,0.4)]"
-              }`}
-            >
-              <div
-                className={`h-2 w-2 rounded-full transition-colors ${
-                  item.isCurrent
-                    ? "bg-primary animate-pulse"
-                    : "bg-foreground-subtle group-hover:bg-primary"
-                }`}
-              />
-            </div>
+function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="avatar-group"
+      className={cn(
+        "group/avatar-group flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background",
+        className
+      )}
+      {...props}
+    />
+  )
+}
 
-            {/* Card Glassmorphism com Detalhes da Atuação */}
-            <div className="glass-panel hover:border-border-glow rounded-2xl p-6 transition-all duration-300 hover:shadow-[0_0_25px_rgba(56,189,248,0.12)]">
-              {/* Header do Card: Período, Status e Cargo */}
-              <div className="border-border/60 flex flex-wrap items-center justify-between gap-2 border-b pb-4">
-                <div>
-                  <h2 className="text-foreground group-hover:text-primary text-lg font-semibold tracking-tight transition-colors">
-                    {item.role}
-                  </h2>
-                  <div className="text-foreground-muted mt-1 flex flex-wrap items-center gap-3 text-xs sm:text-sm">
-                    <span className="text-foreground flex items-center gap-1 font-medium">
-                      <RiBuilding4Line className="text-primary h-3.5 w-3.5" />
-                      {item.company}
-                    </span>
-                    <span className="text-foreground-subtle">•</span>
-                    <span className="text-foreground-subtle flex items-center gap-1">
-                      <RiMapPinLine className="h-3.5 w-3.5" />
-                      {item.location}
-                    </span>
-                  </div>
-                </div>
+function AvatarGroupCount({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="avatar-group-count"
+      className={cn(
+        "relative flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-sm text-muted-foreground ring-2 ring-background group-has-data-[size=lg]/avatar-group:size-10 group-has-data-[size=sm]/avatar-group:size-6 [&>svg]:size-4 group-has-data-[size=lg]/avatar-group:[&>svg]:size-5 group-has-data-[size=sm]/avatar-group:[&>svg]:size-3",
+        className
+      )}
+      {...props}
+    />
+  )
+}
 
-                {/* Badge de Período / Status */}
-                <div className="flex items-center gap-2">
-                  {item.isCurrent && (
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 font-mono text-xs text-emerald-400">
-                      <span className="h-1.5 w-1.5 animate-ping rounded-full bg-emerald-400" />
-                      ATUAL
-                    </span>
-                  )}
-                  <span className="glass-panel text-foreground-muted inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-mono text-xs">
-                    <RiCalendarLine className="text-primary h-3 w-3" />
-                    {item.period}
-                  </span>
-                </div>
-              </div>
-
-              {/* Resumo da Atuação */}
-              <p className="text-foreground-muted mt-4 text-xs leading-relaxed sm:text-sm">
-                {item.summary}
-              </p>
-
-              {/* Principais Realizações e Impactos Técnicos */}
-              <div className="mt-5 space-y-2">
-                <span className="text-foreground-subtle block font-mono text-[11px] tracking-wider uppercase">
-                  Realizações e Impactos Chave:
-                </span>
-                <ul className="space-y-2">
-                  {item.keyAchievements.map((achieve, idx) => (
-                    <li
-                      key={idx}
-                      className="text-foreground-muted flex items-start gap-2 text-xs sm:text-sm"
-                    >
-                      <RiCheckboxCircleLine className="text-primary mt-0.5 h-4 w-4 shrink-0" />
-                      <span>{achieve}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Badges de Tecnologias Utilizadas */}
-              <div className="border-border/60 mt-6 border-t pt-4">
-                <div className="flex flex-wrap gap-1.5">
-                  {item.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="text-accent-purple hover:text-primary hover:border-primary/30 inline-flex items-center rounded-md border border-white/5 bg-white/5 px-2.5 py-0.5 font-mono text-[11px] transition-colors"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
+export {
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+  AvatarGroup,
+  AvatarGroupCount,
+  AvatarBadge,
 }
 </file>
 
-<file path="app/job/page.tsx">
-import React from "react";
-
-import TitleAnimated from "@/components/animatedComponents/TitleAnimated";
-import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
-
-import {
-  RiBriefcase4Line,
-  RiMacbookLine,
-  RiSpeedUpLine,
-  RiSmartphoneLine,
-  RiCheckboxCircleLine,
-  RiCodeSSlashLine,
-} from "react-icons/ri";
-
-/**
- * @Responsabilidade: Apresentar os principais serviços oferecidos pelo desenvolvedor,
- * destacando soluções e benefícios de forma clara para potenciais clientes.
- * @Fluxo: Renderiza como Server Component -> Apresenta cabeçalho com TitleAnimated ->
- * Mapeia a matriz de serviços -> Renderiza cards interativos com foco em benefícios.
- * @Entradas: N/A (Server Component de rota "/services").
- * @Saídas: Interface em grid responsivo (1 coluna no mobile, 2 no desktop) com cards
- * em Glassmorphism apresentando serviços de forma simples e comercial.
- * @Dependencias: react, react-icons/ri, TitleAnimated, SubTitleAnimated.
- * @Regras_de_negocio: Linguagem acessível para clientes; foco nos problemas que os
- * serviços resolvem; ausência de valores financeiros; apresentação clara dos principais
- * benefícios e entregáveis.
- * @Limitacoes: Dados estruturados estaticamente.
- * @Arquivos_relacionados: src/components/animatedComponents/TitleAnimated.tsx,
- * src/app/globals.css.
- */
-
-interface ServiceItem {
-  readonly id: string;
-  readonly title: string;
-  readonly description: string;
-  readonly icon: React.ComponentType<{ className?: string }>;
-  readonly deliverables: readonly string[];
-}
-
-/**
- * Catálogo de serviços.
- *
- * Os textos foram mantidos propositalmente menos técnicos, priorizando o que o cliente
- * recebe e o problema que a solução ajuda a resolver, em vez de destacar tecnologias.
- */
-const SERVICES_OFFERED: readonly ServiceItem[] = [
-  {
-    id: "professional-websites",
-    title: "Sites e Landing Pages",
-    description:
-      "Criação de sites profissionais para apresentar sua empresa, seus serviços ou seu trabalho e transformar visitantes em novos contatos.",
-    icon: RiMacbookLine,
-    deliverables: [
-      "Página profissional e personalizada",
-      "Experiência perfeita no celular e computador",
-      "Integração com WhatsApp e canais de contato",
-    ],
-  },
-  {
-    id: "business-presence",
-    title: "Presença Digital",
-    description:
-      "Estruturas digitais pensadas para ajudar sua empresa a ser encontrada, transmitir credibilidade e facilitar o contato com novos clientes.",
-    icon: RiBriefcase4Line,
-    deliverables: [
-      "Apresentação clara dos seus serviços",
-      "Estrutura preparada para mecanismos de busca",
-      "Links e chamadas para contato bem posicionados",
-    ],
-  },
-  {
-    id: "performance-seo",
-    title: "Velocidade e Visibilidade",
-    description:
-      "Melhoria de sites existentes para carregar mais rápido, oferecer uma experiência melhor e aumentar suas chances de ser encontrado no Google.",
-    icon: RiSpeedUpLine,
-    deliverables: [
-      "Carregamento mais rápido",
-      "Otimização para dispositivos móveis",
-      "Melhor estrutura para mecanismos de busca",
-    ],
-  },
-  {
-    id: "web-systems",
-    title: "Sistemas e Aplicações Web",
-    description:
-      "Desenvolvimento de sistemas personalizados para empresas que precisam ir além de um site e transformar processos em soluções digitais.",
-    icon: RiCodeSSlashLine,
-    deliverables: [
-      "Painéis e áreas administrativas",
-      "Integração com APIs e serviços externos",
-      "Soluções personalizadas para sua necessidade",
-    ],
-  },
-  {
-    id: "interface-ux",
-    title: "Interfaces e Experiência",
-    description:
-      "Criação de interfaces modernas, intuitivas e agradáveis de usar, pensando tanto na aparência quanto na facilidade de navegação.",
-    icon: RiSmartphoneLine,
-    deliverables: [
-      "Interface moderna e responsiva",
-      "Navegação simples e intuitiva",
-      "Experiência consistente em diferentes dispositivos",
-    ],
-  },
-] as const;
-
-export default function ServicesPage() {
-  return (
-    <section
-      aria-labelledby="services-heading"
-      className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-12 sm:px-6 md:py-16"
-    >
-      {/* Cabeçalho da Seção com Título e Subtítulo Animado */}
-      <header className="mb-12 text-center md:mb-16">
-        {/* Badge acima do título */}
-        <div className="border-border bg-surface text-primary mb-3 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 font-mono text-xs backdrop-blur-md">
-          <RiBriefcase4Line className="h-3.5 w-3.5" />
-          <span>SOLUÇÕES & SERVIÇOS</span>
-        </div>
-
-        {/* Título animado */}
-        <TitleAnimated>
-          <span className="text-foreground">Como posso </span>
-
-          <span className="from-primary via-primary-glow to-accent-purple bg-linear-to-r bg-clip-text text-transparent">
-            Ajudar seu Projeto
-          </span>
-        </TitleAnimated>
-
-        {/* Subtítulo animado */}
-        <SubTitleAnimated>
-          Soluções digitais para transformar ideias em experiências
-          profissionais, rápidas e fáceis de usar.
-        </SubTitleAnimated>
-      </header>
-
-      {/* Grid Responsivo Mobile-First para os Serviços */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {SERVICES_OFFERED.map((service) => {
-          const Icon = service.icon;
-
-          return (
-            <article
-              key={service.id}
-              className="glass-panel hover:border-border-glow group flex flex-col rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(56,189,248,0.15)] sm:p-8"
-            >
-              {/* Cabeçalho do Card de Serviço */}
-              <div className="mb-5 flex items-center gap-4">
-                <div className="bg-surface-active border-border text-primary group-hover:bg-primary/10 rounded-xl border p-3 shadow-inner transition-colors duration-300">
-                  <Icon className="h-6 w-6" />
-                </div>
-
-                <h2 className="text-foreground text-lg font-bold tracking-tight sm:text-xl">
-                  {service.title}
-                </h2>
-              </div>
-
-              {/* Descrição Principal */}
-              <p className="text-foreground-muted mb-6 text-sm leading-relaxed">
-                {service.description}
-              </p>
-
-              {/* Linha Divisória */}
-              <div className="border-border/60 mt-auto border-t pt-5">
-                <span className="text-foreground-subtle mb-3 block font-mono text-[11px] tracking-wider uppercase">
-                  O que você recebe:
-                </span>
-
-                {/* Lista de Benefícios e Entregáveis */}
-                <ul className="space-y-2.5">
-                  {service.deliverables.map((item, idx) => (
-                    <li
-                      key={idx}
-                      className="text-foreground-muted flex items-start gap-2 text-xs sm:text-sm"
-                    >
-                      <RiCheckboxCircleLine className="text-accent-purple mt-0.5 h-4 w-4 shrink-0" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </article>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
+<file path="public/file.svg">
+<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
 </file>
 
-<file path="app/projects/CardProject.tsx">
+<file path="public/globe.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g clip-path="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.27 14.1a6.5 6.5 0 0 0 3.67-3.45q-1.24.21-2.7.34-.31 1.83-.97 3.1M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.48-1.52a7 7 0 0 1-.96 0H7.5a4 4 0 0 1-.84-1.32q-.38-.89-.63-2.08a40 40 0 0 0 3.92 0q-.25 1.2-.63 2.08a4 4 0 0 1-.84 1.31zm2.94-4.76q1.66-.15 2.95-.43a7 7 0 0 0 0-2.58q-1.3-.27-2.95-.43a18 18 0 0 1 0 3.44m-1.27-3.54a17 17 0 0 1 0 3.64 39 39 0 0 1-4.3 0 17 17 0 0 1 0-3.64 39 39 0 0 1 4.3 0m1.1-1.17q1.45.13 2.69.34a6.5 6.5 0 0 0-3.67-3.44q.65 1.26.98 3.1M8.48 1.5l.01.02q.41.37.84 1.31.38.89.63 2.08a40 40 0 0 0-3.92 0q.25-1.2.63-2.08a4 4 0 0 1 .85-1.32 7 7 0 0 1 .96 0m-2.75.4a6.5 6.5 0 0 0-3.67 3.44 29 29 0 0 1 2.7-.34q.31-1.83.97-3.1M4.58 6.28q-1.66.16-2.95.43a7 7 0 0 0 0 2.58q1.3.27 2.95.43a18 18 0 0 1 0-3.44m.17 4.71q-1.45-.12-2.69-.34a6.5 6.5 0 0 0 3.67 3.44q-.65-1.27-.98-3.1" fill="#666"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
+</file>
+
+<file path="public/next.svg">
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
+</file>
+
+<file path="public/vercel.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
+</file>
+
+<file path="public/window.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 2.5h13v10a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1zM0 1h16v11.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 12.5zm3.75 4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M7 4.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m1.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5" fill="#666"/></svg>
+</file>
+
+<file path="src/app/projects/CardProject.tsx">
 "use client";
 
 import Link from "next/link";
@@ -810,106 +536,1494 @@ export default function CardProject({ project, index }: CardProjectProps) {
 }
 </file>
 
-<file path="app/projects/page.tsx">
-// src/app/projects/page.tsx
+<file path="src/components/ui/accordion.tsx">
+import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion"
+import { cn } from "cn"
+import { ChevronDownIcon, ChevronUpIcon } from "lucide-react"
+
+function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
+  return (
+    <AccordionPrimitive.Root
+      data-slot="accordion"
+      className={cn("flex w-full flex-col", className)}
+      {...props}
+    />
+  )
+}
+
+function AccordionItem({ className, ...props }: AccordionPrimitive.Item.Props) {
+  return (
+    <AccordionPrimitive.Item
+      data-slot="accordion-item"
+      className={cn("not-last:border-b", className)}
+      {...props}
+    />
+  )
+}
+
+function AccordionTrigger({
+  className,
+  children,
+  ...props
+}: AccordionPrimitive.Trigger.Props) {
+  return (
+    <AccordionPrimitive.Header className="flex">
+      <AccordionPrimitive.Trigger
+        data-slot="accordion-trigger"
+        className={cn(
+          "group/accordion-trigger relative flex flex-1 items-start justify-between rounded-lg border border-transparent py-2.5 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:after:border-ring aria-disabled:pointer-events-none aria-disabled:opacity-50 **:data-[slot=accordion-trigger-icon]:ml-auto **:data-[slot=accordion-trigger-icon]:size-4 **:data-[slot=accordion-trigger-icon]:text-muted-foreground",
+          className
+        )}
+        {...props}
+      >
+        {children}
+        <ChevronDownIcon data-slot="accordion-trigger-icon" className="pointer-events-none shrink-0 group-aria-expanded/accordion-trigger:hidden" />
+        <ChevronUpIcon data-slot="accordion-trigger-icon" className="pointer-events-none hidden shrink-0 group-aria-expanded/accordion-trigger:inline" />
+      </AccordionPrimitive.Trigger>
+    </AccordionPrimitive.Header>
+  )
+}
+
+function AccordionContent({
+  className,
+  children,
+  ...props
+}: AccordionPrimitive.Panel.Props) {
+  return (
+    <AccordionPrimitive.Panel
+      data-slot="accordion-content"
+      className="overflow-hidden text-sm data-open:animate-accordion-down data-closed:animate-accordion-up"
+      {...props}
+    >
+      <div
+        className={cn(
+          "h-(--accordion-panel-height) pt-0 pb-2.5 data-ending-style:h-0 data-starting-style:h-0 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
+          className
+        )}
+      >
+        {children}
+      </div>
+    </AccordionPrimitive.Panel>
+  )
+}
+
+export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
+</file>
+
+<file path="src/components/ui/badge.tsx">
+import { mergeProps } from "@base-ui/react/merge-props"
+import { useRender } from "@base-ui/react/use-render"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "cn"
+
+const badgeVariants = cva(
+  "group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3!",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground [a]:hover:bg-primary/80",
+        secondary:
+          "bg-secondary text-secondary-foreground [a]:hover:bg-secondary/80",
+        destructive:
+          "bg-destructive/10 text-destructive focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:focus-visible:ring-destructive/40 [a]:hover:bg-destructive/20",
+        outline:
+          "border-border text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground",
+        ghost:
+          "hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+function Badge({
+  className,
+  variant = "default",
+  render,
+  ...props
+}: useRender.ComponentProps<"span"> & VariantProps<typeof badgeVariants>) {
+  return useRender({
+    defaultTagName: "span",
+    props: mergeProps<"span">(
+      {
+        className: cn(badgeVariants({ variant }), className),
+      },
+      props
+    ),
+    render,
+    state: {
+      slot: "badge",
+      variant,
+    },
+  })
+}
+
+export { Badge, badgeVariants }
+</file>
+
+<file path="src/components/ui/button.tsx">
+import { Button as ButtonPrimitive } from "@base-ui/react/button"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "cn"
+
+const buttonVariants = cva(
+  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/80",
+        outline:
+          "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+        ghost:
+          "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50",
+        destructive:
+          "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default:
+          "h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+        xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
+        sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
+        lg: "h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+        icon: "size-8",
+        "icon-xs":
+          "size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3",
+        "icon-sm":
+          "size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg",
+        "icon-lg": "size-9",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+)
+
+function Button({
+  className,
+  variant = "default",
+  size = "default",
+  ...props
+}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+  return (
+    <ButtonPrimitive
+      data-slot="button"
+      className={cn(buttonVariants({ variant, size, className }))}
+      {...props}
+    />
+  )
+}
+
+export { Button, buttonVariants }
+</file>
+
+<file path="src/components/ui/card.tsx">
+import * as React from "react"
+import { cn } from "cn"
+
+function Card({
+  className,
+  size = "default",
+  ...props
+}: React.ComponentProps<"div"> & { size?: "default" | "sm" }) {
+  return (
+    <div
+      data-slot="card"
+      data-size={size}
+      className={cn(
+        "group/card flex flex-col gap-(--card-spacing) overflow-hidden rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 [--card-spacing:--spacing(4)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-header"
+      className={cn(
+        "group/card-header @container/card-header grid auto-rows-min items-start gap-1 rounded-t-xl px-(--card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto] [.border-b]:pb-(--card-spacing)",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-title"
+      className={cn(
+        "font-heading text-base leading-snug font-medium group-data-[size=sm]/card:text-sm",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-description"
+      className={cn("text-sm text-muted-foreground", className)}
+      {...props}
+    />
+  )
+}
+
+function CardAction({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-action"
+      className={cn(
+        "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function CardContent({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-content"
+      className={cn("px-(--card-spacing)", className)}
+      {...props}
+    />
+  )
+}
+
+function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card-footer"
+      className={cn(
+        "flex items-center rounded-b-xl border-t bg-muted/50 p-(--card-spacing)",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+export {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardAction,
+  CardDescription,
+  CardContent,
+}
+</file>
+
+<file path="src/components/ui/scroll-area.tsx">
+"use client"
+
+import * as React from "react"
+import { ScrollArea as ScrollAreaPrimitive } from "@base-ui/react/scroll-area"
+import { cn } from "cn"
+
+function ScrollArea({
+  className,
+  children,
+  ...props
+}: ScrollAreaPrimitive.Root.Props) {
+  return (
+    <ScrollAreaPrimitive.Root
+      data-slot="scroll-area"
+      className={cn("relative", className)}
+      {...props}
+    >
+      <ScrollAreaPrimitive.Viewport
+        data-slot="scroll-area-viewport"
+        className="size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1"
+      >
+        {children}
+      </ScrollAreaPrimitive.Viewport>
+      <ScrollBar />
+      <ScrollAreaPrimitive.Corner />
+    </ScrollAreaPrimitive.Root>
+  )
+}
+
+function ScrollBar({
+  className,
+  orientation = "vertical",
+  ...props
+}: ScrollAreaPrimitive.Scrollbar.Props) {
+  return (
+    <ScrollAreaPrimitive.Scrollbar
+      data-slot="scroll-area-scrollbar"
+      data-orientation={orientation}
+      orientation={orientation}
+      className={cn(
+        "flex touch-none p-px transition-colors select-none data-horizontal:h-2.5 data-horizontal:flex-col data-horizontal:border-t data-horizontal:border-t-transparent data-vertical:h-full data-vertical:w-2.5 data-vertical:border-l data-vertical:border-l-transparent",
+        className
+      )}
+      {...props}
+    >
+      <ScrollAreaPrimitive.Thumb
+        data-slot="scroll-area-thumb"
+        className="relative flex-1 rounded-full bg-border"
+      />
+    </ScrollAreaPrimitive.Scrollbar>
+  )
+}
+
+export { ScrollArea, ScrollBar }
+</file>
+
+<file path="src/components/ui/separator.tsx">
+"use client"
+
+import { Separator as SeparatorPrimitive } from "@base-ui/react/separator"
+import { cn } from "cn"
+
+function Separator({
+  className,
+  orientation = "horizontal",
+  ...props
+}: SeparatorPrimitive.Props) {
+  return (
+    <SeparatorPrimitive
+      data-slot="separator"
+      orientation={orientation}
+      className={cn(
+        "shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+export { Separator }
+</file>
+
+<file path="src/components/ui/tabs.tsx">
+"use client"
+
+import { Tabs as TabsPrimitive } from "@base-ui/react/tabs"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "cn"
+
+function Tabs({
+  className,
+  orientation = "horizontal",
+  ...props
+}: TabsPrimitive.Root.Props) {
+  return (
+    <TabsPrimitive.Root
+      data-slot="tabs"
+      data-orientation={orientation}
+      className={cn(
+        "group/tabs flex gap-2 data-horizontal:flex-col",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+const tabsListVariants = cva(
+  "group/tabs-list inline-flex w-fit items-center justify-center rounded-lg p-[3px] text-muted-foreground group-data-horizontal/tabs:h-8 group-data-vertical/tabs:h-fit group-data-vertical/tabs:flex-col data-[variant=line]:rounded-none",
+  {
+    variants: {
+      variant: {
+        default: "bg-muted",
+        line: "gap-1 bg-transparent",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+function TabsList({
+  className,
+  variant = "default",
+  ...props
+}: TabsPrimitive.List.Props & VariantProps<typeof tabsListVariants>) {
+  return (
+    <TabsPrimitive.List
+      data-slot="tabs-list"
+      data-variant={variant}
+      className={cn(tabsListVariants({ variant }), className)}
+      {...props}
+    />
+  )
+}
+
+function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
+  return (
+    <TabsPrimitive.Tab
+      data-slot="tabs-trigger"
+      className={cn(
+        "relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-1.5 py-0.5 text-sm font-medium whitespace-nowrap text-foreground/60 transition-all group-data-vertical/tabs:w-full group-data-vertical/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 has-data-[icon=inline-end]:pr-1 has-data-[icon=inline-start]:pl-1 aria-disabled:pointer-events-none aria-disabled:opacity-50 dark:text-muted-foreground dark:hover:text-foreground group-data-[variant=default]/tabs-list:data-active:shadow-sm group-data-[variant=line]/tabs-list:data-active:shadow-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-active:bg-transparent dark:group-data-[variant=line]/tabs-list:data-active:border-transparent dark:group-data-[variant=line]/tabs-list:data-active:bg-transparent",
+        "data-active:bg-background data-active:text-foreground dark:data-active:border-input dark:data-active:bg-input/30 dark:data-active:text-foreground",
+        "after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-horizontal/tabs:after:inset-x-0 group-data-horizontal/tabs:after:bottom-[-5px] group-data-horizontal/tabs:after:h-0.5 group-data-vertical/tabs:after:inset-y-0 group-data-vertical/tabs:after:-right-1 group-data-vertical/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-active:after:opacity-100",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function TabsContent({ className, ...props }: TabsPrimitive.Panel.Props) {
+  return (
+    <TabsPrimitive.Panel
+      data-slot="tabs-content"
+      className={cn("flex-1 text-sm outline-none", className)}
+      {...props}
+    />
+  )
+}
+
+export { Tabs, TabsList, TabsTrigger, TabsContent, tabsListVariants }
+</file>
+
+<file path="src/lib/utils.ts">
+export { cn } from "cn"
+</file>
+
+<file path=".gitignore">
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+</file>
+
+<file path=".prettierrc">
+{
+  "plugins": ["prettier-plugin-tailwindcss"]
+}
+</file>
+
+<file path="AGENTS.md">
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
+</file>
+
+<file path="CLAUDE.md">
+@AGENTS.md
+</file>
+
+<file path="components.json">
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "base-nova",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "src/app/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "iconLibrary": "lucide",
+  "rtl": false,
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  },
+  "menuColor": "default",
+  "menuAccent": "subtle",
+  "registries": {}
+}
+</file>
+
+<file path="eslint.config.mjs">
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  // Override default ignores of eslint-config-next.
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
+]);
+
+export default eslintConfig;
+</file>
+
+<file path="LICENSE">
+MIT License
+
+Copyright (c) 2026 Jairo Lopes
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+</file>
+
+<file path="next.config.ts">
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+};
+
+export default nextConfig;
+</file>
+
+<file path="postcss.config.mjs">
+const config = {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+};
+
+export default config;
+</file>
+
+<file path="tsconfig.json">
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
+}
+</file>
+
+<file path="src/app/job/page.tsx">
+import React from "react";
 
 import TitleAnimated from "@/components/animatedComponents/TitleAnimated";
 import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
-import { RiSparklingLine } from "react-icons/ri";
-import CardProject, { type Project } from "./CardProject";
 
-const PROJECTS_MOCK: readonly Project[] = [
+import {
+  RiBriefcase4Line,
+  RiMacbookLine,
+  RiSpeedUpLine,
+  RiSmartphoneLine,
+  RiCheckboxCircleLine,
+  RiCodeSSlashLine,
+} from "react-icons/ri";
+
+/**
+ * @Responsabilidade: Apresentar os principais serviços oferecidos pelo desenvolvedor,
+ * destacando soluções e benefícios de forma clara para potenciais clientes.
+ * @Fluxo: Renderiza como Server Component -> Apresenta cabeçalho com TitleAnimated ->
+ * Mapeia a matriz de serviços -> Renderiza cards interativos com foco em benefícios.
+ * @Entradas: N/A (Server Component de rota "/services").
+ * @Saídas: Interface em grid responsivo (1 coluna no mobile, 2 no desktop) com cards
+ * em Glassmorphism apresentando serviços de forma simples e comercial.
+ * @Dependencias: react, react-icons/ri, TitleAnimated, SubTitleAnimated.
+ * @Regras_de_negocio: Linguagem acessível para clientes; foco nos problemas que os
+ * serviços resolvem; ausência de valores financeiros; apresentação clara dos principais
+ * benefícios e entregáveis.
+ * @Limitacoes: Dados estruturados estaticamente.
+ * @Arquivos_relacionados: src/components/animatedComponents/TitleAnimated.tsx,
+ * src/app/globals.css.
+ */
+
+interface ServiceItem {
+  readonly id: string;
+  readonly title: string;
+  readonly description: string;
+  readonly icon: React.ComponentType<{ className?: string }>;
+  readonly deliverables: readonly string[];
+}
+
+/**
+ * Catálogo de serviços.
+ *
+ * Os textos foram mantidos propositalmente menos técnicos, priorizando o que o cliente
+ * recebe e o problema que a solução ajuda a resolver, em vez de destacar tecnologias.
+ */
+const SERVICES_OFFERED: readonly ServiceItem[] = [
   {
-    id: "barbossa",
-    title: "Barbossa",
-    category: "Marketplace SaaS",
+    id: "professional-websites",
+    title: "Sites e Landing Pages",
     description:
-      "Marketplace em desenvolvimento para conectar clientes a barbearias. A proposta é permitir descobrir estabelecimentos, consultar serviços e preços e agendar atendimentos, enquanto proprietários gerenciam serviços, equipe e agenda.",
-    tags: [
-      "Next.js",
-      "React",
-      "TypeScript",
-      "Tailwind",
-      "Prisma",
-      "PostgreSQL",
-      "Better Auth",
-      "Zod",
+      "Criação de sites profissionais para apresentar sua empresa, seus serviços ou seu trabalho e transformar visitantes em novos contatos.",
+    icon: RiMacbookLine,
+    deliverables: [
+      "Página profissional e personalizada",
+      "Experiência perfeita no celular e computador",
+      "Integração com WhatsApp e canais de contato",
     ],
-    isFeatured: true,
-    isCompleted: false,
-    isOpenSource: false,
   },
   {
-    id: "site-personal",
-    title: "Site Personal",
-    category: "Landing Page",
+    id: "business-presence",
+    title: "Presença Digital",
     description:
-      "Landing page profissional e responsiva para personal trainer, destacando serviços e planos de treino.",
-    tags: ["Next.js", "React", "Tailwind CSS", "TypeScript"],
-    liveUrl: "https://talles-personal.vercel.app/",
-    githubUrl: "https://github.com/JairoLopes/talles-personal-nuxt",
-    isCompleted: true,
-    isOpenSource: true,
+      "Estruturas digitais pensadas para ajudar sua empresa a ser encontrada, transmitir credibilidade e facilitar o contato com novos clientes.",
+    icon: RiBriefcase4Line,
+    deliverables: [
+      "Apresentação clara dos seus serviços",
+      "Estrutura preparada para mecanismos de busca",
+      "Links e chamadas para contato bem posicionados",
+    ],
   },
   {
-    id: "astrolobby",
-    title: "Astrolobby",
-    category: "Integração de APIs",
+    id: "performance-seo",
+    title: "Velocidade e Visibilidade",
     description:
-      "Hub de conteúdo astronômico integrado à API da NASA (APOD) com tradução automática via DeepL.",
-    tags: ["React", "Tailwind CSS", "TypeScript", "API Rest"],
-    liveUrl: "https://astrolobby.vercel.app/",
-    githubUrl: "https://github.com/JairoLopes/Astrolobby",
-    isCompleted: true,
-    isOpenSource: true,
+      "Melhoria de sites existentes para carregar mais rápido, oferecer uma experiência melhor e aumentar suas chances de ser encontrado no Google.",
+    icon: RiSpeedUpLine,
+    deliverables: [
+      "Carregamento mais rápido",
+      "Otimização para dispositivos móveis",
+      "Melhor estrutura para mecanismos de busca",
+    ],
   },
   {
-    id: "cardapio-digital",
-    title: "Cardápio Digital",
-    category: "Sistema Dinâmico",
+    id: "web-systems",
+    title: "Sistemas e Aplicações Web",
     description:
-      "Cardápio online customizável com rotas geradas dinamicamente a partir das categorias do menu.",
-    tags: ["Vue.js", "Vue Router", "Tailwind CSS", "TypeScript"],
-    liveUrl: "https://cardapio-exemplo.vercel.app/",
-    githubUrl: "https://github.com/JairoLopes/cardapio",
-    isCompleted: true,
-    isOpenSource: true,
+      "Desenvolvimento de sistemas personalizados para empresas que precisam ir além de um site e transformar processos em soluções digitais.",
+    icon: RiCodeSSlashLine,
+    deliverables: [
+      "Painéis e áreas administrativas",
+      "Integração com APIs e serviços externos",
+      "Soluções personalizadas para sua necessidade",
+    ],
+  },
+  {
+    id: "interface-ux",
+    title: "Interfaces e Experiência",
+    description:
+      "Criação de interfaces modernas, intuitivas e agradáveis de usar, pensando tanto na aparência quanto na facilidade de navegação.",
+    icon: RiSmartphoneLine,
+    deliverables: [
+      "Interface moderna e responsiva",
+      "Navegação simples e intuitiva",
+      "Experiência consistente em diferentes dispositivos",
+    ],
   },
 ] as const;
 
-export default function ProjectsPage() {
+export default function ServicesPage() {
   return (
     <section
-      aria-labelledby="projects-heading"
-      className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 py-12 sm:px-6 md:py-16"
+      aria-labelledby="services-heading"
+      className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-12 sm:px-6 md:py-16"
     >
-      {/* Cabeçalho da Seção com Título e Subtítulo Animados */}
+      {/* Cabeçalho da Seção com Título e Subtítulo Animado */}
       <header className="mb-12 text-center md:mb-16">
         {/* Badge acima do título */}
         <div className="border-border bg-surface text-primary mb-3 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 font-mono text-xs backdrop-blur-md">
-          <RiSparklingLine className="h-3.5 w-3.5" />
-          <span>PORTFÓLIO DE PROJETOS SELECIONADOS</span>
+          <RiBriefcase4Line className="h-3.5 w-3.5" />
+          <span>SOLUÇÕES & SERVIÇOS</span>
         </div>
 
         {/* Título animado */}
         <TitleAnimated>
-          <span className="text-foreground">Projetos & </span>
+          <span className="text-foreground">Como posso </span>
+
           <span className="from-primary via-primary-glow to-accent-purple bg-linear-to-r bg-clip-text text-transparent">
-            Aplicações em Produção
+            Ajudar seu Projeto
           </span>
         </TitleAnimated>
 
         {/* Subtítulo animado */}
         <SubTitleAnimated>
-          Uma seleção de aplicações de arquitetura moderna, com código limpo,
-          foco em performance, tipagem rigorosa e uma boa UX.
+          Soluções digitais para transformar ideias em experiências
+          profissionais, rápidas e fáceis de usar.
         </SubTitleAnimated>
       </header>
 
-      {/* Grid responsivo com cards de altura natural. */}
-      <div className="grid grid-cols-1 items-start gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {PROJECTS_MOCK.map((project, index) => (
-          <CardProject key={project.id} project={project} index={index} />
+      {/* Grid Responsivo Mobile-First para os Serviços */}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        {SERVICES_OFFERED.map((service) => {
+          const Icon = service.icon;
+
+          return (
+            <article
+              key={service.id}
+              className="glass-panel hover:border-border-glow group flex flex-col rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(56,189,248,0.15)] sm:p-8"
+            >
+              {/* Cabeçalho do Card de Serviço */}
+              <div className="mb-5 flex items-center gap-4">
+                <div className="bg-surface-active border-border text-primary group-hover:bg-primary/10 rounded-xl border p-3 shadow-inner transition-colors duration-300">
+                  <Icon className="h-6 w-6" />
+                </div>
+
+                <h2 className="text-foreground text-lg font-bold tracking-tight sm:text-xl">
+                  {service.title}
+                </h2>
+              </div>
+
+              {/* Descrição Principal */}
+              <p className="text-foreground-muted mb-6 text-sm leading-relaxed">
+                {service.description}
+              </p>
+
+              {/* Linha Divisória */}
+              <div className="border-border/60 mt-auto border-t pt-5">
+                <span className="text-foreground-subtle mb-3 block font-mono text-[11px] tracking-wider uppercase">
+                  O que você recebe:
+                </span>
+
+                {/* Lista de Benefícios e Entregáveis */}
+                <ul className="space-y-2.5">
+                  {service.deliverables.map((item, idx) => (
+                    <li
+                      key={idx}
+                      className="text-foreground-muted flex items-start gap-2 text-xs sm:text-sm"
+                    >
+                      <RiCheckboxCircleLine className="text-accent-purple mt-0.5 h-4 w-4 shrink-0" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="src/components/animatedComponents/SubTitleAnimated.tsx">
+"use client";
+
+import { motion } from "motion/react";
+import { blurIn } from "@/components/animatedComponents/variants";
+
+type Props = {
+  children: React.ReactNode;
+  className?: string;
+};
+
+export default function SubTitleAnimated({ children, className = "" }: Props) {
+  return (
+    <motion.p
+      className={`text-foreground-muted mx-auto mt-4 max-w-2xl text-sm leading-relaxed sm:text-base ${className}`.trim()}
+      variants={blurIn}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+    >
+      {children}
+    </motion.p>
+  );
+}
+</file>
+
+<file path="src/components/animatedComponents/variants.ts">
+import type { Variants } from "motion/react";
+
+export const fadeUp: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 24,
+  },
+
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
+export const fadeDown: Variants = {
+  hidden: {
+    opacity: 0,
+    y: -24,
+  },
+
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
+export const fadeLeft: Variants = {
+  hidden: {
+    opacity: 0,
+    x: -32,
+  },
+
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
+export const fadeRight: Variants = {
+  hidden: {
+    opacity: 0,
+    x: 32,
+  },
+
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
+export const zoom: Variants = {
+  hidden: {
+    opacity: 0,
+    scale: 0.92,
+  },
+
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.75,
+      ease: "easeOut",
+    },
+  },
+};
+
+export const zoomSmall: Variants = {
+  hidden: {
+    opacity: 0,
+    scale: 0.97,
+  },
+
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.4,
+      ease: "easeOut",
+    },
+  },
+};
+
+export const blurIn: Variants = {
+  hidden: {
+    opacity: 0,
+    filter: "blur(8px)",
+  },
+
+  visible: {
+    opacity: 1,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
+</file>
+
+<file path="package.json">
+{
+  "name": "jairo-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.8.0",
+    "class-variance-authority": "^0.7.1",
+    "cn": "^0.4.0",
+    "embla-carousel-react": "^8.6.0",
+    "lucide-react": "^1.48.0",
+    "motion": "^13.2.0",
+    "next": "16.3.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "react-icons": "^5.7.0",
+    "shadcn": "^4.21.0",
+    "tw-animate-css": "^1.4.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.4",
+    "prettier": "^3.9.6",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
+</file>
+
+<file path="README.md">
+# Portfólio
+
+Portfólio pessoal desenvolvido com **Next.js**, **TypeScript** e **Tailwind CSS**, com foco em apresentar projetos, habilidades e experiência profissional através de uma interface moderna, responsiva e interativa.
+
+## ✨ Sobre o projeto
+
+Este projeto foi desenvolvido para funcionar como um portfólio profissional e também como um projeto de estudo e demonstração de boas práticas com o ecossistema React/Next.js.
+
+A aplicação utiliza uma abordagem **Mobile First**, componentes reutilizáveis, animações e uma interface visual baseada em **Glassmorphism**, criando uma experiência moderna sem comprometer a responsividade.
+
+Entre os principais elementos estão:
+
+* Apresentação profissional
+* Seção de habilidades e tecnologias
+* Catálogo de projetos
+* Links para repositórios e aplicações publicadas
+* Animações e transições de interface
+* Layout responsivo para diferentes tamanhos de tela
+* Componentes reutilizáveis
+* Navegação utilizando o App Router do Next.js
+
+## 🚀 Tecnologias
+
+### Core
+
+* **Next.js 16**
+* **React 19**
+* **TypeScript 5**
+* **Tailwind CSS 4**
+
+### Interface e animações
+
+* **Motion**
+* **React Icons**
+* Glassmorphism
+* CSS animations e transitions
+* Design responsivo e Mobile First
+
+### Componentes
+
+* Componentes React reutilizáveis
+* Componentes Client e Server
+* Componentes de interface animados
+* Cards interativos
+* Componentes de navegação
+* Componentes para apresentação de projetos
+
+### Ferramentas
+
+* ESLint
+* Prettier
+* Prettier Plugin Tailwind CSS
+* PostCSS
+
+## 📂 Estrutura do projeto
+
+O projeto utiliza o **App Router** do Next.js e mantém o código da aplicação dentro de `src`.
+
+```text
+.
+├── public/
+│   └── arquivos estáticos
+│
+├── src/
+│   ├── app/
+│   │   ├── history/
+│   │   ├── projects/
+│   │   ├── ...
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   │
+│   └── components/
+│       ├── animatedComponents/
+│       ├── carousel/
+│       └── ...
+│
+├── eslint.config.mjs
+├── next.config.ts
+├── package.json
+├── postcss.config.mjs
+├── tsconfig.json
+└── README.md
+```
+
+## 🎨 Interface
+
+A interface utiliza uma identidade visual escura, com superfícies translúcidas, bordas sutis, efeitos de glow e elementos de destaque em tons de azul, roxo e magenta.
+
+As principais variáveis visuais são centralizadas no `globals.css`, facilitando a manutenção e a consistência do design.
+
+## 📱 Responsividade
+
+O projeto segue uma abordagem **Mobile First**, adaptando o conteúdo para diferentes tamanhos de tela.
+
+A página de projetos, por exemplo, utiliza um Grid responsivo para organizar os cards:
+
+* **Mobile:** 1 coluna
+* **Tablet:** 2 colunas
+* **Desktop:** 3 colunas
+
+Os elementos interativos também consideram áreas de toque adequadas para dispositivos móveis.
+
+## 📁 Projetos
+
+A rota `/projects` apresenta um catálogo dos projetos desenvolvidos.
+
+Cada projeto pode apresentar:
+
+* Nome
+* Descrição
+* Tecnologias utilizadas
+* Status
+* Link para o código-fonte
+* Link para a aplicação publicada
+* Informações sobre os principais desafios ou características do projeto
+
+Os projetos são atualmente apresentados a partir de um conjunto estático de dados, mantendo a estrutura preparada para uma futura integração com uma API ou banco de dados.
+
+## ⚙️ Instalação
+
+Clone o repositório:
+
+```bash
+git clone <URL_DO_REPOSITORIO>
+```
+
+Entre no diretório:
+
+```bash
+cd <NOME_DO_PROJETO>
+```
+
+Instale as dependências:
+
+```bash
+npm install
+```
+
+## 🧑‍💻 Desenvolvimento
+
+Execute o servidor de desenvolvimento:
+
+```bash
+npm run dev
+```
+
+Depois, acesse:
+
+```text
+http://localhost:3000
+```
+
+A aplicação utiliza o hot reload do Next.js, permitindo visualizar automaticamente as alterações realizadas durante o desenvolvimento.
+
+## 📦 Build
+
+Para gerar uma versão de produção:
+
+```bash
+npm run build
+```
+
+Depois, execute a aplicação:
+
+```bash
+npm start
+```
+
+## 🔎 Lint
+
+Para verificar problemas de código:
+
+```bash
+npm run lint
+```
+
+## 🧹 Formatação
+
+O projeto utiliza **Prettier** em conjunto com `prettier-plugin-tailwindcss` para manter a formatação do código e a ordenação das classes do Tailwind CSS.
+
+## 🌐 Deploy
+
+O projeto pode ser publicado utilizando plataformas compatíveis com aplicações Next.js, como a **Vercel**.
+
+Após configurar o repositório, o deploy pode ser automatizado através da integração com Git.
+
+## 📌 Status
+
+**Em desenvolvimento.**
+
+O projeto continua recebendo melhorias de interface, componentes, animações, responsividade e organização do código.
+
+## 📄 Licença
+
+Este projeto é um portfólio pessoal. O código pode ser utilizado como referência para fins de estudo, mas os conteúdos, textos, imagens e projetos apresentados pertencem aos seus respectivos autores.
+
+---
+
+Desenvolvido com **Next.js + TypeScript + Tailwind CSS**.
+</file>
+
+<file path="src/components/animatedComponents/TitleAnimated.tsx">
+"use client";
+import { motion } from "motion/react";
+import { fadeUp } from "@/components/animatedComponents/variants";
+
+type Props = {
+  children: React.ReactNode;
+};
+
+export default function TitleAnimated({ children }: Props) {
+  return (
+    <motion.h1
+      variants={fadeUp}
+      initial="hidden"
+      whileInView={"visible"}
+      viewport={{ once: true }}
+      className="text-3xl font-bold text-sky-600 max-sm:text-2xl"
+    >
+      {children}
+    </motion.h1>
+  );
+}
+</file>
+
+<file path="src/app/history/page.tsx">
+import TitleAnimated from "@/components/animatedComponents/TitleAnimated";
+import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
+import {
+  RiBuilding4Line,
+  RiMapPinLine,
+  RiCalendarLine,
+  RiCheckboxCircleLine,
+  RiTimeLine,
+} from "react-icons/ri";
+
+/**
+ * @Responsabilidade: Exibir a linha do tempo e histórico de carreira profissional do desenvolvedor, demonstrando evolução técnica, liderança e realizações.
+ * @Fluxo: Renderiza como Server Component -> Monta cabeçalho com TitleAnimated -> Mapeia as 4 etapas profissionais estruturadas em ordem cronológica inversa -> Renderiza cards interativos com timeline visual e indicadores de impacto.
+ * @Entradas: N/A (Server Component de rota "/history").
+ * @Saídas: Interface rica com cards estilo Glassmorphism diferenciados por marcadores temporais, métricas de impacto e tags de tecnologias.
+ * @Dependencias: react, react-icons/ri, TitleAnimated (@/components/animatedComponents/TitleAnimated).
+ * @Regras_de_negocio: Os 4 cards devem ser distinguidos dos cards de projetos através de foco em cronologia, realizações com métricas e ausência de botões de deploy; o cargo mais recente possui badge pulsante de posição atual.
+ * @Limitacoes: Dados estruturados estaticamente (mock de carreira); preparado para futura sincronização com perfis externos (LinkedIn/JSON).
+ * @Edge_cases: Em resoluções móveis, a linha de timeline é ajustada para margem esquerda reduzida, evitando quebra de textos.
+ * @Arquivos_relacionados: src/components/animatedComponents/TitleAnimated.tsx, src/app/globals.css, src/app/layout.tsx.
+ */
+
+interface CareerMilestone {
+  readonly id: string;
+  readonly role: string;
+  readonly company: string;
+  readonly location: string;
+  readonly period: string;
+  readonly isCurrent?: boolean;
+  readonly summary: string;
+  readonly keyAchievements: readonly string[];
+  readonly technologies: readonly string[];
+}
+
+const CAREER_HISTORY: readonly CareerMilestone[] = [
+  {
+    id: "milestone-1",
+    role: "Desenvolvedor Front-end",
+    company: "Freelancer",
+    location: "Home Office",
+    period: "2025",
+    isCurrent: true,
+    summary:
+      "Desenvolvimento de interfaces web responsivas utilizando Next.js, Tailwind e TypeScript para a criação de componentes reutilizáveis para diferentes dispositivos.",
+    keyAchievements: [
+      "Criação de interfaces web responsivas com foco em performance e componentização avançada.",
+    ],
+    technologies: ["Next.js", "Tailwind CSS", "TypeScript", "React", "prisma"],
+  },
+  {
+    id: "milestone-2",
+    role: "Programador Front-end",
+    company: "Prefeitura de Olinda",
+    location: "Olinda - PE",
+    period: "2022",
+    isCurrent: false,
+    summary:
+      "Realização de ajustes e melhorias no front-end de sistemas corporativos utilizando React.",
+    keyAchievements: [
+      "Evolução contínua e otimização de interfaces para sistemas corporativos públicos.",
+    ],
+    technologies: ["React", "JavaScript", "HTML5", "CSS3"],
+  },
+  {
+    id: "milestone-3",
+    role: "Técnico em Segurança da Informação",
+    company: "Bidweb Security",
+    location: "Recife - PE",
+    period: "2020",
+    isCurrent: false,
+    summary:
+      "Trabalhando com o desenvolvimento e manutenção de scripts Python em containers, e monitoramento de ameaças.",
+    keyAchievements: [
+      "Automação de processos e isolamento de aplicações de monitoramento utilizando containers.",
+    ],
+    technologies: ["Python", "Docker", "Linux", "Segurança da Informação"],
+  },
+  {
+    id: "milestone-4",
+    role: "Help Desk",
+    company: "Secretaria da Fazenda",
+    location: "Recife - PE",
+    period: "2017",
+    isCurrent: false,
+    summary:
+      "Prestação de suporte técnico a sistemas e infraestrutura interna.",
+    keyAchievements: [
+      "Resolução ágil de chamados técnicos, garantindo a estabilidade operacional dos postos de atendimento.",
+    ],
+    technologies: [
+      "Suporte Técnico",
+      "Redes",
+      "Hardware",
+      "Sistemas Operacionais",
+    ],
+  },
+] as const;
+
+export default function HistoryPage() {
+  return (
+    <section
+      aria-labelledby="history-heading"
+      className="mx-auto flex w-full max-w-4xl flex-1 flex-col px-4 py-12 sm:px-6 md:py-16"
+    >
+      {/* Cabeçalho da Seção com Título e subtitulo Animado */}
+      <header className="mb-12 text-center md:mb-16">
+        {/* Badge acima do titulo */}
+        <div className="border-border bg-surface text-primary mb-3 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 font-mono text-xs backdrop-blur-md">
+          <RiTimeLine className="h-3.5 w-3.5" />
+          <span>TRAJETÓRIA & EXPERIÊNCIA PROFISSIONAL</span>
+        </div>
+
+        {/* Titulo animado */}
+        <TitleAnimated>
+          <span className="text-foreground">Histórico & </span>
+          <span className="from-primary via-primary-glow to-accent-purple bg-linear-to-r bg-clip-text text-transparent">
+            Evolução de Carreira
+          </span>
+        </TitleAnimated>
+
+        {/* Subtitulo animado */}
+        <SubTitleAnimated>
+          Um resumo da minha trajetória e das experiências que construí ao longo
+          da minha jornada{" "}
+          <span className="text-accent-magenta">na área de tecnologia</span>
+        </SubTitleAnimated>
+      </header>
+
+      {/* Timeline Linear com Conexão Visual Vertical */}
+      <div className="border-border/70 relative ml-2 space-y-10 border-l pl-6 sm:ml-4 sm:pl-8">
+        {CAREER_HISTORY.map((item) => (
+          <article key={item.id} className="group relative">
+            {/* Marcador Visual da Linha do Tempo */}
+            <div
+              aria-hidden="true"
+              className={`bg-background absolute top-5 -left-7.75 flex h-4 w-4 items-center justify-center rounded-full border transition-all duration-300 sm:-left-9.75 ${
+                item.isCurrent
+                  ? "border-primary ring-primary/20 shadow-[0_0_12px_rgba(56,189,248,0.8)] ring-4"
+                  : "border-border group-hover:border-primary/60 group-hover:shadow-[0_0_8px_rgba(56,189,248,0.4)]"
+              }`}
+            >
+              <div
+                className={`h-2 w-2 rounded-full transition-colors ${
+                  item.isCurrent
+                    ? "bg-primary animate-pulse"
+                    : "bg-foreground-subtle group-hover:bg-primary"
+                }`}
+              />
+            </div>
+
+            {/* Card Glassmorphism com Detalhes da Atuação */}
+            <div className="glass-panel hover:border-border-glow rounded-2xl p-6 transition-all duration-300 hover:shadow-[0_0_25px_rgba(56,189,248,0.12)]">
+              {/* Header do Card: Período, Status e Cargo */}
+              <div className="border-border/60 flex flex-wrap items-center justify-between gap-2 border-b pb-4">
+                <div>
+                  <h2 className="text-foreground group-hover:text-primary text-lg font-semibold tracking-tight transition-colors">
+                    {item.role}
+                  </h2>
+                  <div className="text-foreground-muted mt-1 flex flex-wrap items-center gap-3 text-xs sm:text-sm">
+                    <span className="text-foreground flex items-center gap-1 font-medium">
+                      <RiBuilding4Line className="text-primary h-3.5 w-3.5" />
+                      {item.company}
+                    </span>
+                    <span className="text-foreground-subtle">•</span>
+                    <span className="text-foreground-subtle flex items-center gap-1">
+                      <RiMapPinLine className="h-3.5 w-3.5" />
+                      {item.location}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Badge de Período / Status */}
+                <div className="flex items-center gap-2">
+                  {item.isCurrent && (
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 font-mono text-xs text-emerald-400">
+                      <span className="h-1.5 w-1.5 animate-ping rounded-full bg-emerald-400" />
+                      ATUAL
+                    </span>
+                  )}
+                  <span className="glass-panel text-foreground-muted inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-mono text-xs">
+                    <RiCalendarLine className="text-primary h-3 w-3" />
+                    {item.period}
+                  </span>
+                </div>
+              </div>
+
+              {/* Resumo da Atuação */}
+              <p className="text-foreground-muted mt-4 text-xs leading-relaxed sm:text-sm">
+                {item.summary}
+              </p>
+
+              {/* Principais Realizações e Impactos Técnicos */}
+              <div className="mt-5 space-y-2">
+                <span className="text-foreground-subtle block font-mono text-[11px] tracking-wider uppercase">
+                  Realizações e Impactos Chave:
+                </span>
+                <ul className="space-y-2">
+                  {item.keyAchievements.map((achieve, idx) => (
+                    <li
+                      key={idx}
+                      className="text-foreground-muted flex items-start gap-2 text-xs sm:text-sm"
+                    >
+                      <RiCheckboxCircleLine className="text-primary mt-0.5 h-4 w-4 shrink-0" />
+                      <span>{achieve}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Badges de Tecnologias Utilizadas */}
+              <div className="border-border/60 mt-6 border-t pt-4">
+                <div className="flex flex-wrap gap-1.5">
+                  {item.technologies.map((tech) => (
+                    <span
+                      key={tech}
+                      className="text-accent-purple hover:text-primary hover:border-primary/30 inline-flex items-center rounded-md border border-white/5 bg-white/5 px-2.5 py-0.5 font-mono text-[11px] transition-colors"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </article>
         ))}
       </div>
     </section>
@@ -917,7 +2031,77 @@ export default function ProjectsPage() {
 }
 </file>
 
-<file path="app/skills/page.tsx">
+<file path="src/app/template.tsx">
+"use client";
+
+/**
+ * @Responsabilidade: Orquestrar transições direcionais animadas (slide horizontal suave) entre rotas durante a navegação no Next.js App Router.
+ * @Fluxo: Captura pathname atual -> Calcula delta vetorial comparando índice atual com índice anterior -> Define direção no eixo X -> Renderiza container animado com Motion sem provocar 'blink' visual.
+ * @Entradas: children (React.ReactNode representando a página da rota atual).
+ * @Saídas: Container animado (motion.div) com entrada direcional fluida.
+ * @Dependencias: react (useEffect, useState), next/navigation (usePathname), motion/react (motion).
+ */
+
+import React, { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { motion } from "motion/react";
+
+// Mapeamento linear de pesos de rota para computação vetorial
+const ROUTE_INDEX_MAP: Record<string, number> = {
+  "/": 0,
+  "/job": 1,
+  "/skills": 1,
+  "/projects": 2,
+  "/history": 3,
+};
+
+// Registrador do índice da rota anterior no ciclo de navegação SPA
+let globalLastRouteIndex = 0;
+
+export default function Template({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  const pathname = usePathname();
+  const currentRouteIndex = ROUTE_INDEX_MAP[pathname] ?? 0;
+
+  // Lógica Matemática de Direção:
+  // Se currentRouteIndex >= globalLastRouteIndex, o usuário está avançando (direção +1: entra da direita).
+  // Se currentRouteIndex < globalLastRouteIndex, o usuário está retrocedendo (direção -1: entra da esquerda).
+  const [slideDirection] = useState<number>(() => {
+    const delta = currentRouteIndex - globalLastRouteIndex;
+    return delta >= 0 ? 1 : -1;
+  });
+
+  // Atualiza o índice global após o registro da transição
+  useEffect(() => {
+    globalLastRouteIndex = currentRouteIndex;
+  }, [currentRouteIndex]);
+
+  return (
+    <motion.div
+      initial={{
+        opacity: 0.9,
+        x: slideDirection * 28,
+      }}
+      animate={{
+        opacity: 1,
+        x: 0,
+      }}
+      transition={{
+        duration: 0.2,
+        ease: "easeOut",
+      }}
+      className="flex flex-1 flex-col"
+    >
+      {children}
+    </motion.div>
+  );
+}
+</file>
+
+<file path="src/app/skills/page.tsx">
 import React from "react";
 
 // Componentes de UI e Animação reutilizáveis
@@ -1459,7 +2643,600 @@ export default function SkillsPage() {
 }
 </file>
 
-<file path="app/globals.css">
+<file path="src/app/layout.tsx">
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import BottomSheetNav from "@/components/navigation/BottomSheetNav";
+import "./globals.css";
+import type { Viewport } from "next";
+
+export const viewport: Viewport = {
+  themeColor: "#08090d",
+  colorScheme: "dark",
+};
+
+/**
+ * @Responsabilidade: Prover a casca estrutural global da aplicação (Root Layout), carregando fontes tipográficas, estilização base, camadas de iluminação de fundo e a barra de navegação persistente.
+ * @Fluxo: Injeta variáveis de fonte no elemento html -> Renderiza luzes ambientais de fundo -> Provê área central para páginas filhas -> Renderiza navegação global BottomSheetNav.
+ * @Entradas: children (React.ReactNode contendo o template e a página da rota atual).
+ * @Saídas: Estrutura HTML/Body completa com Server Component First, sem remontagem do menu ao navegar.
+ * @Dependencias: next/font/google (Geist, Geist_Mono), BottomSheetNav (@/components/navigation/BottomSheetNav), globals.css.
+ * @Regras_de_negocio: O layout é estritamente um Server Component; a navegação deve persistir sem re-renderizações desnecessárias e o conteúdo principal deve possuir espaçamento inferior para não ser coberto pelo dock.
+ * @Limitacoes: Não manipula estados locais diretamente (responsabilidade delegada aos Client Components isolados).
+ * @Edge_cases: Telas de alta densidade de pixels ou ultrawide são limitadas com max-w e centralização para preservar a ergonomia visual.
+ * @Arquivos_relacionados: src/components/navigation/BottomSheetNav.tsx, src/app/template.tsx, src/app/globals.css.
+ */
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "Jairo | Desenvolvedor Next.js",
+  description:
+    "Portfólio de desenvolvimento de software moderno focado em alta performance, Next.js, React, TypeScript, Tailwind CSS e arquitetura SaaS.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html
+      lang="pt-BR"
+      className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
+    >
+      <body className="bg-background text-foreground selection:bg-primary/25 selection:text-primary relative flex min-h-full flex-col overflow-x-hidden font-sans">
+        {/* ─────────────────────────────────────────────────────────
+      Véu cósmico — gradiente radial fixo atrás de tudo.
+      Substitui o background-image que antes vivia no html
+      com background-attachment: fixed (que repintava a cada
+      frame de scroll). Fixo por viewport + z-index negativo
+      = camada isolada, zero repaint durante a rolagem.
+      ───────────────────────────────────────────────────────── */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_100%_80%_at_50%_30%,#1e0b4a_0%,#0d0326_50%,#03000a_100%)]"
+        />
+
+        {/* Camada de Iluminação Ambiente (Glow Effects sutis em background) */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+        >
+          {/* Luz superior ciano / azul */}
+          <div className="bg-primary/10 absolute -top-40 left-1/2 h-125 w-125 -translate-x-1/2 rounded-full blur-[130px] sm:h-150 sm:w-150" />
+          {/* Luz secundária magenta sutil no rodapé */}
+          <div className="bg-accent-magenta/10 absolute right-10 -bottom-40 h-100 w-100 rounded-full blur-[140px]" />
+        </div>
+
+        {/* Container Principal com espaçamento inferior de compensação do Bottom Sheet */}
+        <main className="relative z-10 flex flex-1 flex-col pb-24 md:pb-28">
+          {children}
+        </main>
+
+        {/* Barra de Navegação Persistente */}
+        <BottomSheetNav />
+      </body>
+    </html>
+  );
+}
+</file>
+
+<file path="src/app/page.tsx">
+// src/app/page.tsx
+import Link from "next/link";
+import {
+  RiWhatsappFill,
+  RiGithubFill,
+  RiLinkedinBoxFill,
+  RiArrowRightUpLine,
+  RiMapPinLine,
+  RiCodeSSlashLine,
+  RiRocketLine,
+} from "react-icons/ri";
+import TitleAnimated from "@/components/animatedComponents/TitleAnimated";
+import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
+import { Button } from "@/components/ui/button";
+
+/**
+ * @Responsabilidade: Apresentar a porta de entrada do portfólio (Hero Section), destacando identidade profissional, especialidades técnicas, canais diretos de contato e um snippet de código estilizado como editor.
+ * @Fluxo: Renderiza como Server Component -> Badge de status ativo -> TitleAnimated (título principal) -> SubTitleAnimated (especialidade) -> Linha de quick info com localização, foco e stack -> Snippet de código com chrome de janela e numeração de linhas -> Grupo de botões de contato (WhatsApp, GitHub, LinkedIn).
+ * @Entradas: N/A (Server Component de rota raiz "/").
+ * @Saídas: Interface centralizada, responsiva e compacta, com microinterações via Tailwind e animações delegadas aos componentes folha.
+ * @Dependencias: react, next/link, react-icons/ri, TitleAnimated (@/components/animatedComponents/TitleAnimated), SubTitleAnimated (@/components/animatedComponents/SubTitleAnimated).
+ * @Regras_de_negocio: Área de toque dos botões deve respeitar no mínimo 44px de altura (h-12); links externos com atributos de segurança rel="noopener noreferrer"; layout mobile-first; identidade visual (Glassmorphism + dark + cyan/roxo/magenta) preservada.
+ * @Limitacoes: Renderiza estaticamente no servidor; animações interativas complexas são delegadas aos componentes folha em animatedComponents.
+ * @Edge_cases: Em telas pequenas os botões empilham verticalmente; chips de quick info quebram linha naturalmente via flex-wrap; snippets longos quebram palavra dentro do bloco com overflow controlado.
+ * @Arquivos_relacionados: src/components/animatedComponents/TitleAnimated.tsx, src/components/animatedComponents/SubTitleAnimated.tsx, src/app/globals.css, src/app/layout.tsx.
+ */
+
+// Lista estática das principais tecnologias.
+// Fica fora do componente para não recriar o array a cada render (mesmo em Server Component,
+// essa organização facilita leitura e futura extração para CMS/API).
+const STACK_HIGHLIGHTS = [
+  "Next.js",
+  "React",
+  "TypeScript",
+  "Tailwind v4",
+  "Prisma",
+] as const;
+
+export default function Home() {
+  return (
+    <section
+      // Referência de acessibilidade: o título principal define o nome da seção.
+      aria-labelledby="hero-title"
+      // Centraliza vertical e horizontalmente, limita a largura e usa padding enxuto.
+      className="mx-auto flex min-h-svh w-full max-w-4xl flex-1 flex-col items-center justify-center px-8 py-10 text-center sm:px-6 md:py-14"
+    >
+      {/* ============================================================
+          BLOCO 1 — Badge de status "Disponível para novos projetos"
+          ============================================================ */}
+      {/* Chip de status com indicador pulsante. Comunica disponibilidade
+          antes de qualquer outro conteúdo — é a primeira coisa que o olho pega. */}
+      <div className="border-border bg-surface text-foreground-muted mb-5 inline-flex items-center gap-2.5 rounded-full border px-4 py-1.5 font-mono text-xs tracking-wide shadow-lg shadow-black/40 backdrop-blur-md">
+        {/* Ponto duplo: um com animate-ping (efeito sonar) e outro sólido por cima. */}
+        <span className="relative flex h-2 w-2" aria-hidden="true">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+        </span>
+        <span className="select-none">DISPONÍVEL PARA NOVOS PROJETOS</span>
+      </div>
+
+      {/* ============================================================
+          BLOCO 2 — Título principal
+          ============================================================ */}
+      {/* Título com animação isolada em Client Component (TitleAnimated).
+          Mantém-se dentro de uma div com margem controlada para
+          respeitar o espaçamento global do hero. */}
+      <div className="mb-4">
+        <TitleAnimated>
+          <span className="text-foreground">Oi, eu sou </span>
+          {/* Texto com gradiente via bg-clip-text — herda a paleta cyan → roxo. */}
+          <span className="from-primary via-primary-glow to-accent-purple bg-linear-to-r bg-clip-text text-transparent">
+            Jairo Lopes
+          </span>
+        </TitleAnimated>
+      </div>
+
+      {/* ============================================================
+          BLOCO 3 — Subtítulo de especialidade
+          ============================================================ */}
+      {/* Subtítulo com animação de blur (SubTitleAnimated). Aplica-se
+          destaque apenas às tecnologias centrais para não competir
+          com o título principal. */}
+      <SubTitleAnimated>
+        <strong className="text-foreground font-semibold">
+          Desenvolvedor Web,
+        </strong>{" "}
+        focado na criação de aplicações web de alto desempenho, arquiteturas
+        modernas com <span className="text-primary font-medium">Next.js</span>,
+        ecossistema{" "}
+        <span className="text-accent-purple font-medium">React</span>,{" "}
+        <span className="text-accent-magenta font-medium">TypeScript</span> e
+        produtos SaaS escaláveis.
+      </SubTitleAnimated>
+
+      {/* ============================================================
+          BLOCO 4 — Quick info (localização · foco · stack)
+          ============================================================ */}
+      {/* Linha enxuta de "credenciais rápidas" — cada item é um chip textual
+          com ícone à esquerda. Ficam num flex-wrap para quebrar
+          elegantemente em telas estreitas. */}
+      <div className="text-foreground-subtle mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs">
+        {/* Item 1: localização / modelo de trabalho */}
+        <span className="inline-flex items-center gap-1.5">
+          <RiMapPinLine className="text-primary h-3.5 w-3.5" />
+          Brasil
+        </span>
+
+        {/* Separador visual entre itens (apenas decorativo). */}
+        <span
+          className="bg-border hidden h-3 w-px sm:inline-block"
+          aria-hidden="true"
+        />
+
+        {/* Item 2: tipo de atuação profissional */}
+        <span className="inline-flex items-center gap-1.5">
+          <RiCodeSSlashLine className="text-accent-purple h-3.5 w-3.5" />
+          React
+        </span>
+
+        {/* Separador visual entre itens (apenas decorativo). */}
+        <span
+          className="bg-border hidden h-3 w-px sm:inline-block"
+          aria-hidden="true"
+        />
+
+        {/* Item 3: foco principal de mercado */}
+        <span className="inline-flex items-center gap-1.5">
+          <RiRocketLine className="text-accent-magenta h-3.5 w-3.5" />
+          Responsividade
+        </span>
+      </div>
+
+      {/* ============================================================
+          BLOCO 5 — Snippet de código estilizado como editor
+          ============================================================ */}
+      {/* Simula uma janela de editor com chrome (dots + filename + badge de
+          linguagem) e um corpo com numeração de linhas. Reforça a identidade
+          "software developer" sem depender de imagens externas. */}
+      <div className="mt-8 mb-8 w-full max-w-md">
+        <div className="glass-panel overflow-hidden rounded-xl text-left shadow-xl">
+          {/* Chrome da janela: dots coloridos, nome do arquivo e badge de linguagem */}
+          <div className="border-border flex items-center justify-between border-b px-3 py-2">
+            {/* Lado esquerdo: dots estilo macOS + nome do arquivo em monospace */}
+            <div className="flex items-center gap-1.5">
+              <span
+                className="h-2 w-2 rounded-full bg-rose-500/80"
+                aria-hidden="true"
+              />
+              <span
+                className="h-2 w-2 rounded-full bg-amber-500/80"
+                aria-hidden="true"
+              />
+              <span
+                className="h-2 w-2 rounded-full bg-emerald-500/80"
+                aria-hidden="true"
+              />
+              <span className="text-foreground-subtle ml-2 font-mono text-[11px] tracking-wider">
+                jairo_profile.tsx
+              </span>
+            </div>
+
+            {/* Lado direito: badge de linguagem sutil */}
+            <span className="text-primary border-primary/20 bg-primary/10 rounded-md border px-1.5 py-0.5 font-mono text-[10px] tracking-wider">
+              TS
+            </span>
+          </div>
+
+          {/* Corpo do código com numeração de linhas em grid.
+              Cada linha é composta por dois spans: o número (coluna esquerda)
+              e o conteúdo de código (coluna direita). */}
+          <div className="text-foreground-muted grid grid-cols-[1.5rem_1fr] gap-x-3 px-3 py-3 font-mono text-xs leading-relaxed">
+            {/* Linha 1 — abertura do objeto */}
+            <span className="text-foreground-subtle/50 select-none">1</span>
+            <span>
+              <span className="text-accent-magenta">const</span>{" "}
+              <span className="text-primary">developer</span> = &#123;
+            </span>
+
+            {/* Linha 2 — campo role */}
+            <span className="text-foreground-subtle/50 select-none">2</span>
+            <span>
+              &nbsp;&nbsp;role:{" "}
+              <span className="text-emerald-400">
+                &quot;Desenvolvedor Next.js&quot;
+              </span>
+              ,
+            </span>
+
+            {/* Linha 3 — array de stack, iterando STACK_HIGHLIGHTS.
+                Uso de map para não repetir spans manualmente. */}
+            <span className="text-foreground-subtle/50 select-none">3</span>
+            <span>
+              &nbsp;&nbsp;stack: [
+              {STACK_HIGHLIGHTS.map((tech, i) => (
+                <span key={tech}>
+                  <span className="text-emerald-400">&quot;{tech}&quot;</span>
+                  {/* Adiciona vírgula após cada item, exceto o último. */}
+                  {i < STACK_HIGHLIGHTS.length - 1 ? ", " : ""}
+                </span>
+              ))}
+              ]
+            </span>
+
+            {/* Linha 4 — fechamento do objeto */}
+            <span className="text-foreground-subtle/50 select-none">4</span>
+            <span>&#125;;</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Container dos botoes */}
+      <div className="mt-2 flex flex-row items-center justify-center gap-2 sm:gap-3">
+        {/* ── WhatsApp */}
+        <Button
+          nativeButton={false}
+          size="lg"
+          className="from-primary to-primary-glow group border-primary/30 shadow-primary/25 hover:border-primary/60 hover:shadow-primary/40 h-11 gap-2 rounded-xl border bg-linear-to-r px-4 text-sm font-semibold text-slate-950 shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg sm:px-5"
+          render={
+            <Link
+              href="https://wa.me/5581997052877?text=Olá%20Jairo,%20encontrei%20seu%20portfólio%20e%20gostaria%20de%20conversar."
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+          }
+        >
+          <RiWhatsappFill className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+          <span className="whitespace-nowrap">WhatsApp</span>
+        </Button>
+
+        {/* ── GitHub — quick action neutra (glass escuro) ─────────── */}
+        <Button
+          nativeButton={false}
+          size="lg"
+          variant="ghost"
+          aria-label="Perfil do GitHub"
+          className="glass-panel text-foreground-muted hover:text-foreground group hover:border-border-glow hover:bg-surface-hover h-11 gap-2 rounded-xl px-3 text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 sm:px-4"
+          render={
+            <Link
+              href="https://github.com/JairoLopes"
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+          }
+        >
+          <RiGithubFill className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+          <span className="hidden whitespace-nowrap sm:inline">GitHub</span>
+        </Button>
+
+        {/* ── LinkedIn — quick action azul corporativo ────────────── */}
+        <Button
+          nativeButton={false}
+          size="lg"
+          variant="ghost"
+          aria-label="Perfil do LinkedIn"
+          className="glass-panel text-foreground-muted hover:text-foreground group hover:border-border-glow hover:bg-surface-hover h-11 gap-2 rounded-xl px-3 text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 sm:px-4"
+          render={
+            <Link
+              href="https://www.linkedin.com/in/jairo-lopes-filho/"
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+          }
+        >
+          <RiLinkedinBoxFill className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+          <span className="hidden whitespace-nowrap sm:inline">LinkedIn</span>
+        </Button>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="src/app/projects/page.tsx">
+// src/app/projects/page.tsx
+
+import TitleAnimated from "@/components/animatedComponents/TitleAnimated";
+import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
+import { RiSparklingLine } from "react-icons/ri";
+import CardProject, { type Project } from "./CardProject";
+
+const PROJECTS_MOCK: readonly Project[] = [
+  {
+    id: "barbossa",
+    title: "Barbossa",
+    category: "Marketplace SaaS",
+    description:
+      "Marketplace em desenvolvimento para conectar clientes a barbearias. A proposta é permitir descobrir estabelecimentos, consultar serviços e preços e agendar atendimentos, enquanto proprietários gerenciam serviços, equipe e agenda.",
+    tags: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind",
+      "Prisma",
+      "PostgreSQL",
+      "Better Auth",
+      "Zod",
+    ],
+    isFeatured: true, // Destaque?
+    isCompleted: false, // Finalizado?
+    isOpenSource: false, // codigo aberto?
+    liveUrl: "https://barbossa-ten.vercel.app",
+  },
+  {
+    id: "site-personal",
+    title: "Site Personal",
+    category: "Landing Page",
+    description:
+      "Landing page profissional e responsiva para personal trainer, destacando serviços e planos de treino.",
+    tags: ["Next.js", "React", "Tailwind CSS", "TypeScript"],
+    liveUrl: "https://talles-personal.vercel.app/",
+    githubUrl: "https://github.com/JairoLopes/talles-personal-nuxt",
+    isCompleted: true,
+    isOpenSource: true,
+  },
+  {
+    id: "astrolobby",
+    title: "Astrolobby",
+    category: "Integração de APIs",
+    description:
+      "Hub de conteúdo astronômico integrado à API da NASA (APOD) com tradução automática via DeepL.",
+    tags: ["React", "Tailwind CSS", "TypeScript", "API Rest"],
+    liveUrl: "https://astrolobby.vercel.app/",
+    githubUrl: "https://github.com/JairoLopes/Astrolobby",
+    isCompleted: true,
+    isOpenSource: true,
+  },
+  {
+    id: "cardapio-digital",
+    title: "Cardápio Digital",
+    category: "Sistema Dinâmico",
+    description:
+      "Cardápio online customizável com rotas geradas dinamicamente a partir das categorias do menu.",
+    tags: ["Vue.js", "Vue Router", "Tailwind CSS", "TypeScript"],
+    liveUrl: "https://cardapio-exemplo.vercel.app/",
+    githubUrl: "https://github.com/JairoLopes/cardapio",
+    isCompleted: true,
+    isOpenSource: true,
+  },
+] as const;
+
+export default function ProjectsPage() {
+  return (
+    <section
+      aria-labelledby="projects-heading"
+      className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 py-12 sm:px-6 md:py-16"
+    >
+      {/* Cabeçalho da Seção com Título e Subtítulo Animados */}
+      <header className="mb-12 text-center md:mb-16">
+        {/* Badge acima do título */}
+        <div className="border-border bg-surface text-primary mb-3 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 font-mono text-xs backdrop-blur-md">
+          <RiSparklingLine className="h-3.5 w-3.5" />
+          <span>PORTFÓLIO DE PROJETOS SELECIONADOS</span>
+        </div>
+
+        {/* Título animado */}
+        <TitleAnimated>
+          <span className="text-foreground">Projetos & </span>
+          <span className="from-primary via-primary-glow to-accent-purple bg-linear-to-r bg-clip-text text-transparent">
+            Aplicações em Produção
+          </span>
+        </TitleAnimated>
+
+        {/* Subtítulo animado */}
+        <SubTitleAnimated>
+          Uma seleção de aplicações de arquitetura moderna, com código limpo,
+          foco em performance, tipagem rigorosa e uma boa UX.
+        </SubTitleAnimated>
+      </header>
+
+      {/* Grid responsivo com cards de altura natural. */}
+      <div className="grid grid-cols-1 items-start gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {PROJECTS_MOCK.map((project, index) => (
+          <CardProject key={project.id} project={project} index={index} />
+        ))}
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="src/components/navigation/BottomSheetNav.tsx">
+"use client";
+
+/**
+ * Barra de navegação inferior fixa.
+ *
+ * - Cada rota é um botão escuro com leve transparência.
+ * - O container é transparente e flutua sobre o conteúdo.
+ * - Possui indicador animado via Motion (layoutId="navIndicator") que desliza entre as opções ativas.
+ */
+
+import React, { useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "motion/react";
+import {
+  FiBriefcase,
+  FiChevronRight,
+  FiClock,
+  FiCode,
+  FiFolder,
+  FiHome,
+} from "react-icons/fi";
+
+// Itens do menu (rota + rótulo + ícone)
+const NAV_ITEMS = [
+  { label: "Início", path: "/", icon: FiHome },
+  { label: "Conhecimentos", path: "/skills", icon: FiCode },
+  { label: "Projetos", path: "/projects", icon: FiFolder },
+  { label: "Serviços", path: "/job", icon: FiBriefcase },
+  { label: "Histórico", path: "/history", icon: FiClock },
+];
+
+export default function BottomSheetNav() {
+  // Rota atual (para definir o item ativo)
+  const pathname = usePathname();
+
+  // Referência ao <nav> rolável + estado de alcance do fim da barra (mobile)
+  const navRef = useRef<HTMLElement>(null);
+  const [reachedEnd, setReachedEnd] = useState(false);
+
+  function handleScroll() {
+    const nav = navRef.current;
+    if (!nav) return;
+
+    const distanceToEnd = nav.scrollWidth - nav.clientWidth - nav.scrollLeft;
+    setReachedEnd(distanceToEnd < 10);
+  }
+
+  return (
+    <div
+      className="fixed bottom-4 left-1/2 z-50 w-full max-w-fit -translate-x-1/2 px-3 md:bottom-6"
+      style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+    >
+      <div className="relative">
+        {/* Barra transparente que agrupa os botões */}
+        <nav
+          ref={navRef}
+          onScroll={handleScroll}
+          aria-label="Navegação principal"
+          className="no-scrollbar flex max-w-[calc(100vw-2rem)] items-center gap-1.5 overflow-x-auto p-1 sm:gap-2"
+          style={{ contain: "layout" }}
+        >
+          {NAV_ITEMS.map((item) => {
+            const isActive = pathname === item.path;
+            const Icon = item.icon;
+
+            return (
+              <Link
+                key={item.path}
+                href={item.path}
+                aria-current={isActive ? "page" : undefined}
+                className={[
+                  "relative flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-4.5 py-4",
+                  "transition-all duration-200 active:scale-95",
+                  "text-xs font-medium tracking-wide sm:px-4 sm:text-sm",
+                  isActive
+                    ? "font-semibold text-white"
+                    : "text-foreground-muted hover:text-foreground border border-white/8 bg-black/85 hover:border-white/15",
+                ].join(" ")}
+              >
+                {isActive && (
+                  <motion.span
+                    layoutId="navIndicator"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    className="absolute inset-0 -z-10 overflow-hidden rounded-lg border border-white/5 bg-black/90 backdrop-blur-md"
+                  >
+                    {/* Borda superior desvanecendo para a direita */}
+                    <span className="from-primary via-primary-glow absolute inset-x-0 top-0 h-[1.5px] bg-linear-to-r to-transparent shadow-[0_0_8px_rgba(125,211,252,0.4)]" />
+
+                    {/* Borda inferior desvanecendo para a esquerda */}
+                    <span className="from-primary-glow via-primary/50 absolute inset-x-0 bottom-0 h-[1.5px] bg-linear-to-l to-transparent" />
+                  </motion.span>
+                )}
+
+                <Icon
+                  className={`h-4 w-4 shrink-0 ${isActive ? "text-primary" : ""}`}
+                />
+                <span className="whitespace-nowrap select-none">
+                  {item.label}
+                </span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Setinha de indicação de scroll (mobile) */}
+        <AnimatePresence>
+          {!reachedEnd && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="pointer-events-none absolute inset-y-0 right-0 z-10 flex w-10 items-center justify-end pr-1 sm:hidden"
+            >
+              <FiChevronRight className="text-primary-glow h-7 w-7 animate-pulse" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="src/app/globals.css">
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -1944,1192 +3721,6 @@ body::after {
     display: none; /* Chrome, Safari e Opera */
   }
 }
-</file>
-
-<file path="app/layout.tsx">
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import BottomSheetNav from "@/components/navigation/BottomSheetNav";
-import "./globals.css";
-import type { Viewport } from "next";
-
-export const viewport: Viewport = {
-  themeColor: "#08090d",
-  colorScheme: "dark",
-};
-
-/**
- * @Responsabilidade: Prover a casca estrutural global da aplicação (Root Layout), carregando fontes tipográficas, estilização base, camadas de iluminação de fundo e a barra de navegação persistente.
- * @Fluxo: Injeta variáveis de fonte no elemento html -> Renderiza luzes ambientais de fundo -> Provê área central para páginas filhas -> Renderiza navegação global BottomSheetNav.
- * @Entradas: children (React.ReactNode contendo o template e a página da rota atual).
- * @Saídas: Estrutura HTML/Body completa com Server Component First, sem remontagem do menu ao navegar.
- * @Dependencias: next/font/google (Geist, Geist_Mono), BottomSheetNav (@/components/navigation/BottomSheetNav), globals.css.
- * @Regras_de_negocio: O layout é estritamente um Server Component; a navegação deve persistir sem re-renderizações desnecessárias e o conteúdo principal deve possuir espaçamento inferior para não ser coberto pelo dock.
- * @Limitacoes: Não manipula estados locais diretamente (responsabilidade delegada aos Client Components isolados).
- * @Edge_cases: Telas de alta densidade de pixels ou ultrawide são limitadas com max-w e centralização para preservar a ergonomia visual.
- * @Arquivos_relacionados: src/components/navigation/BottomSheetNav.tsx, src/app/template.tsx, src/app/globals.css.
- */
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "Jairo | Desenvolvedor Next.js",
-  description:
-    "Portfólio de desenvolvimento de software moderno focado em alta performance, Next.js, React, TypeScript, Tailwind CSS e arquitetura SaaS.",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html
-      lang="pt-BR"
-      className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
-    >
-      <body className="bg-background text-foreground selection:bg-primary/25 selection:text-primary relative flex min-h-full flex-col overflow-x-hidden font-sans">
-        {/* ─────────────────────────────────────────────────────────
-      Véu cósmico — gradiente radial fixo atrás de tudo.
-      Substitui o background-image que antes vivia no html
-      com background-attachment: fixed (que repintava a cada
-      frame de scroll). Fixo por viewport + z-index negativo
-      = camada isolada, zero repaint durante a rolagem.
-      ───────────────────────────────────────────────────────── */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_100%_80%_at_50%_30%,#1e0b4a_0%,#0d0326_50%,#03000a_100%)]"
-        />
-
-        {/* Camada de Iluminação Ambiente (Glow Effects sutis em background) */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
-        >
-          {/* Luz superior ciano / azul */}
-          <div className="bg-primary/10 absolute -top-40 left-1/2 h-125 w-125 -translate-x-1/2 rounded-full blur-[130px] sm:h-150 sm:w-150" />
-          {/* Luz secundária magenta sutil no rodapé */}
-          <div className="bg-accent-magenta/10 absolute right-10 -bottom-40 h-100 w-100 rounded-full blur-[140px]" />
-        </div>
-
-        {/* Container Principal com espaçamento inferior de compensação do Bottom Sheet */}
-        <main className="relative z-10 flex flex-1 flex-col pb-24 md:pb-28">
-          {children}
-        </main>
-
-        {/* Barra de Navegação Persistente */}
-        <BottomSheetNav />
-      </body>
-    </html>
-  );
-}
-</file>
-
-<file path="app/page.tsx">
-// src/app/page.tsx
-import Link from "next/link";
-import {
-  RiWhatsappFill,
-  RiGithubFill,
-  RiLinkedinBoxFill,
-  RiArrowRightUpLine,
-  RiMapPinLine,
-  RiCodeSSlashLine,
-  RiRocketLine,
-} from "react-icons/ri";
-import TitleAnimated from "@/components/animatedComponents/TitleAnimated";
-import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
-import { Button } from "@/components/ui/button";
-
-/**
- * @Responsabilidade: Apresentar a porta de entrada do portfólio (Hero Section), destacando identidade profissional, especialidades técnicas, canais diretos de contato e um snippet de código estilizado como editor.
- * @Fluxo: Renderiza como Server Component -> Badge de status ativo -> TitleAnimated (título principal) -> SubTitleAnimated (especialidade) -> Linha de quick info com localização, foco e stack -> Snippet de código com chrome de janela e numeração de linhas -> Grupo de botões de contato (WhatsApp, GitHub, LinkedIn).
- * @Entradas: N/A (Server Component de rota raiz "/").
- * @Saídas: Interface centralizada, responsiva e compacta, com microinterações via Tailwind e animações delegadas aos componentes folha.
- * @Dependencias: react, next/link, react-icons/ri, TitleAnimated (@/components/animatedComponents/TitleAnimated), SubTitleAnimated (@/components/animatedComponents/SubTitleAnimated).
- * @Regras_de_negocio: Área de toque dos botões deve respeitar no mínimo 44px de altura (h-12); links externos com atributos de segurança rel="noopener noreferrer"; layout mobile-first; identidade visual (Glassmorphism + dark + cyan/roxo/magenta) preservada.
- * @Limitacoes: Renderiza estaticamente no servidor; animações interativas complexas são delegadas aos componentes folha em animatedComponents.
- * @Edge_cases: Em telas pequenas os botões empilham verticalmente; chips de quick info quebram linha naturalmente via flex-wrap; snippets longos quebram palavra dentro do bloco com overflow controlado.
- * @Arquivos_relacionados: src/components/animatedComponents/TitleAnimated.tsx, src/components/animatedComponents/SubTitleAnimated.tsx, src/app/globals.css, src/app/layout.tsx.
- */
-
-// Lista estática das principais tecnologias.
-// Fica fora do componente para não recriar o array a cada render (mesmo em Server Component,
-// essa organização facilita leitura e futura extração para CMS/API).
-const STACK_HIGHLIGHTS = [
-  "Next.js",
-  "React",
-  "TypeScript",
-  "Tailwind v4",
-  "Prisma",
-] as const;
-
-export default function Home() {
-  return (
-    <section
-      // Referência de acessibilidade: o título principal define o nome da seção.
-      aria-labelledby="hero-title"
-      // Centraliza vertical e horizontalmente, limita a largura e usa padding enxuto.
-      className="mx-auto flex min-h-svh w-full max-w-4xl flex-1 flex-col items-center justify-center px-8 py-10 text-center sm:px-6 md:py-14"
-    >
-      {/* ============================================================
-          BLOCO 1 — Badge de status "Disponível para novos projetos"
-          ============================================================ */}
-      {/* Chip de status com indicador pulsante. Comunica disponibilidade
-          antes de qualquer outro conteúdo — é a primeira coisa que o olho pega. */}
-      <div className="border-border bg-surface text-foreground-muted mb-5 inline-flex items-center gap-2.5 rounded-full border px-4 py-1.5 font-mono text-xs tracking-wide shadow-lg shadow-black/40 backdrop-blur-md">
-        {/* Ponto duplo: um com animate-ping (efeito sonar) e outro sólido por cima. */}
-        <span className="relative flex h-2 w-2" aria-hidden="true">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-        </span>
-        <span className="select-none">DISPONÍVEL PARA NOVOS PROJETOS</span>
-      </div>
-
-      {/* ============================================================
-          BLOCO 2 — Título principal
-          ============================================================ */}
-      {/* Título com animação isolada em Client Component (TitleAnimated).
-          Mantém-se dentro de uma div com margem controlada para
-          respeitar o espaçamento global do hero. */}
-      <div className="mb-4">
-        <TitleAnimated>
-          <span className="text-foreground">Oi, eu sou </span>
-          {/* Texto com gradiente via bg-clip-text — herda a paleta cyan → roxo. */}
-          <span className="from-primary via-primary-glow to-accent-purple bg-linear-to-r bg-clip-text text-transparent">
-            Jairo Lopes
-          </span>
-        </TitleAnimated>
-      </div>
-
-      {/* ============================================================
-          BLOCO 3 — Subtítulo de especialidade
-          ============================================================ */}
-      {/* Subtítulo com animação de blur (SubTitleAnimated). Aplica-se
-          destaque apenas às tecnologias centrais para não competir
-          com o título principal. */}
-      <SubTitleAnimated>
-        <strong className="text-foreground font-semibold">
-          Desenvolvedor Web,
-        </strong>{" "}
-        focado na criação de aplicações web de alto desempenho, arquiteturas
-        modernas com <span className="text-primary font-medium">Next.js</span>,
-        ecossistema{" "}
-        <span className="text-accent-purple font-medium">React</span>,{" "}
-        <span className="text-accent-magenta font-medium">TypeScript</span> e
-        produtos SaaS escaláveis.
-      </SubTitleAnimated>
-
-      {/* ============================================================
-          BLOCO 4 — Quick info (localização · foco · stack)
-          ============================================================ */}
-      {/* Linha enxuta de "credenciais rápidas" — cada item é um chip textual
-          com ícone à esquerda. Ficam num flex-wrap para quebrar
-          elegantemente em telas estreitas. */}
-      <div className="text-foreground-subtle mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs">
-        {/* Item 1: localização / modelo de trabalho */}
-        <span className="inline-flex items-center gap-1.5">
-          <RiMapPinLine className="text-primary h-3.5 w-3.5" />
-          Brasil
-        </span>
-
-        {/* Separador visual entre itens (apenas decorativo). */}
-        <span
-          className="bg-border hidden h-3 w-px sm:inline-block"
-          aria-hidden="true"
-        />
-
-        {/* Item 2: tipo de atuação profissional */}
-        <span className="inline-flex items-center gap-1.5">
-          <RiCodeSSlashLine className="text-accent-purple h-3.5 w-3.5" />
-          React
-        </span>
-
-        {/* Separador visual entre itens (apenas decorativo). */}
-        <span
-          className="bg-border hidden h-3 w-px sm:inline-block"
-          aria-hidden="true"
-        />
-
-        {/* Item 3: foco principal de mercado */}
-        <span className="inline-flex items-center gap-1.5">
-          <RiRocketLine className="text-accent-magenta h-3.5 w-3.5" />
-          Responsividade
-        </span>
-      </div>
-
-      {/* ============================================================
-          BLOCO 5 — Snippet de código estilizado como editor
-          ============================================================ */}
-      {/* Simula uma janela de editor com chrome (dots + filename + badge de
-          linguagem) e um corpo com numeração de linhas. Reforça a identidade
-          "software developer" sem depender de imagens externas. */}
-      <div className="mt-8 mb-8 w-full max-w-md">
-        <div className="glass-panel overflow-hidden rounded-xl text-left shadow-xl">
-          {/* Chrome da janela: dots coloridos, nome do arquivo e badge de linguagem */}
-          <div className="border-border flex items-center justify-between border-b px-3 py-2">
-            {/* Lado esquerdo: dots estilo macOS + nome do arquivo em monospace */}
-            <div className="flex items-center gap-1.5">
-              <span
-                className="h-2 w-2 rounded-full bg-rose-500/80"
-                aria-hidden="true"
-              />
-              <span
-                className="h-2 w-2 rounded-full bg-amber-500/80"
-                aria-hidden="true"
-              />
-              <span
-                className="h-2 w-2 rounded-full bg-emerald-500/80"
-                aria-hidden="true"
-              />
-              <span className="text-foreground-subtle ml-2 font-mono text-[11px] tracking-wider">
-                jairo_profile.tsx
-              </span>
-            </div>
-
-            {/* Lado direito: badge de linguagem sutil */}
-            <span className="text-primary border-primary/20 bg-primary/10 rounded-md border px-1.5 py-0.5 font-mono text-[10px] tracking-wider">
-              TS
-            </span>
-          </div>
-
-          {/* Corpo do código com numeração de linhas em grid.
-              Cada linha é composta por dois spans: o número (coluna esquerda)
-              e o conteúdo de código (coluna direita). */}
-          <div className="text-foreground-muted grid grid-cols-[1.5rem_1fr] gap-x-3 px-3 py-3 font-mono text-xs leading-relaxed">
-            {/* Linha 1 — abertura do objeto */}
-            <span className="text-foreground-subtle/50 select-none">1</span>
-            <span>
-              <span className="text-accent-magenta">const</span>{" "}
-              <span className="text-primary">developer</span> = &#123;
-            </span>
-
-            {/* Linha 2 — campo role */}
-            <span className="text-foreground-subtle/50 select-none">2</span>
-            <span>
-              &nbsp;&nbsp;role:{" "}
-              <span className="text-emerald-400">
-                &quot;Desenvolvedor Next.js&quot;
-              </span>
-              ,
-            </span>
-
-            {/* Linha 3 — array de stack, iterando STACK_HIGHLIGHTS.
-                Uso de map para não repetir spans manualmente. */}
-            <span className="text-foreground-subtle/50 select-none">3</span>
-            <span>
-              &nbsp;&nbsp;stack: [
-              {STACK_HIGHLIGHTS.map((tech, i) => (
-                <span key={tech}>
-                  <span className="text-emerald-400">&quot;{tech}&quot;</span>
-                  {/* Adiciona vírgula após cada item, exceto o último. */}
-                  {i < STACK_HIGHLIGHTS.length - 1 ? ", " : ""}
-                </span>
-              ))}
-              ]
-            </span>
-
-            {/* Linha 4 — fechamento do objeto */}
-            <span className="text-foreground-subtle/50 select-none">4</span>
-            <span>&#125;;</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Container dos botoes */}
-      <div className="mt-2 flex flex-row items-center justify-center gap-2 sm:gap-3">
-        {/* ── WhatsApp */}
-        <Button
-          nativeButton={false}
-          size="lg"
-          className="from-primary to-primary-glow group border-primary/30 shadow-primary/25 hover:border-primary/60 hover:shadow-primary/40 h-11 gap-2 rounded-xl border bg-linear-to-r px-4 text-sm font-semibold text-slate-950 shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg sm:px-5"
-          render={
-            <Link
-              href="https://wa.me/5581997052877?text=Olá%20Jairo,%20encontrei%20seu%20portfólio%20e%20gostaria%20de%20conversar."
-              target="_blank"
-              rel="noopener noreferrer"
-            />
-          }
-        >
-          <RiWhatsappFill className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
-          <span className="whitespace-nowrap">WhatsApp</span>
-        </Button>
-
-        {/* ── GitHub — quick action neutra (glass escuro) ─────────── */}
-        <Button
-          nativeButton={false}
-          size="lg"
-          variant="ghost"
-          aria-label="Perfil do GitHub"
-          className="glass-panel text-foreground-muted hover:text-foreground group hover:border-border-glow hover:bg-surface-hover h-11 gap-2 rounded-xl px-3 text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 sm:px-4"
-          render={
-            <Link
-              href="https://github.com/JairoLopes"
-              target="_blank"
-              rel="noopener noreferrer"
-            />
-          }
-        >
-          <RiGithubFill className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
-          <span className="hidden whitespace-nowrap sm:inline">GitHub</span>
-        </Button>
-
-        {/* ── LinkedIn — quick action azul corporativo ────────────── */}
-        <Button
-          nativeButton={false}
-          size="lg"
-          variant="ghost"
-          aria-label="Perfil do LinkedIn"
-          className="glass-panel text-foreground-muted hover:text-foreground group hover:border-border-glow hover:bg-surface-hover h-11 gap-2 rounded-xl px-3 text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 sm:px-4"
-          render={
-            <Link
-              href="https://www.linkedin.com/in/jairo-lopes-filho/"
-              target="_blank"
-              rel="noopener noreferrer"
-            />
-          }
-        >
-          <RiLinkedinBoxFill className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
-          <span className="hidden whitespace-nowrap sm:inline">LinkedIn</span>
-        </Button>
-      </div>
-    </section>
-  );
-}
-</file>
-
-<file path="app/template.tsx">
-"use client";
-
-/**
- * @Responsabilidade: Orquestrar transições direcionais animadas (slide horizontal suave) entre rotas durante a navegação no Next.js App Router.
- * @Fluxo: Captura pathname atual -> Calcula delta vetorial comparando índice atual com índice anterior -> Define direção no eixo X -> Renderiza container animado com Motion sem provocar 'blink' visual.
- * @Entradas: children (React.ReactNode representando a página da rota atual).
- * @Saídas: Container animado (motion.div) com entrada direcional fluida.
- * @Dependencias: react (useEffect, useState), next/navigation (usePathname), motion/react (motion).
- */
-
-import React, { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import { motion } from "motion/react";
-
-// Mapeamento linear de pesos de rota para computação vetorial
-const ROUTE_INDEX_MAP: Record<string, number> = {
-  "/": 0,
-  "/job": 1,
-  "/skills": 1,
-  "/projects": 2,
-  "/history": 3,
-};
-
-// Registrador do índice da rota anterior no ciclo de navegação SPA
-let globalLastRouteIndex = 0;
-
-export default function Template({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  const pathname = usePathname();
-  const currentRouteIndex = ROUTE_INDEX_MAP[pathname] ?? 0;
-
-  // Lógica Matemática de Direção:
-  // Se currentRouteIndex >= globalLastRouteIndex, o usuário está avançando (direção +1: entra da direita).
-  // Se currentRouteIndex < globalLastRouteIndex, o usuário está retrocedendo (direção -1: entra da esquerda).
-  const [slideDirection] = useState<number>(() => {
-    const delta = currentRouteIndex - globalLastRouteIndex;
-    return delta >= 0 ? 1 : -1;
-  });
-
-  // Atualiza o índice global após o registro da transição
-  useEffect(() => {
-    globalLastRouteIndex = currentRouteIndex;
-  }, [currentRouteIndex]);
-
-  return (
-    <motion.div
-      initial={{
-        opacity: 0.9,
-        x: slideDirection * 28,
-      }}
-      animate={{
-        opacity: 1,
-        x: 0,
-      }}
-      transition={{
-        duration: 0.2,
-        ease: "easeOut",
-      }}
-      className="flex flex-1 flex-col"
-    >
-      {children}
-    </motion.div>
-  );
-}
-</file>
-
-<file path="components/animatedComponents/SubTitleAnimated.tsx">
-"use client";
-
-import { motion } from "motion/react";
-import { blurIn } from "@/components/animatedComponents/variants";
-
-type Props = {
-  children: React.ReactNode;
-  className?: string;
-};
-
-export default function SubTitleAnimated({ children, className = "" }: Props) {
-  return (
-    <motion.p
-      className={`text-foreground-muted mx-auto mt-4 max-w-2xl text-sm leading-relaxed sm:text-base ${className}`.trim()}
-      variants={blurIn}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-    >
-      {children}
-    </motion.p>
-  );
-}
-</file>
-
-<file path="components/animatedComponents/TitleAnimated.tsx">
-"use client";
-import { motion } from "motion/react";
-import { fadeUp } from "@/components/animatedComponents/variants";
-
-type Props = {
-  children: React.ReactNode;
-};
-
-export default function TitleAnimated({ children }: Props) {
-  return (
-    <motion.h1
-      variants={fadeUp}
-      initial="hidden"
-      whileInView={"visible"}
-      viewport={{ once: true }}
-      className="text-3xl font-bold text-sky-600 max-sm:text-2xl"
-    >
-      {children}
-    </motion.h1>
-  );
-}
-</file>
-
-<file path="components/animatedComponents/variants.ts">
-import type { Variants } from "motion/react";
-
-export const fadeUp: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 24,
-  },
-
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
-  },
-};
-
-export const fadeDown: Variants = {
-  hidden: {
-    opacity: 0,
-    y: -24,
-  },
-
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
-  },
-};
-
-export const fadeLeft: Variants = {
-  hidden: {
-    opacity: 0,
-    x: -32,
-  },
-
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
-  },
-};
-
-export const fadeRight: Variants = {
-  hidden: {
-    opacity: 0,
-    x: 32,
-  },
-
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
-  },
-};
-
-export const zoom: Variants = {
-  hidden: {
-    opacity: 0,
-    scale: 0.92,
-  },
-
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.75,
-      ease: "easeOut",
-    },
-  },
-};
-
-export const zoomSmall: Variants = {
-  hidden: {
-    opacity: 0,
-    scale: 0.97,
-  },
-
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.4,
-      ease: "easeOut",
-    },
-  },
-};
-
-export const blurIn: Variants = {
-  hidden: {
-    opacity: 0,
-    filter: "blur(8px)",
-  },
-
-  visible: {
-    opacity: 1,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
-</file>
-
-<file path="components/navigation/BottomSheetNav.tsx">
-"use client";
-
-/**
- * Barra de navegação inferior fixa.
- *
- * - Cada rota é um botão escuro com leve transparência.
- * - O container é transparente e flutua sobre o conteúdo.
- * - Possui indicador animado via Motion (layoutId="navIndicator") que desliza entre as opções ativas.
- */
-
-import React, { useRef, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "motion/react";
-import {
-  FiBriefcase,
-  FiChevronRight,
-  FiClock,
-  FiCode,
-  FiFolder,
-  FiHome,
-} from "react-icons/fi";
-
-// Itens do menu (rota + rótulo + ícone)
-const NAV_ITEMS = [
-  { label: "Início", path: "/", icon: FiHome },
-  { label: "Conhecimentos", path: "/skills", icon: FiCode },
-  { label: "Projetos", path: "/projects", icon: FiFolder },
-  { label: "Serviços", path: "/job", icon: FiBriefcase },
-  { label: "Histórico", path: "/history", icon: FiClock },
-];
-
-export default function BottomSheetNav() {
-  // Rota atual (para definir o item ativo)
-  const pathname = usePathname();
-
-  // Referência ao <nav> rolável + estado de alcance do fim da barra (mobile)
-  const navRef = useRef<HTMLElement>(null);
-  const [reachedEnd, setReachedEnd] = useState(false);
-
-  function handleScroll() {
-    const nav = navRef.current;
-    if (!nav) return;
-
-    const distanceToEnd = nav.scrollWidth - nav.clientWidth - nav.scrollLeft;
-    setReachedEnd(distanceToEnd < 10);
-  }
-
-  return (
-    <div
-      className="fixed bottom-4 left-1/2 z-50 w-full max-w-fit -translate-x-1/2 px-3 md:bottom-6"
-      style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
-    >
-      <div className="relative">
-        {/* Barra transparente que agrupa os botões */}
-        <nav
-          ref={navRef}
-          onScroll={handleScroll}
-          aria-label="Navegação principal"
-          className="no-scrollbar flex max-w-[calc(100vw-2rem)] items-center gap-1.5 overflow-x-auto p-1 sm:gap-2"
-          style={{ contain: "layout" }}
-        >
-          {NAV_ITEMS.map((item) => {
-            const isActive = pathname === item.path;
-            const Icon = item.icon;
-
-            return (
-              <Link
-                key={item.path}
-                href={item.path}
-                aria-current={isActive ? "page" : undefined}
-                className={[
-                  "relative flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-4.5 py-4",
-                  "transition-all duration-200 active:scale-95",
-                  "text-xs font-medium tracking-wide sm:px-4 sm:text-sm",
-                  isActive
-                    ? "font-semibold text-white"
-                    : "text-foreground-muted hover:text-foreground border border-white/8 bg-black/85 hover:border-white/15",
-                ].join(" ")}
-              >
-                {isActive && (
-                  <motion.span
-                    layoutId="navIndicator"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                    className="absolute inset-0 -z-10 overflow-hidden rounded-lg border border-white/5 bg-black/90 backdrop-blur-md"
-                  >
-                    {/* Borda superior desvanecendo para a direita */}
-                    <span className="from-primary via-primary-glow absolute inset-x-0 top-0 h-[1.5px] bg-linear-to-r to-transparent shadow-[0_0_8px_rgba(125,211,252,0.4)]" />
-
-                    {/* Borda inferior desvanecendo para a esquerda */}
-                    <span className="from-primary-glow via-primary/50 absolute inset-x-0 bottom-0 h-[1.5px] bg-linear-to-l to-transparent" />
-                  </motion.span>
-                )}
-
-                <Icon
-                  className={`h-4 w-4 shrink-0 ${isActive ? "text-primary" : ""}`}
-                />
-                <span className="whitespace-nowrap select-none">
-                  {item.label}
-                </span>
-              </Link>
-            );
-          })}
-        </nav>
-
-        {/* Setinha de indicação de scroll (mobile) */}
-        <AnimatePresence>
-          {!reachedEnd && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="pointer-events-none absolute inset-y-0 right-0 z-10 flex w-10 items-center justify-end pr-1 sm:hidden"
-            >
-              <FiChevronRight className="text-primary-glow h-7 w-7 animate-pulse" />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </div>
-  );
-}
-</file>
-
-<file path="components/ui/accordion.tsx">
-import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion"
-import { cn } from "cn"
-import { ChevronDownIcon, ChevronUpIcon } from "lucide-react"
-
-function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
-  return (
-    <AccordionPrimitive.Root
-      data-slot="accordion"
-      className={cn("flex w-full flex-col", className)}
-      {...props}
-    />
-  )
-}
-
-function AccordionItem({ className, ...props }: AccordionPrimitive.Item.Props) {
-  return (
-    <AccordionPrimitive.Item
-      data-slot="accordion-item"
-      className={cn("not-last:border-b", className)}
-      {...props}
-    />
-  )
-}
-
-function AccordionTrigger({
-  className,
-  children,
-  ...props
-}: AccordionPrimitive.Trigger.Props) {
-  return (
-    <AccordionPrimitive.Header className="flex">
-      <AccordionPrimitive.Trigger
-        data-slot="accordion-trigger"
-        className={cn(
-          "group/accordion-trigger relative flex flex-1 items-start justify-between rounded-lg border border-transparent py-2.5 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:after:border-ring aria-disabled:pointer-events-none aria-disabled:opacity-50 **:data-[slot=accordion-trigger-icon]:ml-auto **:data-[slot=accordion-trigger-icon]:size-4 **:data-[slot=accordion-trigger-icon]:text-muted-foreground",
-          className
-        )}
-        {...props}
-      >
-        {children}
-        <ChevronDownIcon data-slot="accordion-trigger-icon" className="pointer-events-none shrink-0 group-aria-expanded/accordion-trigger:hidden" />
-        <ChevronUpIcon data-slot="accordion-trigger-icon" className="pointer-events-none hidden shrink-0 group-aria-expanded/accordion-trigger:inline" />
-      </AccordionPrimitive.Trigger>
-    </AccordionPrimitive.Header>
-  )
-}
-
-function AccordionContent({
-  className,
-  children,
-  ...props
-}: AccordionPrimitive.Panel.Props) {
-  return (
-    <AccordionPrimitive.Panel
-      data-slot="accordion-content"
-      className="overflow-hidden text-sm data-open:animate-accordion-down data-closed:animate-accordion-up"
-      {...props}
-    >
-      <div
-        className={cn(
-          "h-(--accordion-panel-height) pt-0 pb-2.5 data-ending-style:h-0 data-starting-style:h-0 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
-          className
-        )}
-      >
-        {children}
-      </div>
-    </AccordionPrimitive.Panel>
-  )
-}
-
-export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
-</file>
-
-<file path="components/ui/badge.tsx">
-import { mergeProps } from "@base-ui/react/merge-props"
-import { useRender } from "@base-ui/react/use-render"
-import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "cn"
-
-const badgeVariants = cva(
-  "group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3!",
-  {
-    variants: {
-      variant: {
-        default: "bg-primary text-primary-foreground [a]:hover:bg-primary/80",
-        secondary:
-          "bg-secondary text-secondary-foreground [a]:hover:bg-secondary/80",
-        destructive:
-          "bg-destructive/10 text-destructive focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:focus-visible:ring-destructive/40 [a]:hover:bg-destructive/20",
-        outline:
-          "border-border text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground",
-        ghost:
-          "hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
-        link: "text-primary underline-offset-4 hover:underline",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
-  }
-)
-
-function Badge({
-  className,
-  variant = "default",
-  render,
-  ...props
-}: useRender.ComponentProps<"span"> & VariantProps<typeof badgeVariants>) {
-  return useRender({
-    defaultTagName: "span",
-    props: mergeProps<"span">(
-      {
-        className: cn(badgeVariants({ variant }), className),
-      },
-      props
-    ),
-    render,
-    state: {
-      slot: "badge",
-      variant,
-    },
-  })
-}
-
-export { Badge, badgeVariants }
-</file>
-
-<file path="components/ui/button.tsx">
-import { Button as ButtonPrimitive } from "@base-ui/react/button"
-import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "cn"
-
-const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-  {
-    variants: {
-      variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/80",
-        outline:
-          "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
-        ghost:
-          "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50",
-        destructive:
-          "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
-        link: "text-primary underline-offset-4 hover:underline",
-      },
-      size: {
-        default:
-          "h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
-        xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
-        lg: "h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
-        icon: "size-8",
-        "icon-xs":
-          "size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3",
-        "icon-sm":
-          "size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg",
-        "icon-lg": "size-9",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  }
-)
-
-function Button({
-  className,
-  variant = "default",
-  size = "default",
-  ...props
-}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
-  return (
-    <ButtonPrimitive
-      data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
-      {...props}
-    />
-  )
-}
-
-export { Button, buttonVariants }
-</file>
-
-<file path="components/ui/card.tsx">
-import * as React from "react"
-import { cn } from "cn"
-
-function Card({
-  className,
-  size = "default",
-  ...props
-}: React.ComponentProps<"div"> & { size?: "default" | "sm" }) {
-  return (
-    <div
-      data-slot="card"
-      data-size={size}
-      className={cn(
-        "group/card flex flex-col gap-(--card-spacing) overflow-hidden rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 [--card-spacing:--spacing(4)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-header"
-      className={cn(
-        "group/card-header @container/card-header grid auto-rows-min items-start gap-1 rounded-t-xl px-(--card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto] [.border-b]:pb-(--card-spacing)",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-title"
-      className={cn(
-        "font-heading text-base leading-snug font-medium group-data-[size=sm]/card:text-sm",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-description"
-      className={cn("text-sm text-muted-foreground", className)}
-      {...props}
-    />
-  )
-}
-
-function CardAction({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-action"
-      className={cn(
-        "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-function CardContent({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-content"
-      className={cn("px-(--card-spacing)", className)}
-      {...props}
-    />
-  )
-}
-
-function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-footer"
-      className={cn(
-        "flex items-center rounded-b-xl border-t bg-muted/50 p-(--card-spacing)",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-export {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardAction,
-  CardDescription,
-  CardContent,
-}
-</file>
-
-<file path="components/ui/scroll-area.tsx">
-"use client"
-
-import * as React from "react"
-import { ScrollArea as ScrollAreaPrimitive } from "@base-ui/react/scroll-area"
-import { cn } from "cn"
-
-function ScrollArea({
-  className,
-  children,
-  ...props
-}: ScrollAreaPrimitive.Root.Props) {
-  return (
-    <ScrollAreaPrimitive.Root
-      data-slot="scroll-area"
-      className={cn("relative", className)}
-      {...props}
-    >
-      <ScrollAreaPrimitive.Viewport
-        data-slot="scroll-area-viewport"
-        className="size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1"
-      >
-        {children}
-      </ScrollAreaPrimitive.Viewport>
-      <ScrollBar />
-      <ScrollAreaPrimitive.Corner />
-    </ScrollAreaPrimitive.Root>
-  )
-}
-
-function ScrollBar({
-  className,
-  orientation = "vertical",
-  ...props
-}: ScrollAreaPrimitive.Scrollbar.Props) {
-  return (
-    <ScrollAreaPrimitive.Scrollbar
-      data-slot="scroll-area-scrollbar"
-      data-orientation={orientation}
-      orientation={orientation}
-      className={cn(
-        "flex touch-none p-px transition-colors select-none data-horizontal:h-2.5 data-horizontal:flex-col data-horizontal:border-t data-horizontal:border-t-transparent data-vertical:h-full data-vertical:w-2.5 data-vertical:border-l data-vertical:border-l-transparent",
-        className
-      )}
-      {...props}
-    >
-      <ScrollAreaPrimitive.Thumb
-        data-slot="scroll-area-thumb"
-        className="relative flex-1 rounded-full bg-border"
-      />
-    </ScrollAreaPrimitive.Scrollbar>
-  )
-}
-
-export { ScrollArea, ScrollBar }
-</file>
-
-<file path="components/ui/separator.tsx">
-"use client"
-
-import { Separator as SeparatorPrimitive } from "@base-ui/react/separator"
-import { cn } from "cn"
-
-function Separator({
-  className,
-  orientation = "horizontal",
-  ...props
-}: SeparatorPrimitive.Props) {
-  return (
-    <SeparatorPrimitive
-      data-slot="separator"
-      orientation={orientation}
-      className={cn(
-        "shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-export { Separator }
-</file>
-
-<file path="components/ui/tabs.tsx">
-"use client"
-
-import { Tabs as TabsPrimitive } from "@base-ui/react/tabs"
-import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "cn"
-
-function Tabs({
-  className,
-  orientation = "horizontal",
-  ...props
-}: TabsPrimitive.Root.Props) {
-  return (
-    <TabsPrimitive.Root
-      data-slot="tabs"
-      data-orientation={orientation}
-      className={cn(
-        "group/tabs flex gap-2 data-horizontal:flex-col",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-const tabsListVariants = cva(
-  "group/tabs-list inline-flex w-fit items-center justify-center rounded-lg p-[3px] text-muted-foreground group-data-horizontal/tabs:h-8 group-data-vertical/tabs:h-fit group-data-vertical/tabs:flex-col data-[variant=line]:rounded-none",
-  {
-    variants: {
-      variant: {
-        default: "bg-muted",
-        line: "gap-1 bg-transparent",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
-  }
-)
-
-function TabsList({
-  className,
-  variant = "default",
-  ...props
-}: TabsPrimitive.List.Props & VariantProps<typeof tabsListVariants>) {
-  return (
-    <TabsPrimitive.List
-      data-slot="tabs-list"
-      data-variant={variant}
-      className={cn(tabsListVariants({ variant }), className)}
-      {...props}
-    />
-  )
-}
-
-function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
-  return (
-    <TabsPrimitive.Tab
-      data-slot="tabs-trigger"
-      className={cn(
-        "relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-1.5 py-0.5 text-sm font-medium whitespace-nowrap text-foreground/60 transition-all group-data-vertical/tabs:w-full group-data-vertical/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 has-data-[icon=inline-end]:pr-1 has-data-[icon=inline-start]:pl-1 aria-disabled:pointer-events-none aria-disabled:opacity-50 dark:text-muted-foreground dark:hover:text-foreground group-data-[variant=default]/tabs-list:data-active:shadow-sm group-data-[variant=line]/tabs-list:data-active:shadow-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        "group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-active:bg-transparent dark:group-data-[variant=line]/tabs-list:data-active:border-transparent dark:group-data-[variant=line]/tabs-list:data-active:bg-transparent",
-        "data-active:bg-background data-active:text-foreground dark:data-active:border-input dark:data-active:bg-input/30 dark:data-active:text-foreground",
-        "after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-horizontal/tabs:after:inset-x-0 group-data-horizontal/tabs:after:bottom-[-5px] group-data-horizontal/tabs:after:h-0.5 group-data-vertical/tabs:after:inset-y-0 group-data-vertical/tabs:after:-right-1 group-data-vertical/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-active:after:opacity-100",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-function TabsContent({ className, ...props }: TabsPrimitive.Panel.Props) {
-  return (
-    <TabsPrimitive.Panel
-      data-slot="tabs-content"
-      className={cn("flex-1 text-sm outline-none", className)}
-      {...props}
-    />
-  )
-}
-
-export { Tabs, TabsList, TabsTrigger, TabsContent, tabsListVariants }
-</file>
-
-<file path="lib/utils.ts">
-export { cn } from "cn"
 </file>
 
 </files>
