@@ -22,13 +22,13 @@ export default function BottomSheetNav() {
   return (
     // Dock fixo, centralizado e compatível com a área segura do celular.
     <div
-      className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 px-3 md:bottom-6"
+      className="fixed bottom-2 left-1/2 z-50 -translate-x-1/2 px-3 md:bottom-6"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       {/* Cápsula escura com transparência, borda e sombra. */}
       <nav
         aria-label="Navegação principal"
-        className="flex w-max max-w-[calc(100vw-1.5rem)] items-center gap-1 rounded-2xl border border-white/10 bg-[#080711]/90 p-1.5 shadow-[0_8px_30px_rgba(0,0,0,0.45)] backdrop-blur-xl"
+        className="flex w-max max-w-[calc(100vw-1.5rem)] items-center gap-4 rounded-xl border border-white/10 bg-[#080711]/90 px-5.5 py-2 shadow-[0_8px_30px_rgba(0,0,0,0.45)] backdrop-blur-3xl"
       >
         {NAV_ITEMS.map((item) => {
           const isActive = pathname === item.path;
@@ -47,14 +47,6 @@ export default function BottomSheetNav() {
                   : "text-foreground-subtle hover:text-foreground"
               }`}
             >
-              {/* Halo luminoso atrás do ícone ativo. */}
-              {isActive && (
-                <span
-                  aria-hidden="true"
-                  className="bg-primary/10 absolute inset-x-1 top-1 h-8 rounded-lg shadow-[0_0_18px_rgba(125,211,252,0.12)]"
-                />
-              )}
-
               {/* Ícone com brilho ciano na rota selecionada. */}
               <Icon
                 aria-hidden="true"
@@ -67,7 +59,7 @@ export default function BottomSheetNav() {
 
               {/* Nome da página abaixo do ícone. */}
               <span
-                className={`relative z-10 text-[8px] leading-tight whitespace-nowrap sm:text-[10px] ${
+                className={`relative z-10 text-[9px] whitespace-nowrap ${
                   isActive ? "font-semibold" : "font-medium"
                 }`}
               >
@@ -84,7 +76,7 @@ export default function BottomSheetNav() {
                     stiffness: 400,
                     damping: 30,
                   }}
-                  className="bg-primary absolute bottom-0.5 left-1/2 z-10 h-[3px] w-5 -translate-x-1/2 rounded-full shadow-[0_0_8px_rgba(125,211,252,0.95),0_0_16px_rgba(125,211,252,0.55)]"
+                  className="bg-primary absolute bottom-0.5 left-1/2 z-10 h-0.75 w-12 -translate-x-1/2 rounded-full shadow-[0_0_8px_rgba(125,211,252,0.95),0_0_16px_rgba(125,211,252,0.55)]"
                 />
               )}
             </Link>
