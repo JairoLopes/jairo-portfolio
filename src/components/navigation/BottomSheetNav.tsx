@@ -28,7 +28,7 @@ export default function BottomSheetNav() {
       {/* Cápsula escura com transparência, borda e sombra. */}
       <nav
         aria-label="Navegação principal"
-        className="scrollbar-hidden flex w-max max-w-[calc(100vw-1.5rem)] items-center gap-4 overflow-x-auto rounded-xl border border-white/10 bg-[#080711]/90 px-3 py-2 shadow-[0_8px_30px_rgba(0,0,0,0.45)] backdrop-blur-3xl sm:px-5.5"
+        className="scrollbar-hidden bg-surface flex w-max max-w-[calc(100vw-1.5rem)] items-center gap-4 overflow-x-auto rounded-xl border border-white/10 px-3 py-2 shadow-[0_8px_30px_rgba(0,0,0,0.45)] backdrop-blur-lg sm:px-5.5"
       >
         {NAV_ITEMS.map((item) => {
           const isActive = pathname === item.path;

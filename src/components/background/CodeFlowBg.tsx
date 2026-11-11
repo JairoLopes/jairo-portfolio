@@ -33,9 +33,9 @@ const EDITOR_COLORS = {
  * legibilidade perfeita sobre os textos e cards.
  */
 const READABILITY_OVERLAY = {
-  baseBackground: "#050014",
+  baseBackground: "#070c12",
   baseGradient:
-    "radial-gradient(ellipse at 50% 35%, rgba(30, 11, 74, 0.45) 0%, rgba(5, 0, 20, 0.85) 75%)",
+    "radial-gradient(ellipse at 50% 35%, rgba(40, 63, 83, 0.45) 0%, rgba(7, 12, 18, 0.85) 75%)",
 
   /**
    * Gradiente dividido em 3 partes verticais (Top -> Center -> Bottom):
@@ -44,11 +44,11 @@ const READABILITY_OVERLAY = {
   veilGradient: `
     linear-gradient(
       to bottom,
-      rgba(5, 0, 20, 0.52) 0%,   /* Parte Superior */
-      rgba(5, 0, 20, 0.88) 35%,  /* Transição superior para o centro */
-      rgba(5, 0, 20, 0.92) 50%,  /* Parte Central (Ideal para leitura dos cards/textos) */
-      rgba(5, 0, 20, 0.85) 75%,  /* Transição para a base */
-      rgba(5, 0, 20, 0.68) 100%  /* Parte Inferior */
+      rgba(7, 12, 18, 0.52) 0%,   /* Parte Superior */
+      rgba(06, 16, 24, 0.92) 35%,  /* Transição superior para o centro */
+      rgba(5, 9, 14, 0.88) 50%,  /* Parte Central (Ideal para leitura dos cards/textos) */
+      rgba(8, 13, 20, 0.85) 75%,  /* Transição para a base */
+      rgba(7, 11, 17, 0.68) 100%  /* Parte Inferior */
     )
   `,
 } as const;

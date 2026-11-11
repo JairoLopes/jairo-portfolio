@@ -20,7 +20,7 @@
   /* Superfícies: vidro estelar translúcido com tinta violeta.
      Mantém transparência para o efeito glassmorphism continuar
      funcionando com o blur. */
-  --color-surface: rgba(13, 17, 23, 0.75);
+  --color-surface: rgba(18, 16, 19, 0.72);
   --color-surface-hover: rgba(22, 27, 34, 0.88);
   --color-surface-active: rgba(33, 38, 45, 0.95);
 
