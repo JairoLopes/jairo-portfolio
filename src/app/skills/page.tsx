@@ -43,6 +43,10 @@ import {
 } from "react-icons/ri";
 import { TbApi } from "react-icons/tb";
 
+// Garante no build que esta rota continue estática.
+// Se alguma API de requisição for adicionada no futuro, o build falhará.
+export const dynamic = "error";
+
 /**
  * ============================================================================
  * 💡 CONCEITO NEXT.JS (APP ROUTER):

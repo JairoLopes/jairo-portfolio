@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 
 import {
@@ -55,6 +53,16 @@ interface CardProjectProps {
 // COMPONENTE
 // ============================================================
 
+/**
+ * Responsabilidade:
+ * Exibir o card de um projeto com categoria, status, descrição,
+ * tecnologias e links.
+ *
+ * Este é um Server Component porque não usa estado, eventos,
+ * hooks nem APIs do navegador. As interações necessárias ficam
+ * isoladas nas ilhas filhas: ScrollArea (rolagem horizontal)
+ * e Button (links e estado desabilitado).
+ */
 export default function CardProject({ project, index }: CardProjectProps) {
   const displayIndex = String(index + 1).padStart(2, "0");
   const isInDevelopment = !project.isCompleted;

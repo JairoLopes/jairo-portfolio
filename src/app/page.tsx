@@ -13,6 +13,10 @@ import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+// Garante no build que esta rota continue estática.
+// Se alguma API de requisição for adicionada no futuro, o build falhará.
+export const dynamic = "error";
+
 // Lista estática das principais tecnologias.
 // Fica fora do componente para não recriar o array a cada render (mesmo em Server Component,
 // essa organização facilita leitura e futura extração para CMS/API).

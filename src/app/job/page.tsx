@@ -12,6 +12,10 @@ import {
   RiCodeSSlashLine,
 } from "react-icons/ri";
 
+// Garante no build que esta rota continue estática.
+// Se alguma API de requisição for adicionada no futuro, o build falhará.
+export const dynamic = "error";
+
 /**
  * @Responsabilidade: Apresentar os principais serviços oferecidos pelo desenvolvedor,
  * destacando soluções e benefícios de forma clara para potenciais clientes.

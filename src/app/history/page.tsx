@@ -8,6 +8,10 @@ import {
   RiTimeLine,
 } from "react-icons/ri";
 
+// Garante no build que esta rota continue estática.
+// Se alguma API de requisição for adicionada no futuro, o build falhará.
+export const dynamic = "error";
+
 /**
  * @Responsabilidade: Exibir a linha do tempo e histórico de carreira profissional do desenvolvedor, demonstrando evolução técnica, liderança e realizações.
  * @Fluxo: Renderiza como Server Component -> Monta cabeçalho com TitleAnimated -> Mapeia as 4 etapas profissionais estruturadas em ordem cronológica inversa -> Renderiza cards interativos com timeline visual e indicadores de impacto.

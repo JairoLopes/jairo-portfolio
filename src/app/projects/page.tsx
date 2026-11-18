@@ -5,6 +5,10 @@ import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
 import { RiSparklingLine } from "react-icons/ri";
 import CardProject, { type Project } from "./CardProject";
 
+// Garante no build que esta rota continue estática.
+// Se alguma API de requisição for adicionada no futuro, o build falhará.
+export const dynamic = "error";
+
 const PROJECTS_MOCK: readonly Project[] = [
   {
     id: "barbossa",
