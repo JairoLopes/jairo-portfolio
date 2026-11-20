@@ -1,5 +1,6 @@
 import TitleAnimated from "@/components/animatedComponents/TitleAnimated";
 import SubTitleAnimated from "@/components/animatedComponents/SubTitleAnimated";
+import { cn } from "@/lib/utils";
 import {
   RiBuilding4Line,
   RiMapPinLine,
@@ -137,18 +138,20 @@ export default function HistoryPage() {
             {/* Marcador Visual da Linha do Tempo */}
             <div
               aria-hidden="true"
-              className={`bg-background absolute top-5 -left-7.75 flex h-4 w-4 items-center justify-center rounded-full border transition-all duration-300 sm:-left-9.75 ${
+              className={cn(
+                "bg-background absolute top-5 -left-7.75 flex h-4 w-4 items-center justify-center rounded-full border transition-all duration-300 sm:-left-9.75",
                 item.isCurrent
                   ? "border-primary ring-primary/20 shadow-[0_0_12px_rgba(56,189,248,0.8)] ring-4"
-                  : "border-border group-hover:border-primary/60 group-hover:shadow-[0_0_8px_rgba(56,189,248,0.4)]"
-              }`}
+                  : "border-border group-hover:border-primary/60 group-hover:shadow-[0_0_8px_rgba(56,189,248,0.4)]",
+              )}
             >
               <div
-                className={`h-2 w-2 rounded-full transition-colors ${
+                className={cn(
+                  "h-2 w-2 rounded-full transition-colors",
                   item.isCurrent
                     ? "bg-primary animate-pulse"
-                    : "bg-foreground-subtle group-hover:bg-primary"
-                }`}
+                    : "bg-foreground-subtle group-hover:bg-primary",
+                )}
               />
             </div>
 

@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "motion/react";
+import { cn } from "@/lib/utils";
 import { FiBriefcase, FiClock, FiCode, FiFolder, FiHome } from "react-icons/fi";
 
 // Rotas, nomes e ícones da navegação.
@@ -41,27 +42,30 @@ export default function BottomSheetNav() {
               href={item.path}
               aria-current={isActive ? "page" : undefined}
               title={item.label}
-              className={`group focus-visible:ring-primary relative flex h-14 min-w-11 flex-col items-center justify-center gap-1 rounded-xl px-1 transition-colors duration-200 focus-visible:ring-2 focus-visible:outline-none active:scale-95 sm:min-w-[68px] sm:px-2 ${
+              className={cn(
+                "group focus-visible:ring-primary relative flex h-14 min-w-11 flex-col items-center justify-center gap-1 rounded-xl px-1 transition-colors duration-200 focus-visible:ring-2 focus-visible:outline-none active:scale-95 sm:min-w-[68px] sm:px-2",
                 isActive
                   ? "text-primary"
-                  : "text-foreground-subtle hover:text-foreground"
-              }`}
+                  : "text-foreground-subtle hover:text-foreground",
+              )}
             >
               {/* Ícone com brilho ciano na rota selecionada. */}
               <Icon
                 aria-hidden="true"
-                className={`relative z-10 size-5 transition-[filter,color] duration-200 ${
+                className={cn(
+                  "relative z-10 size-5 transition-[filter,color] duration-200",
                   isActive
                     ? "drop-shadow-[0_0_7px_rgba(125,211,252,0.95)]"
-                    : "group-hover:drop-shadow-[0_0_5px_rgba(125,211,252,0.35)]"
-                }`}
+                    : "group-hover:drop-shadow-[0_0_5px_rgba(125,211,252,0.35)]",
+                )}
               />
 
               {/* Nome da página abaixo do ícone. */}
               <span
-                className={`relative z-10 text-[9px] whitespace-nowrap ${
-                  isActive ? "font-semibold" : "font-medium"
-                }`}
+                className={cn(
+                  "relative z-10 text-[9px] whitespace-nowrap",
+                  isActive ? "font-semibold" : "font-medium",
+                )}
               >
                 {item.label}
               </span>

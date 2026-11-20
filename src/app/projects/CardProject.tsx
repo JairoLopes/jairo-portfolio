@@ -8,6 +8,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -71,13 +72,14 @@ export default function CardProject({ project, index }: CardProjectProps) {
   return (
     <article aria-label={`Projeto: ${project.title}`} className="h-full w-full">
       <Card
-        className={`glass-panel group relative flex h-full min-h-100 flex-col gap-0 overflow-hidden rounded-2xl border p-0 ring-0 transition-all duration-300 hover:-translate-y-1 ${
+        className={cn(
+          "glass-panel group relative flex h-full min-h-100 flex-col gap-0 overflow-hidden rounded-2xl border p-0 ring-0 transition-all duration-300 hover:-translate-y-1",
           isFeatured
             ? "border-accent-magenta/40 ring-accent-magenta/20 hover:border-accent-magenta/70 shadow-[0_0_28px_rgba(217,70,239,0.12)] ring-1 hover:shadow-[0_0_34px_rgba(217,70,239,0.2)]"
             : isInDevelopment
               ? "border-amber-400/30 hover:border-amber-300/60 hover:shadow-[0_0_25px_rgba(251,191,36,0.14)]"
-              : "hover:border-border-glow border-white/5 hover:shadow-[0_0_25px_rgba(56,189,248,0.15)]"
-        }`}
+              : "hover:border-border-glow border-white/5 hover:shadow-[0_0_25px_rgba(56,189,248,0.15)]",
+        )}
       >
         {/* Brilho de fundo do projeto em destaque. */}
         {isFeatured && (
@@ -90,31 +92,34 @@ export default function CardProject({ project, index }: CardProjectProps) {
         {/* Linha superior colorida conforme o estado do projeto. */}
         <div
           aria-hidden="true"
-          className={`absolute inset-x-0 top-0 z-20 h-px ${
+          className={cn(
+            "absolute inset-x-0 top-0 z-20 h-px",
             isFeatured
               ? "via-accent-magenta/80 bg-linear-to-r from-transparent to-transparent"
               : isInDevelopment
                 ? "bg-linear-to-r from-transparent via-amber-400/70 to-transparent"
-                : "via-primary/40 bg-linear-to-r from-transparent to-transparent"
-          }`}
+                : "via-primary/40 bg-linear-to-r from-transparent to-transparent",
+          )}
         />
 
         {/* Cantos decorativos. */}
         <span
           aria-hidden="true"
-          className={`absolute top-3 left-3 z-20 h-3 w-3 border-t border-l transition-colors ${
+          className={cn(
+            "absolute top-3 left-3 z-20 h-3 w-3 border-t border-l transition-colors",
             isFeatured
               ? "border-accent-magenta/60"
-              : "border-primary/40 group-hover:border-primary"
-          }`}
+              : "border-primary/40 group-hover:border-primary",
+          )}
         />
         <span
           aria-hidden="true"
-          className={`absolute right-3 bottom-3 z-20 h-3 w-3 border-r border-b transition-colors ${
+          className={cn(
+            "absolute right-3 bottom-3 z-20 h-3 w-3 border-r border-b transition-colors",
             isFeatured
               ? "border-accent-magenta/60"
-              : "border-primary/40 group-hover:border-primary"
-          }`}
+              : "border-primary/40 group-hover:border-primary",
+          )}
         />
 
         {/* ================================================== */}
@@ -124,9 +129,10 @@ export default function CardProject({ project, index }: CardProjectProps) {
         <div className="relative z-10 flex h-24 shrink-0 items-center justify-center overflow-hidden">
           <div
             aria-hidden="true"
-            className={`absolute -top-10 left-1/2 h-32 w-32 -translate-x-1/2 rounded-full blur-3xl ${
-              isFeatured ? "bg-accent-magenta/20" : "bg-primary/15"
-            }`}
+            className={cn(
+              "absolute -top-10 left-1/2 h-32 w-32 -translate-x-1/2 rounded-full blur-3xl",
+              isFeatured ? "bg-accent-magenta/20" : "bg-primary/15",
+            )}
           />
 
           <span
@@ -148,16 +154,18 @@ export default function CardProject({ project, index }: CardProjectProps) {
           )}
 
           <div
-            className={`glass-panel relative z-10 flex h-11 w-11 items-center justify-center rounded-xl border transition-all duration-300 ${
+            className={cn(
+              "glass-panel relative z-10 flex h-11 w-11 items-center justify-center rounded-xl border transition-all duration-300",
               isFeatured
                 ? "border-accent-magenta/40 bg-accent-magenta/10 shadow-[0_0_20px_rgba(217,70,239,0.12)]"
-                : "border-border group-hover:border-primary/40"
-            }`}
+                : "border-border group-hover:border-primary/40",
+            )}
           >
             <RiFolderLine
-              className={`h-5 w-5 transition-transform duration-300 group-hover:scale-110 ${
-                isFeatured ? "text-accent-magenta" : "text-primary"
-              }`}
+              className={cn(
+                "h-5 w-5 transition-transform duration-300 group-hover:scale-110",
+                isFeatured ? "text-accent-magenta" : "text-primary",
+              )}
             />
           </div>
 
@@ -166,14 +174,16 @@ export default function CardProject({ project, index }: CardProjectProps) {
             className="absolute bottom-2 left-3 flex h-2.5 w-2.5"
           >
             <span
-              className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-60 ${
-                isInDevelopment ? "bg-amber-400" : "bg-emerald-400"
-              }`}
+              className={cn(
+                "absolute inline-flex h-full w-full animate-ping rounded-full opacity-60",
+                isInDevelopment ? "bg-amber-400" : "bg-emerald-400",
+              )}
             />
             <span
-              className={`relative inline-flex h-2.5 w-2.5 rounded-full ${
-                isInDevelopment ? "bg-amber-500" : "bg-emerald-500"
-              }`}
+              className={cn(
+                "relative inline-flex h-2.5 w-2.5 rounded-full",
+                isInDevelopment ? "bg-amber-500" : "bg-emerald-500",
+              )}
             />
           </span>
         </div>

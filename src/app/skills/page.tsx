@@ -321,7 +321,9 @@ function SkillCard({
         >
           <Icon
             aria-hidden="true"
-            className={featured ? "h-5 w-5" : "h-4 w-4"}
+            className={cn(
+              featured ? "h-5 w-5" : "h-4 w-4",
+            )}
           />
         </div>
 
